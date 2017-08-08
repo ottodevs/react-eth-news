@@ -1,0 +1,1 @@
+export const SOURCE_TYPE_CHANGED = 'sources.SOURCE_TYPE_CHANGED';
