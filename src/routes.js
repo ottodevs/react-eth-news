@@ -19,20 +19,7 @@ class Routes extends Component {
     return (
       <Router history={history}>
         <Main>
-          <Switch>
-            {/* Routes placed here are available to all visitors */}
-            <Route path='/login' component={Login} />
-            <Route path='/signup' component={Signup} />
-            {
-              isLoggedIn &&
-                <Switch>
-                  {/* Routes placed here are only available after logging in */}
-                  <Route path='/home' component={ArticlesIndex} />
-                </Switch>
-            }
-            {/* Displays our Login component as a fallback */}
-            <Route component={Login} />
-          </Switch>
+          <Route path='/home' component={ArticlesIndex} />
         </Main>
       </Router>
     )

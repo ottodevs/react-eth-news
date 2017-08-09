@@ -1,3 +1,4 @@
+import './ArticlesIndex.scss'
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
@@ -6,6 +7,9 @@ import * as articlesSelectors from '../store/articles/reducer';
 import * as sourceTypesActions from '../store/sourceTypes/actions';
 import * as sourceTypesSelectors from '../store/sourceTypes/reducer';
 import {ListView, ListRow, SourceTypeFilter} from '../components';
+import {DateRangePickerWrapper} from '../containers'
+
+
 
 class ArticlesIndex extends Component {
   constructor(props) {
@@ -17,16 +21,29 @@ class ArticlesIndex extends Component {
     this.props.dispatch(articlesActions.fetchArticles());
   }
 
+  onSourceTypeFilterChanged(newSourceType) {
+    this.props.dispatch(sourceTypesActions.changeSourceType(newSourceType));
+  }
+
   render() {
     if (!this.props.articlesById) return this.renderLoading();
     return (
       <div className="ArticlesIndex">
-        <SourceTypeFilter
-          className="SourceTypeFilter"
-          sourceTypes={this.props.sourceTypes}
-          selected={this.props.currentSourceType}
-          onChanged={this.onFilterChanged}
-        />
+        <section className="header-section container">
+          <header className="row justify-content-center">
+            <h1 className="col-md-6">
+              <span>Ethereum</span><br/>
+              <span>in mainstream media</span>
+            </h1>
+          </header>
+          <SourceTypeFilter
+            className="row justify-content-center"
+            sourceTypes={this.props.sourceTypes}
+            selected={this.props.currentSourceType}
+            onChanged={this.onSourceTypeFilterChanged}
+          />
+          <DateRangePickerWrapper/>
+        </section>
         <ListView
           rowsIdArray={this.props.articlesIdArray}
           rowsById={this.props.articlesById}
@@ -34,6 +51,8 @@ class ArticlesIndex extends Component {
         />
       </div>
     )
+
+
   }
 
   renderLoading() {
@@ -45,20 +64,22 @@ class ArticlesIndex extends Component {
   renderRow(articleId, article) {
     return (
       <ListRow
+        className="row article-item"
         rowId={articleId}
         onClick
         selected>
-        <h3>{article.date}</h3>
-        <h3>{article.title}</h3>
-        <h3>{article.type}</h3>
-        <h3>{article.source}</h3>
+        <div className="col-md-8 article-item--left">
+          <h5>{article.title}</h5>
+          <h6>{article.date}</h6>
+        </div>
+        <div className="col-md-4 article-item--right">
+          <h6>{article.source}</h6>
+        </div>
       </ListRow>
     )
   }
 
-  onFilterChanged(newSourceType) {
-    this.props.dispatch(sourceTypesActions.changeSourceType(newSourceType));
-  }
+
 }
 
 function mapStateToProps(state) {

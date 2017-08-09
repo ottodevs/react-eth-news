@@ -9,10 +9,9 @@ export default class ListRow extends Component {
   }
 
   render() {
-    const backgroundColor = this.props.selected ? '#c0f0ff' : '#fff';
     return (
       <div
-        style={{ backgroundColor }}
+        className={this.props.className}
         onClick={this.onClick}>
         {this.props.children}
       </div>

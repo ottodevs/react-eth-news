@@ -4,7 +4,19 @@ import Immutable from 'seamless-immutable';
 
 const initialState = Immutable({
   currentSourceType: 'all',
-  sourceTypes: ['msm', 'crypto']
+  sourceTypes: [{
+    id: 'all',
+    name: 'all',
+    classModifier: 'default'
+  }, {
+    id: 'msm',
+    name: 'mainstream media',
+    classModifier: 'primary'
+  }, {
+    id: 'crypto',
+    name: 'crypto community',
+    classModifier: 'info'
+  }]
 })
 
 export default function reduce(state = initialState, action = {}) {

@@ -1,3 +1,4 @@
+import './SourceTypeFilter.scss'
 import _ from 'lodash';
 import React, { Component } from 'react';
 
@@ -5,23 +6,25 @@ export default class SourceTypeFilter extends Component {
 
   render() {
     return (
-      <div className={this.props.className}>
-        {this.renderFilter('all')}
-        {_.map(this.props.sourceTypes, (sourceType) => this.renderFilter(sourceType))}
-      </div>
+      <section className={this.props.className}>
+        <div className="col-md-6">
+          {_.map(this.props.sourceTypes, (sourceType) => this.renderFilter(sourceType))}
+        </div>
+      </section>
     );
   }
 
-  renderFilter(id) {
-    const className = this.props.selected === id ? 'selected' : undefined;
+  renderFilter(sourceType) {
+    const className = this.props.selected === sourceType.id ?
+      `source-type__badge badge badge-${sourceType.classModifier} selected` :
+      `source-type__badge badge badge-${sourceType.classModifier}`;
     return (
-      <a
-        key={id}
-        href="#"
+      <span
+        key={sourceType.id}
         className={className}
-        onClick={() => this.onFilterClick(id)}>
-        {id.toUpperCase()}
-      </a>
+        onClick={() => this.onFilterClick(sourceType.id)}>
+        {sourceType.name.toUpperCase()}
+      </span>
     );
   }
 

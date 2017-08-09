@@ -16,6 +16,9 @@ const Article = db.define('article', {
     source: {
         type: Sequelize.TEXT
     },
+    snippet: {
+        type: Sequelize.TEXT
+    },
     date: {
         type: Sequelize.TEXT
     },
