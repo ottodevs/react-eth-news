@@ -1,0 +1,1 @@
+export const GOOGLE_TRENDS_FETCHED = 'googleTrends.GOOGLE_TRENDS_FETCHED';

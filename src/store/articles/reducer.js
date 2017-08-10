@@ -39,18 +39,23 @@ export function getArticles(state) {
 }
 
 function filterBySourceType(currentSourceType, articlesById, articlesIdArray) {
-  return currentSourceType === 'all' ? articlesIdArray : _.filter(articlesIdArray, articleId => articlesById[articleId].type === currentSourceType);
+  return currentSourceType === 'all' ?
+    articlesIdArray :
+    _.filter(articlesIdArray, articleId => articlesById[articleId].type === currentSourceType);
 }
 
 function filterByDate(currentDateRange, articlesById, articlesIdArray) {
   if (!(currentDateRange.startDate || currentDateRange.endDate)) {
     return articlesIdArray
   } else {
-    const endDate = currentDateRange.endDate ? moment(currentDateRange.endDate, 'MMM DD, YYYY') : null;
-    const startDate = currentDateRange.startDate ? moment(currentDateRange.startDate, 'MMM DD, YYYY') : null;
+    const endDate = currentDateRange.endDate ?
+      moment(currentDateRange.endDate, 'MMM DD, YYYY') : null;
+    const startDate = currentDateRange.startDate ?
+      moment(currentDateRange.startDate, 'MMM DD, YYYY') : null;
     const range = moment.range(startDate, endDate);
     return _.filter(articlesIdArray, articleId => {
-      return range.contains(moment(articlesById[articleId].date, 'MMM DD, YYYY'), { exclusive: false })
+      return range.contains(
+        moment(articlesById[articleId].date, 'MMM DD, YYYY'), { exclusive: false })
     })
   }
 

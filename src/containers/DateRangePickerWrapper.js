@@ -1,9 +1,8 @@
 import 'react-dates/lib/css/_datepicker.css';
+import './DateRangePickerWrapper.scss'
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import momentPropTypes from 'react-moment-proptypes';
 import moment from 'moment';
 import { DateRangePicker, SingleDatePicker, DayPickerRangeController } from 'react-dates';
 import * as datesSelectors from '../store/dates/reducer';
@@ -26,15 +25,17 @@ class DateRangePickerWrapper extends Component {
   render() {
 
     return (
-      <div>
-        <DateRangePicker
-          onDatesChange={this.onDatesChange}
-          onFocusChange={this.onFocusChange}
-          focusedInput={this.props.focusedInput}
-          startDate={this.props.startDate}
-          endDate={this.props.endDate}
-          isOutsideRange={() => false}
-        />
+      <div className="row justify-content-center">
+        <div className="date-range-picker__wrapper col-md-8">
+          <DateRangePicker
+            onDatesChange={this.onDatesChange}
+            onFocusChange={this.onFocusChange}
+            focusedInput={this.props.focusedInput}
+            startDate={this.props.startDate}
+            endDate={this.props.endDate}
+            isOutsideRange={() => false}
+          />
+        </div>
       </div>
     );
   }

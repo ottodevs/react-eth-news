@@ -5,12 +5,14 @@ import user from './user'
 import articles from './articles/reducer'
 import sourceTypes from './sourceTypes/reducer';
 import dates from './dates/reducer';
+import googleTrends from './googleTrends/reducer';
 
 const reducer = combineReducers({
   user,
   articles,
   sourceTypes,
-  dates
+  dates,
+  googleTrends
 })
 const middleware = applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 const store = createStore(reducer, middleware)

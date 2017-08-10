@@ -7,7 +7,7 @@ export default class SourceTypeFilter extends Component {
   render() {
     return (
       <section className={this.props.className}>
-        <div className="col-md-6">
+        <div className="col-md-8">
           {_.map(this.props.sourceTypes, (sourceType) => this.renderFilter(sourceType))}
         </div>
       </section>
