@@ -19,7 +19,7 @@ export default function reduce(state = initialState, action = {}) {
 
 export function getGoogleTrendsOverTime(state) {
   if (!state.googleTrends.googleTrendsOverTime) return
-  const googleTrendsOverTimeData = state.googleTrends.googleTrendsOverTime.default.timelineData;
+  const googleTrendsOverTimeData = state.googleTrends.googleTrendsOverTime;
   return _.map(googleTrendsOverTimeData, datum => {
     return {
       date: moment(datum.formattedAxisTime, 'MMM DD, YYYY').format('YYYY-MM-DD'),

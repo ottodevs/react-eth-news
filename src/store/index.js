@@ -6,13 +6,15 @@ import articles from './articles/reducer'
 import sourceTypes from './sourceTypes/reducer';
 import dates from './dates/reducer';
 import googleTrends from './googleTrends/reducer';
+import ethPrices from './ethPrices/reducer';
 
 const reducer = combineReducers({
   user,
   articles,
   sourceTypes,
   dates,
-  googleTrends
+  googleTrends,
+  ethPrices
 })
 const middleware = applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 const store = createStore(reducer, middleware)
