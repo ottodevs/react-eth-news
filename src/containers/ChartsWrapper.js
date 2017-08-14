@@ -58,6 +58,11 @@ class ChartsWrapper extends Component {
         "position": "left",
         "ignoreAxisWidth": true
       }],
+      "valueScrollbar":{
+        "oppositeAxis":false,
+        "offset":50,
+        "scrollbarHeight":10
+      },
       "graphs": [{
         "id": "g1",
         "valueAxis": "v1",
@@ -114,12 +119,8 @@ class ChartsWrapper extends Component {
     }
 
     return (
-      <div className="container">
-        <div className="row justify-content-center google-trends__chart-container">
-          <div className="col-md-8">
-            <AmCharts.React ref="chart" {...config} />
-          </div>
-        </div>
+      <div className="col-md-6 google-trends__chart-container">
+        <AmCharts.React ref="chart" {...config} />
       </div>
     )
   }

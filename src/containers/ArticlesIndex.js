@@ -23,20 +23,24 @@ class ArticlesIndex extends Component {
       <div className="ArticlesIndex">
         <section className="header-section container">
           <header className="row justify-content-center">
-            <h1 className="col-md-8">
+            <h2 className="col-md-12">
               <span>Ethereum</span><br/>
               <span>in mainstream media</span>
-            </h1>
+            </h2>
           </header>
           <SourceTypeFilterWrapper/>
           <DateRangePickerWrapper/>
         </section>
-        <ChartsWrapper/>
-        <ListView
-          rowsIdArray={this.props.articlesIdArray}
-          rowsById={this.props.articlesById}
-          renderRow={this.renderRow}
-        />
+        <section className="container">
+          <div className="row">
+            <ChartsWrapper/>
+            <ListView
+              rowsIdArray={this.props.articlesIdArray}
+              rowsById={this.props.articlesById}
+              renderRow={this.renderRow}
+            />
+          </div>
+        </section>
       </div>
     )
 

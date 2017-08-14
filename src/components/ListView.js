@@ -12,18 +12,18 @@ export default class ListView extends Component {
 
   render() {
     return (
-      <section className="article-list__container container">
-        <div className="list__wrapper row justify-content-center">
-          {_.map(this.props.rowsIdArray, this.renderRowById)}
-        </div>
-      </section>
+
+          <div className="col-md-6">
+            {_.map(this.props.rowsIdArray, this.renderRowById)}
+          </div>
+
     );
   }
 
   renderRowById(rowId) {
     return (
       <div
-        className="col-md-8"
+        className="col-md-12"
         key={rowId}>
         {this.renderRowThroughProps(rowId)}
       </div>
