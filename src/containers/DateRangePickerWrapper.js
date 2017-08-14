@@ -15,7 +15,7 @@ class DateRangePickerWrapper extends Component {
   }
 
   onDatesChange({ startDate, endDate }) {
-    this.props.dispatch(datesActions.changeDateRange({ startDate, endDate }))
+    this.props.dispatch(datesActions.changeDateRange({ startDate, endDate }, 'filter'))
   }
 
   onFocusChange(focusedInput) {

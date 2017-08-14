@@ -1,11 +1,12 @@
 import _ from 'lodash';
 import * as types from './actionTypes';
 
-export function changeDateRange(newDateRange) {
+export function changeDateRange(newDateRange, initBy) {
   return ({
     type: types.DATE_RANGE_CHANGED,
     startDate: newDateRange.startDate,
-    endDate: newDateRange.endDate
+    endDate: newDateRange.endDate,
+    initBy: initBy
   })
 }
 

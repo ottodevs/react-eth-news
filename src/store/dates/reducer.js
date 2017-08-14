@@ -12,7 +12,8 @@ import moment from 'moment';
 const initialState = {
   startDate: null,
   endDate: null,
-  focusedInput: null
+  focusedInput: null,
+  initBy: null
 }
 
 export default function reduce(state = initialState, action = {}) {
@@ -20,7 +21,8 @@ export default function reduce(state = initialState, action = {}) {
   switch (action.type) {
     case types.DATE_RANGE_CHANGED:
       newState.startDate = action.startDate;
-      newState.endDate = action.endDate
+      newState.endDate = action.endDate;
+      newState.initBy = action.initBy
     case types.FOCUSED_INPUT_CHANGED:
       newState.focusedInput = action.focusedInput
     default:
@@ -33,6 +35,10 @@ export function getCurrentDateRange(state) {
     startDate: state.dates.startDate,
     endDate: state.dates.endDate
   }
+}
+
+export function getDateChangeInitiator(state) {
+  return state.dates.initBy;
 }
 
 export function getCurrentFocusedInput(state) {
