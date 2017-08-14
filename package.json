@@ -27,6 +27,7 @@
     "express-session": "^1.15.1",
     "google-trends-api": "^4.1.0",
     "history": "^4.6.3",
+    "line-interpolate-points": "^1.0.5",
     "material-ui": "^1.0.0-beta.4",
     "moment": "^2.18.1",
     "moment-range": "^3.0.3",
