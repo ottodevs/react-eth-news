@@ -2,18 +2,17 @@ import * as types from './actionTypes';
 import Immutable from 'seamless-immutable';
 import moment from 'moment';
 
-const initialState = Immutable({
+const initialState = {
   ethUsdOverTime: null
-})
+}
 
 export default function reduce(state = initialState, action = {}) {
+  const newState = Object.assign({}, state);
   switch (action.type) {
     case types.ETH_USD_FETCHED:
-      return state.merge({
-        ethUsdOverTime: action.ethUsdOverTime
-      });
+      newState.ethUsdOverTime = action.ethUsdOverTime;
     default:
-      return state;
+      return newState;
   }
 }
 

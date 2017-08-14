@@ -17,7 +17,7 @@ router.get('/', (req, res, next) => {
       const ethUsdOverTime = JSON.parse(histPrices)['Data'].map(price => {
         return {
           date: moment.unix(price.time).format('YYYY-MM-DD'),
-          value: price.open
+          ethUsd: price.open
         }
       }).filter(price => {
         return range.contains(moment(price.date, 'YYYY-MM-DD'), { exclusive: false })

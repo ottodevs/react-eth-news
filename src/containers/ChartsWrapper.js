@@ -2,6 +2,8 @@ import './ChartsWrapper.scss'
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
 import * as googleTrendsActions from '../store/googleTrends/actions';
 import * as googleTrendsSelectors from '../store/googleTrends/reducer';
 import * as ethPricesActions from '../store/ethPrices/actions';
@@ -15,14 +17,12 @@ class ChartsWrapper extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(googleTrendsActions.fetchGoogleTrendsOverTime())
-    this.props.dispatch(ethPricesActions.fetchEthUsdOverTime())
+    this.props.loadInitialData()
   }
 
   render() {
-    console.log(this.props.googleTrendsOverTime)
 
-    const googleTrendConfig = {
+    const config = {
       "type": "serial",
       "theme": "light",
       "marginRight": 40,
@@ -30,8 +30,11 @@ class ChartsWrapper extends Component {
       "autoMarginOffset": 20,
       "mouseWheelZoomEnabled": true,
       "dataDateFormat": "YYYY-MM-DD",
+      "legend": {
+        "useGraphSettings": true
+      },
       "valueAxes": [{
-        "id": "v1",
+        "id":"v2",
         "axisAlpha": 1,
         "position": "left",
         "ignoreAxisWidth": true
@@ -44,85 +47,29 @@ class ChartsWrapper extends Component {
         "bulletSize": 5,
         "hideBulletsCount": 50,
         "lineThickness": 2,
-        "title": "google trend",
+        "title": "Google trend",
         "useLineColorForBulletBorder": true,
-        "valueField": "value",
-        "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
-      }],
-      // "chartScrollbar": {
-      //   "graph": "g1",
-      //   "oppositeAxis": false,
-      //   "offset": 30,
-      //   "scrollbarHeight": 80,
-      //   "backgroundAlpha": 0,
-      //   "selectedBackgroundAlpha": 0.1,
-      //   "selectedBackgroundColor": "#888888",
-      //   "graphFillAlpha": 0,
-      //   "graphLineAlpha": 0.5,
-      //   "selectedGraphFillAlpha": 0,
-      //   "selectedGraphLineAlpha": 1,
-      //   "autoGridCount": true,
-      //   "color": "#AAAAAA"
-      // },
-      "chartCursor": {
-        "pan": true,
-        "valueLineEnabled": true,
-        "valueLineBalloonEnabled": true,
-        "cursorAlpha": 1,
-        "cursorColor": "#258cbb",
-        "limitToGraph": "g1",
-        "valueLineAlpha": 0.2,
-        "valueZoomable": true
-      },
-      // "valueScrollbar": {
-      //   "oppositeAxis": false,
-      //   "offset": 50,
-      //   "scrollbarHeight": 10
-      // },
-      "categoryField": "date",
-      "categoryAxis": {
-        "dashLength": 1,
-        "minorGridEnabled": true,
-        "parseDates": true
-      },
-      "export": {
-        "enabled": true
-      },
-      "dataProvider": this.props.googleTrendsOverTime,
-
-      }
-    const ethUsdConfig = {
-      "type": "serial",
-      "theme": "light",
-      "marginRight": 40,
-      "marginLeft": 40,
-      "autoMarginOffset": 20,
-      "mouseWheelZoomEnabled": true,
-      "dataDateFormat": "YYYY-MM-DD",
-      "valueAxes": [{
-        "id": "v1",
-        "axisAlpha": 1,
-        "position": "left",
-        "ignoreAxisWidth": true
-      }],
-      "graphs": [{
-        "id": "g1",
-        "bullet": "round",
+        "valueField": "googleTrends",
+        "balloonText": "<span style='font-size:12px;'>[[value]]</span>"
+      }, {
+        "id": "g2",
+        "valueAxis": "v2",
+        "bullet": "square",
         "bulletBorderAlpha": 1,
         "bulletColor": "#FFFFFF",
         "bulletSize": 5,
         "hideBulletsCount": 50,
         "lineThickness": 2,
-        "title": "google trend",
+        "title": "ETH/USD",
         "useLineColorForBulletBorder": true,
-        "valueField": "value",
-        "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
+        "valueField": "ethUsd",
+        "balloonText": "<span style='font-size:12px;'>[[value]]</span>"
       }],
       "chartScrollbar": {
-        "graph": "g1",
+        "graph": "g2",
         "oppositeAxis": false,
         "offset": 30,
-        "scrollbarHeight": 50,
+        "scrollbarHeight": 60,
         "backgroundAlpha": 0,
         "selectedBackgroundAlpha": 0.1,
         "selectedBackgroundColor": "#888888",
@@ -135,19 +82,12 @@ class ChartsWrapper extends Component {
       },
       "chartCursor": {
         "pan": true,
-        "valueLineEnabled": true,
-        "valueLineBalloonEnabled": true,
         "cursorAlpha": 1,
         "cursorColor": "#258cbb",
         "limitToGraph": "g1",
         "valueLineAlpha": 0.2,
         "valueZoomable": true
       },
-      // "valueScrollbar": {
-      //   "oppositeAxis": false,
-      //   "offset": 50,
-      //   "scrollbarHeight": 10
-      // },
       "categoryField": "date",
       "categoryAxis": {
         "dashLength": 1,
@@ -157,16 +97,15 @@ class ChartsWrapper extends Component {
       "export": {
         "enabled": true
       },
-      "dataProvider": this.props.ethUsdOverTime,
+      "dataProvider": this.props.dataProvider,
+    }
 
-      }
     return (
       <div className="container">
-        <div className="row google-trends__chart-container">
-          <AmCharts.React {...googleTrendConfig} />
-        </div>
-        <div className="row eth-usd__chart-container">
-          <AmCharts.React {...ethUsdConfig} />
+        <div className="row justify-content-center google-trends__chart-container">
+          <div className="col-md-8">
+            <AmCharts.React {...config} />
+          </div>
         </div>
       </div>
     )
@@ -174,10 +113,32 @@ class ChartsWrapper extends Component {
 }
 
 function mapStateToProps(state) {
+  var googleTrendsOverTime = googleTrendsSelectors.getGoogleTrendsOverTime(state);
+  var ethUsdOverTime = ethPricesSelectors.getEthUsdOverTime(state);
+  var dataProvider = [];
+  if (googleTrendsOverTime && ethUsdOverTime) {
+    var dataLength = googleTrendsOverTime.length <= ethUsdOverTime.length ?
+      googleTrendsOverTime.length : ethUsdOverTime.length;
+    googleTrendsOverTime = googleTrendsOverTime.slice(0, dataLength);
+    ethUsdOverTime = ethUsdOverTime.slice(0, dataLength);
+    dataProvider = _.merge(googleTrendsOverTime, ethUsdOverTime)
+  }
   return {
-    googleTrendsOverTime: googleTrendsSelectors.getGoogleTrendsOverTime(state),
-    ethUsdOverTime: ethPricesSelectors.getEthUsdOverTime(state)
+    googleTrendsOverTime,
+    ethUsdOverTime,
+    dataProvider
   }
 }
 
-export default connect(mapStateToProps)(ChartsWrapper)
+function mapDispatch(dispatch) {
+  return {
+    loadInitialData () {
+      dispatch(googleTrendsActions.fetchGoogleTrendsOverTime())
+      dispatch(ethPricesActions.fetchEthUsdOverTime())
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatch)(ChartsWrapper)
+
+

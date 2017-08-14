@@ -8,14 +8,14 @@ const interpolateLineRange = require('line-interpolate-points')
 const googleTrendsOverTimePromise = Promise.promisify(googleTrends.interestOverTime)
 module.exports = router
 
-const interpolate = function(data) {
+const interpolate = function(data, queryEndDate) {
   var prevTime = undefined;
   var prevValue = undefined;
   var interpolatedData = [];
   for (var i = 0; i < data.length; i++) {
     var item = data[i];
     var curTime = item.date;
-    var curVal = item.value;
+    var curVal = item.googleTrends;
 
     if (prevTime) {
       // exit loop until prevTime === curTime
@@ -28,7 +28,7 @@ const interpolate = function(data) {
       while (step.format('YYYY-MM-DD') !== curTime) {
         interpolatedData.push({
           date: step.format('YYYY-MM-DD'),
-          value: interpolation[j][1]
+          googleTrends: Math.round(interpolation[j][1])
         })
         j++;
         step = step.add(1, 'd')
@@ -42,12 +42,21 @@ const interpolate = function(data) {
     prevTime = curTime;
     prevValue = curVal;
   }
+
+  if (moment(prevTime).format('YYYY-MM-DD') !== queryEndDate.format('YYYY-MM-DD')) {
+    interpolatedData.push({
+      date: moment(prevTime).add(3, 'd'),
+      googleTrends: prevValue
+    });
+  }
+
+
   return interpolatedData
 }
 
 const getDataInNthInterval = function(data, interval) {
   var dataInNthInterval = [];
-  for (i = 0; i < data.length; i = i + interval) {
+  for (i = 0; i <= data.length; i = i + interval) {
     dataInNthInterval.push(data[i]);
   }
   return dataInNthInterval
@@ -63,16 +72,15 @@ router.get('/', (req, res, next) => {
     startTime: queryStartDate,
     endTime: queryEndDate
   }).then(response => {
-    const googleTrends = JSON.parse(response).default.timelineData.map(datum => {
+    const googleTrends = interpolate(JSON.parse(response).default.timelineData.map(datum => {
       return {
         date: moment(datum.formattedAxisTime, 'MMM DD, YYYY').format('YYYY-MM-DD'),
-        value: datum.value[0]
+        googleTrends: datum.value[0]
       }
-    }).filter(trend => {
+    }), moment(queryEndDate)).filter(trend => {
       return range.contains(moment(trend.date, 'YYYY-MM-DD'), { exclusive: false })
     });
-    const interpolated = interpolate(googleTrends);
-    const googleTrendsEveryThreeDays = getDataInNthInterval(interpolated, 3)
+    const googleTrendsEveryThreeDays = getDataInNthInterval(googleTrends, 3)
     res.send(googleTrendsEveryThreeDays);
     return response
   })
