@@ -16,8 +16,9 @@ class ArticlesIndex extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(articlesActions.fetchArticles());
     this.props.dispatch(datesActions.changeDateRange({ startDate: moment('Jan 01, 2017'), endDate: moment()}, 'init'))
+    // this.props.dispatch(articlesActions.fetchArticles());
+
   }
 
   render() {
@@ -65,7 +66,7 @@ class ArticlesIndex extends Component {
         selected>
         <div className="col-md-8 article-item--left">
           <h5>{article.title}</h5>
-          <h6>{article.date}</h6>
+          <h6>{moment.unix(article.date).format('MMM DD, YYYY')}</h6>
         </div>
         <div className="col-md-4 article-item--right">
           <h6>{article.source}</h6>

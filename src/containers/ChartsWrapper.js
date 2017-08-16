@@ -33,17 +33,6 @@ class ChartsWrapper extends Component {
     }
   }
 
-  componentWillUpdate(nextProps) {
-    if (this.props.dataProvider &&
-        this.props.startDate && this.props.endDate
-        && nextProps.startDate.format('YYYYMMDD') === this.props.startDate.format('YYYYMMDD')
-        && nextProps.endDate.format('YYYYMMDD') === this.props.endDate.format('YYYYMMDD')) {
-      this.triggerDateChange = false
-    } else {
-      this.triggerDateChange = true
-    }
-  }
-
   render() {
     const serialConfig = {
       "type": "serial",
@@ -51,7 +40,6 @@ class ChartsWrapper extends Component {
       "marginRight": 40,
       "marginLeft": 40,
       "autoMarginOffset": 20,
-      "mouseWheelZoomEnabled": true,
       "dataDateFormat": "YYYY-MM-DD",
       "legend": {
         "useGraphSettings": true
@@ -155,8 +143,6 @@ class ChartsWrapper extends Component {
         "event": "zoomed",
         "method": (e) => {
           e.chart.lastZoomed = e;
-          console.log("ignoring zoomed");
-
         }
       }]
     }
@@ -170,6 +156,7 @@ class ChartsWrapper extends Component {
        "useGraphSettings": true,
      },
      "dataProvider": this.props.articlesByDate,
+     "dataDateFormat": "YYYY-MM",
      "graphs": [{
        "balloonText": "<b>[[title]]</b><br><span style='font-size:12px'>[[category]]: <b>[[value]]</b></span>",
        "fillAlphas": 0.8,
@@ -185,14 +172,23 @@ class ChartsWrapper extends Component {
        "gridPosition": "start",
        "axisAlpha": 0,
        "gridAlpha": 0,
-       "position": "left"
-     }
+       "position": "left",
+       "labelRotation": 45
+     },
+     "listeners": [{
+        "event": "rendered",
+        "method": e => {
+          if (e.chart.endIndex) {
+            this.refs.barChart.state.chart.zoomOut();
+          }
+        }
+      }]
    }
 
     return (
       <div className="col-md-6 google-trends__chart-container">
         <AmCharts.React ref="chart" {...serialConfig} />
-        <AmCharts.React ref="bar-chart" {...barConfig} />
+        <AmCharts.React ref="barChart" {...barConfig} />
       </div>
     )
   }
@@ -202,13 +198,15 @@ function mapStateToProps(state) {
   var googleTrendsOverTime = googleTrendsSelectors.getGoogleTrendsOverTime(state);
   var ethUsdOverTime = ethPricesSelectors.getEthUsdOverTime(state);
   var dataProvider = [];
+  var articlesByDate = []
   var dates = datesSelectors.getCurrentDateRange(state);
   if (googleTrendsOverTime && ethUsdOverTime) {
     var dataLength = googleTrendsOverTime.length <= ethUsdOverTime.length ?
       googleTrendsOverTime.length : ethUsdOverTime.length;
     googleTrendsOverTime = googleTrendsOverTime.slice(0, dataLength);
     ethUsdOverTime = ethUsdOverTime.slice(0, dataLength);
-    dataProvider = _.merge(googleTrendsOverTime, ethUsdOverTime)
+    dataProvider = _.merge(googleTrendsOverTime, ethUsdOverTime);
+    articlesByDate = articlesSelectors.getArticlesGroupByDate(state);
   }
   return {
     googleTrendsOverTime,
@@ -217,7 +215,7 @@ function mapStateToProps(state) {
     startDate: dates.startDate,
     endDate: dates.endDate,
     initBy: datesSelectors.getDateChangeInitiator(state),
-    articlesByDate: articlesSelectors.getArticlesGroupByDate(state),
+    articlesByDate: articlesByDate
   }
 }
 
