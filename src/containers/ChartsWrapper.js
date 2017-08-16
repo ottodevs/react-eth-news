@@ -96,7 +96,16 @@ class ChartsWrapper extends Component {
         "valueZoomable": true
       },
        "chartScrollbar": {
-        "autoGridCount": true,
+        "offset":30,
+        "backgroundAlpha": 0,
+        "selectedBackgroundAlpha": 0.1,
+        "selectedBackgroundColor": "#888888",
+        "graphFillAlpha": 0,
+        "graphLineAlpha": 0.5,
+        "selectedGraphFillAlpha": 0,
+        "selectedGraphLineAlpha": 1,
+        "autoGridCount":true,
+        "color":"#AAAAAA",
         "graph": "g1",
         "scrollbarHeight": 40
       },
