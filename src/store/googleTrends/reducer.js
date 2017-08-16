@@ -6,22 +6,14 @@ const initialState = {
 }
 
 export default function reduce(state = initialState, action = {}) {
-  const newState = Object.assign({}, state);
   switch (action.type) {
     case types.GOOGLE_TRENDS_FETCHED:
-      newState.googleTrendsOverTime = action.googleTrendsOverTime;
+      return {...state, googleTrendsOverTime: action.googleTrendsOverTime}
     default:
-      return newState;
+      return state;
   }
 }
 
 export function getGoogleTrendsOverTime(state) {
-  // if (!state.googleTrends.googleTrendsOverTime) return
   return state.googleTrends.googleTrendsOverTime;
-  // return _.map(googleTrendsOverTimeData, datum => {
-  //   return {
-  //     date: moment(datum.formattedAxisTime, 'MMM DD, YYYY').format('YYYY-MM-DD'),
-  //     value: datum.value[0]
-  //   }
-  // });
 }

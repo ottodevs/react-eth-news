@@ -17,16 +17,21 @@ const initialState = {
 }
 
 export default function reduce(state = initialState, action = {}) {
-  const newState = Object.assign({}, state);
   switch (action.type) {
     case types.DATE_RANGE_CHANGED:
-      newState.startDate = action.startDate;
-      newState.endDate = action.endDate;
-      newState.initBy = action.initBy
+      return {
+        ...state,
+        startDate: action.startDate,
+        endDate: action.endDate,
+        initBy: action.initBy
+      }
     case types.FOCUSED_INPUT_CHANGED:
-      newState.focusedInput = action.focusedInput
+      return {
+        ...state,
+        focusedInput: action.focusedInput
+      }
     default:
-      return newState;
+      return state;
   }
 }
 
@@ -44,4 +49,3 @@ export function getDateChangeInitiator(state) {
 export function getCurrentFocusedInput(state) {
   return state.dates.focusedInput
 }
-

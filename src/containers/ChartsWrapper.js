@@ -10,6 +10,7 @@ import * as ethPricesActions from '../store/ethPrices/actions';
 import * as ethPricesSelectors from '../store/ethPrices/reducer';
 import * as datesActions from '../store/dates/actions';
 import * as datesSelectors from '../store/dates/reducer';
+import * as articlesSelectors from '../store/articles/reducer';
 import AmCharts from '@amcharts/amcharts3-react';
 import moment from 'moment';
 
@@ -32,11 +33,19 @@ class ChartsWrapper extends Component {
     }
   }
 
+  componentWillUpdate(nextProps) {
+    if (this.props.dataProvider &&
+        this.props.startDate && this.props.endDate
+        && nextProps.startDate.format('YYYYMMDD') === this.props.startDate.format('YYYYMMDD')
+        && nextProps.endDate.format('YYYYMMDD') === this.props.endDate.format('YYYYMMDD')) {
+      this.triggerDateChange = false
+    } else {
+      this.triggerDateChange = true
+    }
+  }
+
   render() {
-
-
-
-    const config = {
+    const serialConfig = {
       "type": "serial",
       "theme": "light",
       "marginRight": 40,
@@ -98,6 +107,11 @@ class ChartsWrapper extends Component {
         "valueLineAlpha": 0.2,
         "valueZoomable": true
       },
+       "chartScrollbar": {
+        "autoGridCount": true,
+        "graph": "g1",
+        "scrollbarHeight": 40
+      },
       "categoryField": "date",
       "categoryAxis": {
         "dashLength": 1,
@@ -109,18 +123,77 @@ class ChartsWrapper extends Component {
       },
       "dataProvider": this.props.dataProvider,
       "listeners": [{
+        "event": "rendered",
+        "method": e => {
+          var self = this;
+          if (this.props.initBy === 'filter') {
+            self.chartDiv.removeEventListener("mouseup", self.handleMouseUp);
+            self.sb.removeEventListener("mousedown", self.handleMouseDown);
+            return
+          }
+          self.chartDiv = e.chart.chartDiv;
+          self.handleMouseDown = () => {
+            e.chart.mouseIsDown = true;
+          }
+          self.handleMouseUp = () => {
+            e.chart.mouseIsDown = false;
+            const startDate = moment.unix(e.chart.chartScrollbar.startTime / 1000);
+            const endDate = moment.unix(e.chart.chartScrollbar.endTime / 1000);
+            console.log('removing listeners')
+            self.props.dispatch(datesActions.changeDateRange({ startDate, endDate }), 'chart');
+            self.chartDiv.removeEventListener("mouseup", self.handleMouseUp);
+            self.sb.removeEventListener("mousedown", self.handleMouseDown);
+          }
+
+          if (e.chart.chartScrollbar.set) {
+            self.sb = e.chart.chartScrollbar.set.node;
+            self.sb.addEventListener("mousedown", self.handleMouseDown);
+            self.chartDiv.addEventListener("mouseup", self.handleMouseUp);
+          }
+        }
+
+      }, {
         "event": "zoomed",
-        "method": () => {
-            const startDate = moment.unix(this.refs.chart.state.chart.startTime / 1000);
-            const endDate = moment.unix(this.refs.chart.state.chart.endTime / 1000);
-            this.props.dispatch(datesActions.changeDateRange({ startDate, endDate }, 'chart'));
+        "method": (e) => {
+          e.chart.lastZoomed = e;
+          console.log("ignoring zoomed");
+
         }
       }]
     }
 
+    const barConfig = {
+     "type": "serial",
+     "theme": "light",
+     "marginRight": 90,
+      "marginLeft": 40,
+     "legend": {
+       "useGraphSettings": true,
+     },
+     "dataProvider": this.props.articlesByDate,
+     "graphs": [{
+       "balloonText": "<b>[[title]]</b><br><span style='font-size:12px'>[[category]]: <b>[[value]]</b></span>",
+       "fillAlphas": 0.8,
+       "labelText": "[[value]]",
+       "lineAlpha": 0.3,
+       "title": "Mainstream",
+       "type": "column",
+       "color": "#000000",
+       "valueField": "msm"
+     }],
+     "categoryField": "date",
+     "categoryAxis": {
+       "gridPosition": "start",
+       "axisAlpha": 0,
+       "gridAlpha": 0,
+       "position": "left"
+     }
+   }
+
     return (
       <div className="col-md-6 google-trends__chart-container">
-        <AmCharts.React ref="chart" {...config} />
+        <AmCharts.React ref="chart" {...serialConfig} />
+        <AmCharts.React ref="bar-chart" {...barConfig} />
       </div>
     )
   }
@@ -138,6 +211,7 @@ function mapStateToProps(state) {
     ethUsdOverTime = ethUsdOverTime.slice(0, dataLength);
     dataProvider = _.merge(googleTrendsOverTime, ethUsdOverTime)
   }
+  console.log(dates)
   return {
     googleTrendsOverTime,
     ethUsdOverTime,
@@ -145,7 +219,7 @@ function mapStateToProps(state) {
     startDate: dates.startDate,
     endDate: dates.endDate,
     initBy: datesSelectors.getDateChangeInitiator(state),
-
+    articlesByDate: articlesSelectors.getArticlesGroupByDate(state),
   }
 }
 
