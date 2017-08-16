@@ -28,7 +28,7 @@ class ChartsWrapper extends Component {
   componentDidUpdate() {
     const startDate = this.props.startDate ? this.props.startDate : new Date(2015, 7, 3);
     const endDate =  this.props.endDate ? this.props.endDate.toDate() : new Date(Date.now());
-    if (this.props.initBy === 'filter') {
+    if (this.props.initBy === 'filter' || this.props.initBy === 'init') {
       this.refs.chart.state.chart.zoomToDates(this.props.startDate.toDate(), endDate);
     }
   }
@@ -127,8 +127,8 @@ class ChartsWrapper extends Component {
         "method": e => {
           var self = this;
           if (this.props.initBy === 'filter') {
-            self.chartDiv.removeEventListener("mouseup", self.handleMouseUp);
-            self.sb.removeEventListener("mousedown", self.handleMouseDown);
+            self.chartDiv && self.chartDiv.removeEventListener("mouseup", self.handleMouseUp);
+            self.sb && self.sb.removeEventListener("mousedown", self.handleMouseDown);
             return
           }
           self.chartDiv = e.chart.chartDiv;
@@ -139,7 +139,6 @@ class ChartsWrapper extends Component {
             e.chart.mouseIsDown = false;
             const startDate = moment.unix(e.chart.chartScrollbar.startTime / 1000);
             const endDate = moment.unix(e.chart.chartScrollbar.endTime / 1000);
-            console.log('removing listeners')
             self.props.dispatch(datesActions.changeDateRange({ startDate, endDate }), 'chart');
             self.chartDiv.removeEventListener("mouseup", self.handleMouseUp);
             self.sb.removeEventListener("mousedown", self.handleMouseDown);
@@ -211,7 +210,6 @@ function mapStateToProps(state) {
     ethUsdOverTime = ethUsdOverTime.slice(0, dataLength);
     dataProvider = _.merge(googleTrendsOverTime, ethUsdOverTime)
   }
-  console.log(dates)
   return {
     googleTrendsOverTime,
     ethUsdOverTime,

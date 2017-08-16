@@ -2,6 +2,8 @@ import './ArticlesIndex.scss'
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
+import moment from 'moment';
+import * as datesActions from '../store/dates/actions';
 import * as articlesActions from '../store/articles/actions';
 import * as articlesSelectors from '../store/articles/reducer';
 import {ListView, ListRow} from '../components';
@@ -15,6 +17,7 @@ class ArticlesIndex extends Component {
 
   componentDidMount() {
     this.props.dispatch(articlesActions.fetchArticles());
+    this.props.dispatch(datesActions.changeDateRange({ startDate: moment('Jan 01, 2017'), endDate: moment()}, 'init'))
   }
 
   render() {
