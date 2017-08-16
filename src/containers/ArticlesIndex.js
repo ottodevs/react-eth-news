@@ -2,6 +2,8 @@ import './ArticlesIndex.scss'
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
+import moment from 'moment';
+import * as datesActions from '../store/dates/actions';
 import * as articlesActions from '../store/articles/actions';
 import * as articlesSelectors from '../store/articles/reducer';
 import {ListView, ListRow} from '../components';
@@ -14,7 +16,9 @@ class ArticlesIndex extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(articlesActions.fetchArticles());
+    this.props.dispatch(datesActions.changeDateRange({ startDate: moment('Jan 01, 2017'), endDate: moment()}, 'init'))
+    // this.props.dispatch(articlesActions.fetchArticles());
+
   }
 
   render() {
@@ -23,20 +27,24 @@ class ArticlesIndex extends Component {
       <div className="ArticlesIndex">
         <section className="header-section container">
           <header className="row justify-content-center">
-            <h1 className="col-md-8">
+            <h2 className="col-md-12">
               <span>Ethereum</span><br/>
               <span>in mainstream media</span>
-            </h1>
+            </h2>
           </header>
           <SourceTypeFilterWrapper/>
           <DateRangePickerWrapper/>
         </section>
-        <ChartsWrapper/>
-        <ListView
-          rowsIdArray={this.props.articlesIdArray}
-          rowsById={this.props.articlesById}
-          renderRow={this.renderRow}
-        />
+        <section className="container">
+          <div className="row">
+            <ChartsWrapper/>
+            <ListView
+              rowsIdArray={this.props.articlesIdArray}
+              rowsById={this.props.articlesById}
+              renderRow={this.renderRow}
+            />
+          </div>
+        </section>
       </div>
     )
 
@@ -58,7 +66,7 @@ class ArticlesIndex extends Component {
         selected>
         <div className="col-md-8 article-item--left">
           <h5>{article.title}</h5>
-          <h6>{article.date}</h6>
+          <h6>{moment.unix(article.date).format('MMM DD, YYYY')}</h6>
         </div>
         <div className="col-md-4 article-item--right">
           <h6>{article.source}</h6>

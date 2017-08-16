@@ -7,12 +7,11 @@ const initialState = {
 }
 
 export default function reduce(state = initialState, action = {}) {
-  const newState = Object.assign({}, state);
   switch (action.type) {
     case types.ETH_USD_FETCHED:
-      newState.ethUsdOverTime = action.ethUsdOverTime;
+      return {...state, ethUsdOverTime: action.ethUsdOverTime}
     default:
-      return newState;
+      return state;
   }
 }
 

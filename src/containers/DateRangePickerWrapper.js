@@ -15,7 +15,7 @@ class DateRangePickerWrapper extends Component {
   }
 
   onDatesChange({ startDate, endDate }) {
-    this.props.dispatch(datesActions.changeDateRange({ startDate, endDate }))
+    this.props.dispatch(datesActions.changeDateRange({ startDate, endDate }, 'filter'))
   }
 
   onFocusChange(focusedInput) {
@@ -26,7 +26,7 @@ class DateRangePickerWrapper extends Component {
 
     return (
       <div className="row justify-content-center">
-        <div className="date-range-picker__wrapper col-md-8">
+        <div className="date-range-picker__wrapper col-md-12">
           <DateRangePicker
             onDatesChange={this.onDatesChange}
             onFocusChange={this.onFocusChange}

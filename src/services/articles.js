@@ -1,5 +1,6 @@
 import axios from 'axios';
 
-export function getAllArticles() {
-  return axios.get('/api/articles').then(res => res.data)
+export function getAllArticles(startDate, endDate) {
+  if (!startDate || !endDate) return []
+  return axios.get(`/api/articles/${startDate.unix()}/${endDate.unix()}`).then(res => res.data)
 }
