@@ -195,9 +195,13 @@ class ChartsWrapper extends Component {
    }
 
     return (
-      <div className="col-md-6 google-trends__chart-container">
+      <div className="col-md-6 charts-container">
+      <div className="google-trends__chart-container">
         <AmCharts.React ref="chart" {...serialConfig} />
+      </div>
+      <div className="mainstream-count__chart-container">
         <AmCharts.React ref="barChart" {...barConfig} />
+      </div>
       </div>
     )
   }
