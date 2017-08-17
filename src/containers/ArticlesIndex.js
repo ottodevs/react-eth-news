@@ -84,7 +84,7 @@ class ArticlesIndex extends Component {
         onClick
         selected>
         <div className="col-md-8 article-item--left">
-          <h5>{article.title}</h5>
+          <a target="_" href={article.link}><h5>{article.title}</h5></a>
           <h6>{moment.unix(article.date).format('MMM DD, YYYY')}</h6>
         </div>
         <div className="col-md-4 article-item--right">

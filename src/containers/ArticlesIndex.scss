@@ -16,7 +16,11 @@
   font-size: 14px;
 }
 
-.article-item--left h5{
+.article-item--left a {
+  color: #292b2c;
+}
+
+.article-item--left a h5{
   font-weight: 600;
   font-size: 18px;
 }
