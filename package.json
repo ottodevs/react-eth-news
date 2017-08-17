@@ -52,6 +52,7 @@
     "redux": "^3.6.0",
     "redux-logger": "^2.8.1",
     "redux-thunk": "^2.2.0",
+    "request": "^2.81.0",
     "request-promise": "^4.2.1",
     "seamless-immutable": "^7.1.2",
     "sequelize": "^4.3.1"
