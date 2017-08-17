@@ -19,7 +19,7 @@ class Routes extends Component {
     return (
       <Router history={history}>
         <Main>
-          <Route path='/home' component={ArticlesIndex} />
+          <Route path='/' component={ArticlesIndex} />
         </Main>
       </Router>
     )
