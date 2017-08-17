@@ -9,10 +9,12 @@ import {Main, Login, Signup, UserHome} from './components'
 import {ArticlesIndex} from './containers'
 import {me} from './store'
 
-ReactGA.initialize('UA-104804205-1')
+
 
 class Routes extends Component {
+
   componentDidMount () {
+    ReactGA.initialize('UA-104804205-1')
     this.props.loadInitialData()
   }
 
