@@ -4,20 +4,28 @@ import {Router} from 'react-router'
 import {Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
+import  ReactGA from 'react-ga'
 import {Main, Login, Signup, UserHome} from './components'
 import {ArticlesIndex} from './containers'
 import {me} from './store'
+
+ReactGA.initialize('UA-104804205-1')
 
 class Routes extends Component {
   componentDidMount () {
     this.props.loadInitialData()
   }
 
+  logPageView() {
+    ReactGA.set({ page: window.location.pathname + window.location.search });
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }
+
   render () {
     const {isLoggedIn} = this.props
 
     return (
-      <Router history={history}>
+      <Router history={history} onUpdate={this.logPageView}>
         <Main>
           <Route path='/' component={ArticlesIndex} />
         </Main>

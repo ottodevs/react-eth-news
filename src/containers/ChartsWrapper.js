@@ -187,7 +187,6 @@ class ChartsWrapper extends Component {
      "listeners": [{
         "event": "rendered",
         "method": e => {
-          console.log(e.chart.endIndex, e.chart.startIndex)
           if (e.chart.endIndex || e.chart.endIndex === 0) {
             this.refs.barChart.state.chart.zoomOut();
           }
