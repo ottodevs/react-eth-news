@@ -5,9 +5,12 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import * as datesActions from '../store/dates/actions';
 import * as articlesActions from '../store/articles/actions';
+import * as paginationActions from '../store/pagination/actions';
 import * as articlesSelectors from '../store/articles/reducer';
+import * as paginationSelectors from '../store/pagination/reducer';
 import {ListView, ListRow} from '../components';
-import {DateRangePickerWrapper, SourceTypeFilterWrapper, ChartsWrapper} from '../containers'
+import {DateRangePickerWrapper, SourceTypeFilterWrapper, ChartsWrapper} from '../containers';
+import ReactPaginate from 'react-paginate';
 
 class ArticlesIndex extends Component {
   constructor(props) {
@@ -17,8 +20,6 @@ class ArticlesIndex extends Component {
 
   componentDidMount() {
     this.props.dispatch(datesActions.changeDateRange({ startDate: moment('Jan 01, 2017'), endDate: moment()}, 'init'))
-    // this.props.dispatch(articlesActions.fetchArticles());
-
   }
 
   render() {
@@ -38,11 +39,29 @@ class ArticlesIndex extends Component {
         <section className="container">
           <div className="row">
             <ChartsWrapper/>
-            <ListView
-              rowsIdArray={this.props.articlesIdArray}
-              rowsById={this.props.articlesById}
-              renderRow={this.renderRow}
-            />
+            <div  className="col-md-6">
+              <ListView
+                rowsIdArray={this.props.articlesIdArray}
+                rowsById={this.props.articlesById}
+                renderRow={this.renderRow}
+              />
+              <ReactPaginate previousLabel={"previous"}
+                 nextLabel={"next"}
+                 breakLabel={<a href="">...</a>}
+                 breakClassName={"break-me"}
+                 pageCount={this.props.pageCount}
+                 marginPagesDisplayed={1}
+                 pageRangeDisplayed={3}
+                 onPageChange={this.handlePageClick}
+                 containerClassName={"pagination"}
+                 pageClassName={"page-item"}
+                 pageLinkClassName={"page-link"}
+                 previousClassName={"page-item"}
+                 previousLinkClassName={"page-link"}
+                 nextClassName={"page-item"}
+                 nextLinkClassName={"page-link"}
+                 activeClassName={"active"} />
+            </div>
           </div>
         </section>
       </div>
@@ -75,14 +94,22 @@ class ArticlesIndex extends Component {
     )
   }
 
+   handlePageClick(page) {
+    // offset = page.selected
+    this.props.dispatch(paginationActions.changePage(page.selected));
+  };
 
 }
 
 function mapStateToProps(state) {
   const [articlesById, articlesIdArray] = articlesSelectors.getArticles(state);
+  const [offset, limit] = paginationSelectors.getCurrentPage(state);
   return {
     articlesById,
-    articlesIdArray
+    articlesIdArray,
+    offset,
+    limit,
+    pageCount: paginationSelectors.getPageCount(state)
   }
 }
 

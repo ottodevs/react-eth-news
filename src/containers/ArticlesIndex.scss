@@ -2,7 +2,8 @@
   margin: 50px auto;
 }
 
-.header-section{
+.header-section,
+.pagination {
   font-family: 'Saira', sans-serif;
 }
 
@@ -22,4 +23,9 @@
 
 .article-item--left h6{
   font-size: 14px;
+}
+
+.pagination {
+  margin-top: 30px;
+  margin-left: 15px;
 }

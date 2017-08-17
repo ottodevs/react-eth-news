@@ -5,6 +5,7 @@ import * as types from './actionTypes';
 import * as sourceTypesSelectors from '../sourceTypes/reducer';
 import * as datesSelectors from '../dates/reducer';
 import * as ethPricesSelectors from '../ethPrices/reducer';
+import * as paginationSelectors from '../pagination/reducer';
 const moment = extendMoment(Moment);
 
 const initialState = {
@@ -22,10 +23,14 @@ export default function reduce(state = initialState, action = {}) {
 
 export function getArticles(state) {
   const currentSourceType = sourceTypesSelectors.getCurrentSourceType(state);
-  const currentDateRange = datesSelectors.getCurrentDateRange(state)
+  const currentDateRange = datesSelectors.getCurrentDateRange(state);
+  const [offset, limit] = paginationSelectors.getCurrentPage(state);
   const articlesById = _.sortBy(state.articles.articlesById, [function(o) { return -o.date }]);
   const filterBySourceTypeBound = filterBySourceType.bind(null, currentSourceType, articlesById);
-  const filters = _.flow([filterBySourceTypeBound]);
+  const filterByPageBound = filterByPage.bind(null, offset, limit, articlesById);
+
+  // add page filter
+  const filters = _.flow([filterBySourceTypeBound, filterByPageBound]);
   const articlesIdArray = filters(_.keys(articlesById))
   return [articlesById, articlesIdArray];
 }
@@ -67,4 +72,8 @@ function filterByDate(currentDateRange, articlesById, articlesIdArray) {
     })
   }
 
+}
+
+function filterByPage(offset, limit, articlesById, articlesIdArray) {
+  return articlesIdArray.slice(offset * limit, offset * limit + limit);
 }
