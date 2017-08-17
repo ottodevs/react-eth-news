@@ -14,7 +14,7 @@ const initialState = Immutable({
     classModifier: 'primary'
   }, {
     id: 'crypto',
-    name: 'crypto community',
+    name: 'crypto media',
     classModifier: 'info'
   }]
 })

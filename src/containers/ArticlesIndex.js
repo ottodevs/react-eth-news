@@ -48,18 +48,18 @@ class ArticlesIndex extends Component {
               <ReactPaginate previousLabel={"previous"}
                  nextLabel={"next"}
                  breakLabel={<a href="">...</a>}
-                 breakClassName={"break-me"}
+                 breakClassName={"break-me hidden-sm-down"}
                  pageCount={this.props.pageCount}
                  marginPagesDisplayed={1}
                  pageRangeDisplayed={3}
                  onPageChange={this.handlePageClick}
                  containerClassName={"pagination"}
-                 pageClassName={"page-item"}
-                 pageLinkClassName={"page-link"}
-                 previousClassName={"page-item"}
-                 previousLinkClassName={"page-link"}
-                 nextClassName={"page-item"}
-                 nextLinkClassName={"page-link"}
+                 pageClassName={"page-item hidden-sm-down"}
+                 pageLinkClassName={"page-link hidden-sm-down"}
+                 previousClassName={"page-item previous"}
+                 previousLinkClassName={"page-link previous"}
+                 nextClassName={"page-item next"}
+                 nextLinkClassName={"page-link next"}
                  activeClassName={"active"} />
             </div>
           </div>
