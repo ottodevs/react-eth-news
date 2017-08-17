@@ -1,8 +1,4 @@
-import _ from 'lodash';
 import * as types from './actionTypes';
-import Immutable from 'seamless-immutable';
-import moment from 'moment';
-
 /**
  *  immutable doesn't work well with moment.js
  *  somehow the moment object turns into regular object

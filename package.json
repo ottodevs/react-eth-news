@@ -45,6 +45,7 @@
     "react-dates": "^12.3.0",
     "react-dom": "^15.6.1",
     "react-moment-proptypes": "^1.5.0",
+    "react-paginate": "^4.4.3",
     "react-redux": "^5.0.2",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
