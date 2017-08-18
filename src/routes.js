@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import autoBind from 'react-autobind'
 import {Router} from 'react-router'
 import {Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -13,8 +14,15 @@ import {me} from './store'
 
 class Routes extends Component {
 
+  constructor(props) {
+    super(props);
+    autoBind(this);
+  }
+
   componentDidMount () {
-    ReactGA.initialize('UA-104804205-1')
+    ReactGA.initialize('UA-104804205-1', {
+      debug: true
+    })
     this.props.loadInitialData()
   }
 
