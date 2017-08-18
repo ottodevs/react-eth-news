@@ -5,11 +5,9 @@ import {Router} from 'react-router'
 import {Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
-import  ReactGA from 'react-ga'
 import {Main, Login, Signup, UserHome} from './components'
 import {ArticlesIndex} from './containers'
 import {me} from './store'
-
 
 
 class Routes extends Component {
@@ -20,16 +18,10 @@ class Routes extends Component {
   }
 
   componentDidMount () {
-    ReactGA.initialize('UA-104804205-1', {
-      debug: true
-    })
     this.props.loadInitialData()
   }
 
-  logPageView() {
-    ReactGA.set({ page: window.location.pathname + window.location.search });
-    ReactGA.pageview(window.location.pathname + window.location.search);
-  }
+
 
   render () {
     const {isLoggedIn} = this.props
