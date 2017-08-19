@@ -25,8 +25,8 @@ class DateRangePickerWrapper extends Component {
   render() {
 
     return (
-      <div className="row justify-content-center">
-        <div className="date-range-picker__wrapper col-md-12">
+
+        <div className="date-range-picker__wrapper col-md-auto">
           <DateRangePicker
             onDatesChange={this.onDatesChange}
             onFocusChange={this.onFocusChange}
@@ -36,7 +36,7 @@ class DateRangePickerWrapper extends Component {
             isOutsideRange={() => false}
           />
         </div>
-      </div>
+
     );
   }
 }

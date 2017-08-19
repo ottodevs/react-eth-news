@@ -13,7 +13,7 @@ export default class ListView extends Component {
   render() {
     return (
 
-          <div>
+          <div className="row">
             {_.map(this.props.rowsIdArray, this.renderRowById)}
           </div>
 

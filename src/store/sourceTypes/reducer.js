@@ -10,7 +10,7 @@ const initialState = Immutable({
     classModifier: 'default'
   }, {
     id: 'msm',
-    name: 'mainstream media',
+    name: 'mainstream site',
     classModifier: 'primary'
   }, {
     id: 'crypto',
