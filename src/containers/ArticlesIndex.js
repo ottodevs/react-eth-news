@@ -1,4 +1,5 @@
-import './ArticlesIndex.scss'
+import './ArticlesIndex.scss';
+import 'react-select/dist/react-select.css';
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
@@ -8,9 +9,12 @@ import * as articlesActions from '../store/articles/actions';
 import * as paginationActions from '../store/pagination/actions';
 import * as articlesSelectors from '../store/articles/reducer';
 import * as paginationSelectors from '../store/pagination/reducer';
+import { updateCurrentSources } from '../store/sources/actions';
+import { getSourcesForDisplay, getCurrentSources } from '../store/sources/reducer';
 import {ListView, ListRow} from '../components';
 import {DateRangePickerWrapper, SourceTypeFilterWrapper, ChartsWrapper} from '../containers';
 import ReactPaginate from 'react-paginate';
+import Select from 'react-select';
 
 class ArticlesIndex extends Component {
   constructor(props) {
@@ -35,6 +39,13 @@ class ArticlesIndex extends Component {
           </header>
           <SourceTypeFilterWrapper/>
           <DateRangePickerWrapper/>
+          <Select
+            name="source-selec"
+            value={this.props.currentSources}
+            options={this.props.sources}
+            onChange={this.handleSourceSelect}
+            multi={true}
+          />
         </section>
         <section className="container">
           <div className="row">
@@ -94,9 +105,14 @@ class ArticlesIndex extends Component {
     )
   }
 
-   handlePageClick(page) {
+  handlePageClick(page) {
     // offset = page.selected
     this.props.dispatch(paginationActions.changePage(page.selected));
+  };
+
+  handleSourceSelect(selected) {
+    this.props.dispatch(updateCurrentSources(selected))
+    this.props.dispatch(paginationActions.updatePageCount());
   };
 
 }
@@ -109,7 +125,9 @@ function mapStateToProps(state) {
     articlesIdArray,
     offset,
     limit,
-    pageCount: paginationSelectors.getPageCount(state)
+    pageCount: paginationSelectors.getPageCount(state),
+    sources: getSourcesForDisplay(state),
+    currentSources: getCurrentSources(state)
   }
 }
 

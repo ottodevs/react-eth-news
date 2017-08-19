@@ -4,6 +4,7 @@ import thunkMiddleware from 'redux-thunk'
 import user from './user'
 import articles from './articles/reducer'
 import sourceTypes from './sourceTypes/reducer';
+import sources from './sources/reducer';
 import dates from './dates/reducer';
 import googleTrends from './googleTrends/reducer';
 import ethPrices from './ethPrices/reducer';
@@ -13,6 +14,7 @@ const reducer = combineReducers({
   user,
   articles,
   sourceTypes,
+  sources,
   dates,
   googleTrends,
   ethPrices,

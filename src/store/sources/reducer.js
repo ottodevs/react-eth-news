@@ -18,9 +18,16 @@ export default function reduce(state = initialState, action = {}) {
 }
 
 export function getCurrentSources(state) {
-  return state.sourceTypes.currentSources;
+  return state.sources.currentSources;
 }
 
 export function getSources(state) {
-  return state.sourceTypes.sources;
+  return state.sources.sources;
+}
+
+export function getSourcesForDisplay(state) {
+  return state.sources.sources.map(s => ({
+    value: s.source,
+    label: `${s.source} (${s.count})`
+  }));
 }

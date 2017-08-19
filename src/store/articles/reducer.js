@@ -2,6 +2,7 @@ import _ from 'lodash';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import * as types from './actionTypes';
+import * as sourcesSelectors from '../sources/reducer';
 import * as sourceTypesSelectors from '../sourceTypes/reducer';
 import * as datesSelectors from '../dates/reducer';
 import * as ethPricesSelectors from '../ethPrices/reducer';
@@ -23,21 +24,30 @@ export default function reduce(state = initialState, action = {}) {
 
 export function getArticles(state) {
   const currentSourceType = sourceTypesSelectors.getCurrentSourceType(state);
-  const currentDateRange = datesSelectors.getCurrentDateRange(state);
+  const currentSources = sourcesSelectors.getCurrentSources(state);
   const [offset, limit] = paginationSelectors.getCurrentPage(state);
   const articlesById = _.sortBy(state.articles.articlesById, [function(o) { return -o.date }]);
   const filterBySourceTypeBound = filterBySourceType.bind(null, currentSourceType, articlesById);
+  const filterBySourcesBound = filterBySources.bind(null, currentSources, articlesById);
   const filterByPageBound = filterByPage.bind(null, offset, limit, articlesById);
-
-  // add page filter
-  const filters = _.flow([filterBySourceTypeBound, filterByPageBound]);
+  const filters = _.flow([filterBySourceTypeBound, filterBySourcesBound, filterByPageBound]);
   const articlesIdArray = filters(_.keys(articlesById))
   return [articlesById, articlesIdArray];
 }
 
+export function getArticlesCountAfterFilter(state) {
+  const currentSourceType = sourceTypesSelectors.getCurrentSourceType(state);
+  const currentSources = sourcesSelectors.getCurrentSources(state);
+  const articlesById = _.sortBy(state.articles.articlesById, [function(o) { return -o.date }]);
+  const filterBySourceTypeBound = filterBySourceType.bind(null, currentSourceType, articlesById);
+  const filterBySourcesBound = filterBySources.bind(null, currentSources, articlesById);
+  const filters = _.flow([filterBySourceTypeBound, filterBySourcesBound]);
+  const articlesIdArray = filters(_.keys(articlesById))
+  return articlesIdArray.length;
+}
+
 export function getArticlesGroupByDate(state) {
   var articlesById, articlesIdArray, articlesByDate, dateKeys;
-  // [articlesById, articlesIdArray] = getArticles(state);
   articlesById = state.articles.articlesById;
   articlesIdArray = _.keys(articlesById);
   articlesByDate = _.groupBy(_.values(articlesById), o => moment.unix(o.date).format('YYYYMM'));
@@ -55,6 +65,13 @@ function filterBySourceType(currentSourceType, articlesById, articlesIdArray) {
   return currentSourceType === 'all' ?
     articlesIdArray :
     _.filter(articlesIdArray, articleId => articlesById[articleId].type === currentSourceType);
+}
+
+function filterBySources(currentSources, articlesById, articlesIdArray) {
+  if (!currentSources || !currentSources.length) return articlesIdArray;
+  return _.filter(articlesIdArray, articleId => {
+    return currentSources.indexOf(articlesById[articleId].source) !== -1;
+  });
 }
 
 function filterByDate(currentDateRange, articlesById, articlesIdArray) {

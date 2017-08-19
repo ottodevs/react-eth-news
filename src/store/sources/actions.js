@@ -24,3 +24,11 @@ export function getSources(articlesById) {
   }
 
 }
+
+export function updateCurrentSources(selectedCurrentSources) {
+  const currentSources = selectedCurrentSources.map(s => s.value);
+  return ({
+    type: types.CURRENT_SOURCES_CHANGED,
+    currentSources: currentSources
+  })
+}
