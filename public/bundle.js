@@ -67730,14 +67730,34 @@ var ArticlesIndex = function (_Component) {
             )
           ),
           _react2.default.createElement(_containers.SourceTypeFilterWrapper, null),
-          _react2.default.createElement(_containers.DateRangePickerWrapper, null),
-          _react2.default.createElement(_reactSelect2.default, {
-            name: 'source-selec',
-            value: this.props.currentSources,
-            options: this.props.sources,
-            onChange: this.handleSourceSelect,
-            multi: true
-          })
+          _react2.default.createElement(
+            'div',
+            { className: 'row justify-content-center' },
+            _react2.default.createElement(
+              'div',
+              { className: 'col-md-12' },
+              _react2.default.createElement(
+                'div',
+                { className: 'container' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'row' },
+                  _react2.default.createElement(_containers.DateRangePickerWrapper, null),
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'col-md-7 source-select__container' },
+                    _react2.default.createElement(_reactSelect2.default, {
+                      name: 'source-select',
+                      value: this.props.currentSources,
+                      options: this.props.sources,
+                      onChange: this.handleSourceSelect,
+                      multi: true
+                    })
+                  )
+                )
+              )
+            )
+          )
         ),
         _react2.default.createElement(
           'section',
@@ -68269,21 +68289,17 @@ var DateRangePickerWrapper = function (_Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'row justify-content-center' },
-        _react2.default.createElement(
-          'div',
-          { className: 'date-range-picker__wrapper col-md-12' },
-          _react2.default.createElement(_reactDates.DateRangePicker, {
-            onDatesChange: this.onDatesChange,
-            onFocusChange: this.onFocusChange,
-            focusedInput: this.props.focusedInput,
-            startDate: this.props.startDate,
-            endDate: this.props.endDate,
-            isOutsideRange: function isOutsideRange() {
-              return false;
-            }
-          })
-        )
+        { className: 'date-range-picker__wrapper col-md-auto' },
+        _react2.default.createElement(_reactDates.DateRangePicker, {
+          onDatesChange: this.onDatesChange,
+          onFocusChange: this.onFocusChange,
+          focusedInput: this.props.focusedInput,
+          startDate: this.props.startDate,
+          endDate: this.props.endDate,
+          isOutsideRange: function isOutsideRange() {
+            return false;
+          }
+        })
       );
     }
   }]);
@@ -73895,7 +73911,7 @@ exports = module.exports = __webpack_require__(54)();
 
 
 // module
-exports.push([module.i, ".header-section {\n  margin: 50px auto; }\n\n.header-section,\n.pagination {\n  font-family: 'Saira', sans-serif; }\n\n.article-item {\n  margin-bottom: 20px; }\n\n.article-item--right {\n  text-align: right;\n  font-size: 14px; }\n\n.article-item--left a {\n  color: #292b2c; }\n\n.article-item--left a h5 {\n  font-weight: 600;\n  font-size: 18px; }\n\n.article-item--left h6 {\n  font-size: 14px; }\n\n.pagination {\n  margin-top: 30px; }\n", ""]);
+exports.push([module.i, ".header-section {\n  margin: 50px auto; }\n\n.header-section,\n.pagination {\n  font-family: 'Saira', sans-serif; }\n\n.article-item {\n  margin-bottom: 20px; }\n\n.article-item--right {\n  text-align: right;\n  font-size: 14px; }\n\n.article-item--left a {\n  color: #292b2c; }\n\n.article-item--left a h5 {\n  font-weight: 600;\n  font-size: 18px; }\n\n.article-item--left h6 {\n  font-size: 14px; }\n\n.pagination {\n  margin-top: 30px; }\n\n.chart-container {\n  margin-top: -18px; }\n\n.source-select__container {\n  margin-top: 18px; }\n\n.Select-control {\n  border-radius: 0px !important; }\n\n.Select--multi .Select-value {\n  background-color: white !important;\n  color: #0275D8 !important; }\n", ""]);
 
 // exports
 

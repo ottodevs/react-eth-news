@@ -20,15 +20,32 @@
   color: #292b2c;
 }
 
-.article-item--left a h5{
+.article-item--left a h5 {
   font-weight: 600;
   font-size: 18px;
 }
 
-.article-item--left h6{
+.article-item--left h6 {
   font-size: 14px;
 }
 
 .pagination {
   margin-top: 30px;
+}
+
+.chart-container {
+  margin-top: -18px;
+}
+
+.source-select__container {
+  margin-top: 18px;
+}
+
+.Select-control {
+  border-radius: 0px !important;
+}
+
+.Select--multi .Select-value {
+  background-color: white !important;
+  color: #0275D8 !important;
 }

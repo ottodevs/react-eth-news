@@ -38,14 +38,24 @@ class ArticlesIndex extends Component {
             </h2>
           </header>
           <SourceTypeFilterWrapper/>
-          <DateRangePickerWrapper/>
-          <Select
-            name="source-selec"
-            value={this.props.currentSources}
-            options={this.props.sources}
-            onChange={this.handleSourceSelect}
-            multi={true}
-          />
+          <div className="row justify-content-center">
+            <div className="col-md-12">
+              <div className="container">
+                <div className="row">
+                  <DateRangePickerWrapper/>
+                  <div className="col-md-7 source-select__container">
+                    <Select
+                      name="source-select"
+                      value={this.props.currentSources}
+                      options={this.props.sources}
+                      onChange={this.handleSourceSelect}
+                      multi={true}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
         <section className="container">
           <div className="row">
