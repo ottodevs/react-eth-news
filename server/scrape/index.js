@@ -55,10 +55,18 @@ var morningScrape = new CronJob({
       scrapeGoogleNews();
     },
     start: true
+  }),
+  goodNightScrape = new CronJob({
+    cronTime: '00 30 21 * * *',
+    onTick: function() {
+      scrapeGoogleNews();
+    },
+    start: true
   });
 console.log('schdule daily scraping')
 module.exports = {
   scrapeGoogleNews: scrapeGoogleNews,
   morningScrape: morningScrape,
-  eveningScrape: eveningScrape
+  eveningScrape: eveningScrape,
+  goodNightScrape: goodNightScrape
 }
