@@ -1,5 +1,5 @@
 import axios from 'axios';
 
-export function getGoogleTrendOverTime() {
-  return axios.get('/api/google-trends').then(res => res.data)
+export function getEthGoogleTrendOverTime() {
+  return axios.get('/api/google-trends/eth').then(res => res.data)
 }

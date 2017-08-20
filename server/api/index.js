@@ -4,7 +4,7 @@ module.exports = router
 router.use('/users', require('./users'))
 router.use('/articles', require('./articles'))
 router.use('/google-trends', require('./google-trends'))
-router.use('/ether', require('./ether'))
+router.use('/prices', require('./prices'))
 
 
 router.use((req, res, next) => {

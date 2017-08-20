@@ -27,7 +27,7 @@ class Routes extends Component {
     return (
       <Router history={history} onUpdate={this.logPageView}>
         <Main>
-          <Route path='/' component={ArticlesIndex} />
+          <Route path='/eth' component={ArticlesIndex} />
         </Main>
       </Router>
     )

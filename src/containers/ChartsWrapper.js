@@ -28,7 +28,6 @@ class ChartsWrapper extends Component {
   componentDidUpdate() {
     const startDate = this.props.startDate ? this.props.startDate : new Date(2015, 7, 3);
     const endDate =  this.props.endDate ? this.props.endDate.toDate() : new Date(Date.now());
-    console.log(this.refs.lineChart.state)
     if (this.props.dataProvider.length &&
         (this.props.initBy === 'filter' || this.props.initBy === 'init') && this.refs.lineChart && this.refs.lineChart.state.chart) {
 

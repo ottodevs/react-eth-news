@@ -1,10 +1,10 @@
 import * as types from './actionTypes';
-import * as ethPricesService from '../../services/ethPrices';
+import { getEthUsdOverTime } from '../../services/prices';
 
 export function fetchEthUsdOverTime() {
   return async dispatch => {
     try {
-      const ethUsdOverTime = await ethPricesService.getEthUsdOverTime();
+      const ethUsdOverTime = await getEthUsdOverTime();
       dispatch({type: types.ETH_USD_FETCHED, ethUsdOverTime});
     } catch (error) {
       console.log(error);

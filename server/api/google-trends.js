@@ -18,14 +18,17 @@ const interpolate = function(data, queryEndDate) {
     var curVal = item.googleTrends;
 
     if (prevTime) {
+      console.log(prevValue, curVal)
       // exit loop until prevTime === curTime
       var step = moment(prevTime).add(1, 'd');
       var interpolation = interpolateLineRange([
         [0, Number(prevValue)],
         [3, Number(curVal)]
       ], 8);
+      console.log(interpolation)
       var j = 0;
       while (step.format('YYYY-MM-DD') !== curTime) {
+        console.log(j, curTime, step.format('YYYY-MM-DD'), prevTime)
         interpolatedData.push({
           date: step.format('YYYY-MM-DD'),
           googleTrends: Math.round(interpolation[j][1])
@@ -62,13 +65,37 @@ const getDataInNthInterval = function(data, interval) {
   return dataInNthInterval
 }
 
-router.get('/', (req, res, next) => {
+router.get('/eth', (req, res, next) => {
   const queryStartDate = new Date(moment('Jun 25, 2015', 'MMM DD, YYYY'))
   const queryEndDate = new Date(Date.now())
   const sysStartDate = new Date(moment('Jul 03, 2015', 'MMM DD, YYYY'))
   const range = moment.range(sysStartDate, queryEndDate)
   googleTrendsOverTimePromise({
     keyword: 'ethereum',
+    startTime: queryStartDate,
+    endTime: queryEndDate
+  }).then(response => {
+    const googleTrends = interpolate(JSON.parse(response).default.timelineData.map(datum => {
+      return {
+        date: moment(datum.formattedAxisTime, 'MMM DD, YYYY').format('YYYY-MM-DD'),
+        googleTrends: datum.value[0]
+      }
+    }), moment(queryEndDate)).filter(trend => {
+      return range.contains(moment(trend.date, 'YYYY-MM-DD'), { exclusive: false })
+    });
+    const googleTrendsEveryThreeDays = getDataInNthInterval(googleTrends, 3)
+    res.send(googleTrendsEveryThreeDays);
+    return response
+  })
+})
+
+router.get('/btc', (req, res, next) => {
+  const queryStartDate = new Date(moment('Jun 25, 2015', 'MMM DD, YYYY'))
+  const queryEndDate = new Date(Date.now())
+  const sysStartDate = new Date(moment('Jul 03, 2015', 'MMM DD, YYYY'))
+  const range = moment.range(sysStartDate, queryEndDate)
+  googleTrendsOverTimePromise({
+    keyword: 'bitcoin',
     startTime: queryStartDate,
     endTime: queryEndDate
   }).then(response => {

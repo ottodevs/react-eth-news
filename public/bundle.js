@@ -69655,7 +69655,6 @@ var ChartsWrapper = function (_Component) {
     value: function componentDidUpdate() {
       var startDate = this.props.startDate ? this.props.startDate : new Date(2015, 7, 3);
       var endDate = this.props.endDate ? this.props.endDate.toDate() : new Date(Date.now());
-      console.log(this.refs.lineChart.state);
       if (this.props.dataProvider.length && (this.props.initBy === 'filter' || this.props.initBy === 'init') && this.refs.lineChart && this.refs.lineChart.state.chart) {
 
         console.log(this.refs.lineChart.state);
@@ -70183,7 +70182,7 @@ var Routes = function (_Component) {
         _react2.default.createElement(
           _components.Main,
           null,
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _containers.ArticlesIndex })
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/eth', component: _containers.ArticlesIndex })
         )
       );
     }
@@ -70240,30 +70239,7 @@ function getAllArticles(startDate, endDate) {
 }
 
 /***/ }),
-/* 540 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getEthUsdOverTime = getEthUsdOverTime;
-
-var _axios = __webpack_require__(111);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function getEthUsdOverTime() {
-  return _axios2.default.get('/api/ether').then(function (res) {
-    return res.data;
-  });
-}
-
-/***/ }),
+/* 540 */,
 /* 541 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -70273,7 +70249,7 @@ function getEthUsdOverTime() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getGoogleTrendOverTime = getGoogleTrendOverTime;
+exports.getEthGoogleTrendOverTime = getEthGoogleTrendOverTime;
 
 var _axios = __webpack_require__(111);
 
@@ -70281,8 +70257,8 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function getGoogleTrendOverTime() {
-  return _axios2.default.get('/api/google-trends').then(function (res) {
+function getEthGoogleTrendOverTime() {
+  return _axios2.default.get('/api/google-trends/eth').then(function (res) {
     return res.data;
   });
 }
@@ -70303,9 +70279,7 @@ var _actionTypes = __webpack_require__(237);
 
 var types = _interopRequireWildcard(_actionTypes);
 
-var _ethPrices = __webpack_require__(540);
-
-var ethPricesService = _interopRequireWildcard(_ethPrices);
+var _prices = __webpack_require__(983);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -70323,7 +70297,7 @@ function fetchEthUsdOverTime() {
             case 0:
               _context.prev = 0;
               _context.next = 3;
-              return ethPricesService.getEthUsdOverTime();
+              return (0, _prices.getEthUsdOverTime)();
 
             case 3:
               ethUsdOverTime = _context.sent;
@@ -70388,7 +70362,7 @@ function fetchGoogleTrendsOverTime() {
             case 0:
               _context.prev = 0;
               _context.next = 3;
-              return googleTrendsService.getGoogleTrendOverTime();
+              return googleTrendsService.getEthGoogleTrendOverTime();
 
             case 3:
               googleTrendsOverTime = _context.sent;
@@ -99177,6 +99151,37 @@ exports.default = valueEqual;
 __webpack_require__(490);
 module.exports = __webpack_require__(489);
 
+
+/***/ }),
+/* 983 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getEthUsdOverTime = getEthUsdOverTime;
+exports.getBtcUsdOverTime = getBtcUsdOverTime;
+
+var _axios = __webpack_require__(111);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function getEthUsdOverTime() {
+  return _axios2.default.get('/api/prices/ethusd').then(function (res) {
+    return res.data;
+  });
+}
+
+function getBtcUsdOverTime() {
+  return _axios2.default.get('/api/prices/btcusd').then(function (res) {
+    return res.data;
+  });
+}
 
 /***/ })
 /******/ ]);
