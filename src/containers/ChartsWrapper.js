@@ -28,12 +28,37 @@ class ChartsWrapper extends Component {
   componentDidUpdate() {
     const startDate = this.props.startDate ? this.props.startDate : new Date(2015, 7, 3);
     const endDate =  this.props.endDate ? this.props.endDate.toDate() : new Date(Date.now());
-    if (this.props.initBy === 'filter' || this.props.initBy === 'init') {
-      this.refs.chart.state.chart.zoomToDates(this.props.startDate.toDate(), endDate);
+    console.log(this.refs.lineChart.state)
+    if (this.props.dataProvider.length &&
+        (this.props.initBy === 'filter' || this.props.initBy === 'init') && this.refs.lineChart && this.refs.lineChart.state.chart) {
+
+      console.log(this.refs.lineChart.state)
+      this.refs.lineChart.state.chart.zoomToDates(this.props.startDate.toDate(), endDate);
     }
   }
 
   render() {
+    var chartStyle, loaderStyle;
+    if (!this.props.dataProvider.length && !this.props.articlesByDate.length) {
+      chartStyle = {
+        opacity: '0',
+        height: '0px'
+      };
+      loaderStyle = {
+        opacity: '1',
+        height: '320px'
+      }
+    } else {
+      chartStyle = {
+        opacity: '1',
+        height: '320px'
+      };
+      loaderStyle = {
+        opacity: '0',
+        height: '0px'
+      }
+    }
+
     const serialConfig = {
       "type": "serial",
       "theme": "light",
@@ -187,7 +212,7 @@ class ChartsWrapper extends Component {
      "listeners": [{
         "event": "rendered",
         "method": e => {
-          if (e.chart.endIndex || e.chart.endIndex === 0) {
+          if ((e.chart.endIndex || e.chart.endIndex === 0) && this.refs.barChart) {
             this.refs.barChart.state.chart.zoomOut();
           }
         }
@@ -196,15 +221,22 @@ class ChartsWrapper extends Component {
 
     return (
       <div className="col-md-6 charts-container">
-      <div className="google-trends__chart-container">
-        <AmCharts.React ref="chart" {...serialConfig} />
-      </div>
-      <div className="mainstream-count__chart-container">
-        <AmCharts.React ref="barChart" {...barConfig} />
-      </div>
+        <div className="google-trends__chart-container" style={chartStyle}>
+          <AmCharts.React ref="lineChart" {...serialConfig} />
+        </div>
+        <div className="loading-wrapper" style={loaderStyle}>
+          <div className="loading" ></div>
+        </div>
+        <div className="mainstream-count__chart-container" style={chartStyle}>
+          <AmCharts.React ref="barChart" {...barConfig} />
+        </div>
+        <div className="loading-wrapper" style={loaderStyle}>
+          <div className="loading" ></div>
+        </div>
       </div>
     )
   }
+
 }
 
 function mapStateToProps(state) {

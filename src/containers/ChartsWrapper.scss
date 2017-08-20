@@ -6,4 +6,64 @@
 .mainstream-count__chart-container,
 .google-trends__chart-container {
   height: 320px;
+  width: 100%;
+}
+
+.loading-wrapper {
+  position: relative;
+  height: 320px;
+  margin: 2px auto;
+  border: 1px solid #dae4f2;
+  margin-top: 18px;
+}
+
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%);
+  height: 25px;
+  width: 10px;
+  border-radius: 10%;
+  background: #dae4f2;
+  border-top-color: #85C5E3;
+  animation: fade2 1s infinite;
+  transition: background .2s;
+  &:after,
+  &:before {
+    content: '';
+    position: absolute;
+    display: block;
+    height: 20px;
+    width: 10px;
+    background: #dae4f2;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -15px;
+    border-radius: 10%;
+    animation: fade1 1s infinite;
+    transition: background .2s;
+  }
+  &:before {
+    left: 15px;
+    animation: fade3 1s infinite;
+  }
+}
+
+@keyframes fade1 {
+  0% {
+    background: #85C5E3;
+  }
+}
+
+@keyframes fade2 {
+  33% {
+    background: #85C5E3;
+  }
+}
+
+@keyframes fade3 {
+  66% {
+    background: #85C5E3;
+  }
 }

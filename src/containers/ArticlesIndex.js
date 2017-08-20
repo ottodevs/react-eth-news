@@ -4,11 +4,10 @@ import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import * as datesActions from '../store/dates/actions';
-import * as articlesActions from '../store/articles/actions';
+import { changeDateRange } from '../store/dates/actions';
 import * as paginationActions from '../store/pagination/actions';
-import * as articlesSelectors from '../store/articles/reducer';
-import * as paginationSelectors from '../store/pagination/reducer';
+import { getArticles } from '../store/articles/reducer';
+import { getCurrentPage, getPageCount } from '../store/pagination/reducer';
 import { updateCurrentSources } from '../store/sources/actions';
 import { getSourcesForDisplay, getCurrentSources } from '../store/sources/reducer';
 import {ListView, ListRow} from '../components';
@@ -23,7 +22,7 @@ class ArticlesIndex extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(datesActions.changeDateRange({ startDate: moment('Jan 01, 2017'), endDate: moment()}, 'init'))
+    this.props.dispatch(changeDateRange({ startDate: moment('Jan 01, 2017'), endDate: moment()}, 'init'))
   }
 
   render() {
@@ -134,14 +133,14 @@ class ArticlesIndex extends Component {
 }
 
 function mapStateToProps(state) {
-  const [articlesById, articlesIdArray] = articlesSelectors.getArticles(state);
-  const [offset, limit] = paginationSelectors.getCurrentPage(state);
+  const [articlesById, articlesIdArray] = getArticles(state);
+  const [offset, limit] = getCurrentPage(state);
   return {
     articlesById,
     articlesIdArray,
     offset,
     limit,
-    pageCount: paginationSelectors.getPageCount(state),
+    pageCount: getPageCount(state),
     sources: getSourcesForDisplay(state),
     currentSources: getCurrentSources(state)
   }

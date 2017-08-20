@@ -69298,25 +69298,15 @@ var _moment2 = _interopRequireDefault(_moment);
 
 var _actions = __webpack_require__(150);
 
-var datesActions = _interopRequireWildcard(_actions);
+var _actions2 = __webpack_require__(152);
 
-var _actions2 = __webpack_require__(235);
-
-var articlesActions = _interopRequireWildcard(_actions2);
-
-var _actions3 = __webpack_require__(152);
-
-var paginationActions = _interopRequireWildcard(_actions3);
+var paginationActions = _interopRequireWildcard(_actions2);
 
 var _reducer = __webpack_require__(112);
 
-var articlesSelectors = _interopRequireWildcard(_reducer);
-
 var _reducer2 = __webpack_require__(153);
 
-var paginationSelectors = _interopRequireWildcard(_reducer2);
-
-var _actions4 = __webpack_require__(155);
+var _actions3 = __webpack_require__(155);
 
 var _reducer3 = __webpack_require__(156);
 
@@ -69357,7 +69347,7 @@ var ArticlesIndex = function (_Component) {
   _createClass(ArticlesIndex, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.props.dispatch(datesActions.changeDateRange({ startDate: (0, _moment2.default)('Jan 01, 2017'), endDate: (0, _moment2.default)() }, 'init'));
+      this.props.dispatch((0, _actions.changeDateRange)({ startDate: (0, _moment2.default)('Jan 01, 2017'), endDate: (0, _moment2.default)() }, 'init'));
     }
   }, {
     key: 'render',
@@ -69529,7 +69519,7 @@ var ArticlesIndex = function (_Component) {
   }, {
     key: 'handleSourceSelect',
     value: function handleSourceSelect(selected) {
-      this.props.dispatch((0, _actions4.updateCurrentSources)(selected));
+      this.props.dispatch((0, _actions3.updateCurrentSources)(selected));
       this.props.dispatch(paginationActions.updatePageCount());
     }
   }]);
@@ -69538,22 +69528,22 @@ var ArticlesIndex = function (_Component) {
 }(_react.Component);
 
 function mapStateToProps(state) {
-  var _articlesSelectors$ge = articlesSelectors.getArticles(state),
-      _articlesSelectors$ge2 = _slicedToArray(_articlesSelectors$ge, 2),
-      articlesById = _articlesSelectors$ge2[0],
-      articlesIdArray = _articlesSelectors$ge2[1];
+  var _getArticles = (0, _reducer.getArticles)(state),
+      _getArticles2 = _slicedToArray(_getArticles, 2),
+      articlesById = _getArticles2[0],
+      articlesIdArray = _getArticles2[1];
 
-  var _paginationSelectors$ = paginationSelectors.getCurrentPage(state),
-      _paginationSelectors$2 = _slicedToArray(_paginationSelectors$, 2),
-      offset = _paginationSelectors$2[0],
-      limit = _paginationSelectors$2[1];
+  var _getCurrentPage = (0, _reducer2.getCurrentPage)(state),
+      _getCurrentPage2 = _slicedToArray(_getCurrentPage, 2),
+      offset = _getCurrentPage2[0],
+      limit = _getCurrentPage2[1];
 
   return {
     articlesById: articlesById,
     articlesIdArray: articlesIdArray,
     offset: offset,
     limit: limit,
-    pageCount: paginationSelectors.getPageCount(state),
+    pageCount: (0, _reducer2.getPageCount)(state),
     sources: (0, _reducer3.getSourcesForDisplay)(state),
     currentSources: (0, _reducer3.getCurrentSources)(state)
   };
@@ -69665,14 +69655,38 @@ var ChartsWrapper = function (_Component) {
     value: function componentDidUpdate() {
       var startDate = this.props.startDate ? this.props.startDate : new Date(2015, 7, 3);
       var endDate = this.props.endDate ? this.props.endDate.toDate() : new Date(Date.now());
-      if (this.props.initBy === 'filter' || this.props.initBy === 'init') {
-        this.refs.chart.state.chart.zoomToDates(this.props.startDate.toDate(), endDate);
+      console.log(this.refs.lineChart.state);
+      if (this.props.dataProvider.length && (this.props.initBy === 'filter' || this.props.initBy === 'init') && this.refs.lineChart && this.refs.lineChart.state.chart) {
+
+        console.log(this.refs.lineChart.state);
+        this.refs.lineChart.state.chart.zoomToDates(this.props.startDate.toDate(), endDate);
       }
     }
   }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
+
+      var chartStyle, loaderStyle;
+      if (!this.props.dataProvider.length && !this.props.articlesByDate.length) {
+        chartStyle = {
+          opacity: '0',
+          height: '0px'
+        };
+        loaderStyle = {
+          opacity: '1',
+          height: '320px'
+        };
+      } else {
+        chartStyle = {
+          opacity: '1',
+          height: '320px'
+        };
+        loaderStyle = {
+          opacity: '0',
+          height: '0px'
+        };
+      }
 
       var serialConfig = {
         "type": "serial",
@@ -69827,7 +69841,7 @@ var ChartsWrapper = function (_Component) {
         "listeners": [{
           "event": "rendered",
           "method": function method(e) {
-            if (e.chart.endIndex || e.chart.endIndex === 0) {
+            if ((e.chart.endIndex || e.chart.endIndex === 0) && _this2.refs.barChart) {
               _this2.refs.barChart.state.chart.zoomOut();
             }
           }
@@ -69839,13 +69853,23 @@ var ChartsWrapper = function (_Component) {
         { className: 'col-md-6 charts-container' },
         _react2.default.createElement(
           'div',
-          { className: 'google-trends__chart-container' },
-          _react2.default.createElement(_amcharts3React2.default.React, _extends({ ref: 'chart' }, serialConfig))
+          { className: 'google-trends__chart-container', style: chartStyle },
+          _react2.default.createElement(_amcharts3React2.default.React, _extends({ ref: 'lineChart' }, serialConfig))
         ),
         _react2.default.createElement(
           'div',
-          { className: 'mainstream-count__chart-container' },
+          { className: 'loading-wrapper', style: loaderStyle },
+          _react2.default.createElement('div', { className: 'loading' })
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'mainstream-count__chart-container', style: chartStyle },
           _react2.default.createElement(_amcharts3React2.default.React, _extends({ ref: 'barChart' }, barConfig))
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'loading-wrapper', style: loaderStyle },
+          _react2.default.createElement('div', { className: 'loading' })
         )
       );
     }
@@ -75575,7 +75599,7 @@ exports = module.exports = __webpack_require__(49)();
 
 
 // module
-exports.push([module.i, ".charts-container {\n  height: 640px;\n  margin-bottom: 50px; }\n\n.mainstream-count__chart-container,\n.google-trends__chart-container {\n  height: 320px; }\n", ""]);
+exports.push([module.i, ".charts-container {\n  height: 640px;\n  margin-bottom: 50px; }\n\n.mainstream-count__chart-container,\n.google-trends__chart-container {\n  height: 320px;\n  width: 100%; }\n\n.loading-wrapper {\n  position: relative;\n  height: 320px;\n  margin: 2px auto;\n  border: 1px solid #dae4f2;\n  margin-top: 18px; }\n\n.loading {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translateY(-50%);\n  height: 25px;\n  width: 10px;\n  border-radius: 10%;\n  background: #dae4f2;\n  border-top-color: #85C5E3;\n  animation: fade2 1s infinite;\n  transition: background .2s; }\n  .loading:after, .loading:before {\n    content: '';\n    position: absolute;\n    display: block;\n    height: 20px;\n    width: 10px;\n    background: #dae4f2;\n    top: 50%;\n    transform: translateY(-50%);\n    left: -15px;\n    border-radius: 10%;\n    animation: fade1 1s infinite;\n    transition: background .2s; }\n  .loading:before {\n    left: 15px;\n    animation: fade3 1s infinite; }\n\n@keyframes fade1 {\n  0% {\n    background: #85C5E3; } }\n\n@keyframes fade2 {\n  33% {\n    background: #85C5E3; } }\n\n@keyframes fade3 {\n  66% {\n    background: #85C5E3; } }\n", ""]);
 
 // exports
 
