@@ -30987,7 +30987,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var initialState = (0, _seamlessImmutable2.default)({
-  currentSourceType: 'all',
+  currentSourceType: 'msm',
   sourceTypes: [{
     id: 'all',
     name: 'all',
