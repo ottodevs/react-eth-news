@@ -38,7 +38,7 @@ class ArticlesIndex extends Component {
           </header>
           <div className="row justify-content-center">
             <div className="col-md-12 header-section__intro">
-              <p>This site was built to track whether Ethereum is on the cusp of going mainstream by examining the result from Google Trends and number of articles mentioning Ethereum in the mainstream media/content platform. The information is not meant to be, and should not be construed as investment advice.</p>
+              <p>This site was built to track whether Ethereum is on the cusp of going mainstream by examining the result from Google Trends and number of articles mentioned Ethereum in the mainstream media/content platform. The information is not meant to be, and should not be construed as investment advice.</p>
             </div>
           </div>
           <SourceTypeFilterWrapper/>

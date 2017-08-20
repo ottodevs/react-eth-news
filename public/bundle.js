@@ -69387,7 +69387,7 @@ var ArticlesIndex = function (_Component) {
               _react2.default.createElement(
                 'p',
                 null,
-                'This site was built to track whether Ethereum is on the cusp of going mainstream by examining the result from Google Trends and number of articles mentioning Ethereum in the mainstream media/content platform. The information is not meant to be, and should not be construed as investment advice.'
+                'This site was built to track whether Ethereum is on the cusp of going mainstream by examining the result from Google Trends and number of articles mentioned Ethereum in the mainstream media/content platform. The information is not meant to be, and should not be construed as investment advice.'
               )
             )
           ),
