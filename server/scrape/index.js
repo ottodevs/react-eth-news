@@ -57,7 +57,7 @@ var morningScrape = new CronJob({
     start: true
   }),
   goodNightScrape = new CronJob({
-    cronTime: '00 30 21 * * *',
+    cronTime: '00 00 22 * * *',
     onTick: function() {
       scrapeGoogleNews();
     },
