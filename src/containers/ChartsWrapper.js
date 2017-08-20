@@ -171,7 +171,7 @@ class ChartsWrapper extends Component {
        "fillAlphas": 0.8,
        "labelText": "[[value]]",
        "lineAlpha": 0.3,
-       "title": "Mainstream",
+       "title": "Mainstream sites mentioning ethereum",
        "type": "column",
        "color": "#000000",
        "valueField": "msm"

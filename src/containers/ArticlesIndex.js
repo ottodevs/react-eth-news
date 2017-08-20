@@ -34,18 +34,24 @@ class ArticlesIndex extends Component {
           <header className="row justify-content-center">
             <h2 className="col-md-12">
               <span>Ethereum</span><br/>
-              <span>in mainstream media</span>
+              <span>going mainstream?</span>
             </h2>
           </header>
+          <div className="row justify-content-center">
+            <div className="col-md-12 header-section__intro">
+              <p>This site was built to track whether Ethereum is on the cusp of going mainstream by examining the result from Google Trends and number of articles mentioning Ethereum in the mainstream media/content platform. The information is not meant to be, and should not be construed as investment advice.</p>
+            </div>
+          </div>
           <SourceTypeFilterWrapper/>
           <div className="row justify-content-center">
             <div className="col-md-12">
               <div className="container">
                 <div className="row">
                   <DateRangePickerWrapper/>
-                  <div className="col-md-7 source-select__container">
+                  <div className="col-md-7 col-sm-12 source-select__container">
                     <Select
                       name="source-select"
+                      placeholder="Select news outlets..."
                       value={this.props.currentSources}
                       options={this.props.sources}
                       onChange={this.handleSourceSelect}

@@ -67725,7 +67725,20 @@ var ArticlesIndex = function (_Component) {
               _react2.default.createElement(
                 'span',
                 null,
-                'in mainstream media'
+                'going mainstream?'
+              )
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'row justify-content-center' },
+            _react2.default.createElement(
+              'div',
+              { className: 'col-md-12 header-section__intro' },
+              _react2.default.createElement(
+                'p',
+                null,
+                'This site was built to track whether Ethereum is on the cusp of going mainstream by examining the result from Google Trends and number of articles mentioning Ethereum in the mainstream media/content platform. The information is not meant to be, and should not be construed as investment advice.'
               )
             )
           ),
@@ -67745,9 +67758,10 @@ var ArticlesIndex = function (_Component) {
                   _react2.default.createElement(_containers.DateRangePickerWrapper, null),
                   _react2.default.createElement(
                     'div',
-                    { className: 'col-md-7 source-select__container' },
+                    { className: 'col-md-7 col-sm-12 source-select__container' },
                     _react2.default.createElement(_reactSelect2.default, {
                       name: 'source-select',
+                      placeholder: 'Select news outlets...',
                       value: this.props.currentSources,
                       options: this.props.sources,
                       onChange: this.handleSourceSelect,
@@ -68138,7 +68152,7 @@ var ChartsWrapper = function (_Component) {
           "fillAlphas": 0.8,
           "labelText": "[[value]]",
           "lineAlpha": 0.3,
-          "title": "Mainstream",
+          "title": "Mainstream sites mentioning ethereum",
           "type": "column",
           "color": "#000000",
           "valueField": "msm"
@@ -68289,7 +68303,7 @@ var DateRangePickerWrapper = function (_Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'date-range-picker__wrapper col-md-auto' },
+        { className: 'date-range-picker__wrapper col-md-auto col-sm-12' },
         _react2.default.createElement(_reactDates.DateRangePicker, {
           onDatesChange: this.onDatesChange,
           onFocusChange: this.onFocusChange,
@@ -73897,7 +73911,7 @@ exports = module.exports = __webpack_require__(54)();
 
 
 // module
-exports.push([module.i, ".source-type__badge {\n  padding: 5px 12px;\n  margin-right: 3px;\n  cursor: pointer; }\n", ""]);
+exports.push([module.i, ".source-type__badge {\n  padding: 5px 12px;\n  margin-right: 5px;\n  margin-bottom: 3px;\n  cursor: pointer;\n  -webkit-box-shadow: 3px 3px 0 0 rgba(19, 19, 19, 0.15);\n  box-shadow: 3px 3px 0 0 rgba(19, 19, 19, 0.15); }\n\n.source-type__badge.selected {\n  -webkit-box-shadow: none;\n  box-shadow: none;\n  position: relative;\n  top: 2px; }\n", ""]);
 
 // exports
 
@@ -73911,7 +73925,7 @@ exports = module.exports = __webpack_require__(54)();
 
 
 // module
-exports.push([module.i, ".header-section {\n  margin: 50px auto; }\n\n.header-section,\n.pagination {\n  font-family: 'Saira', sans-serif; }\n\n.article-item {\n  margin-bottom: 20px; }\n\n.article-item--right {\n  text-align: right;\n  font-size: 14px; }\n\n.article-item--left a {\n  color: #292b2c; }\n\n.article-item--left a h5 {\n  font-weight: 600;\n  font-size: 18px; }\n\n.article-item--left h6 {\n  font-size: 14px; }\n\n.pagination {\n  margin-top: 30px; }\n\n.chart-container {\n  margin-top: -18px; }\n\n.source-select__container {\n  margin-top: 18px; }\n\n.Select-control {\n  border-radius: 0px !important; }\n\n.Select--multi .Select-value {\n  background-color: white !important;\n  color: #0275D8 !important; }\n", ""]);
+exports.push([module.i, ".header-section {\n  margin: 50px auto; }\n\n.header-section,\n.pagination {\n  font-family: 'Saira', sans-serif; }\n\n.article-item {\n  margin-bottom: 20px; }\n\n.article-item--right {\n  text-align: right;\n  font-size: 14px; }\n\n.article-item--left a {\n  color: #292b2c; }\n\n.article-item--left a h5 {\n  font-weight: 600;\n  font-size: 18px; }\n\n.article-item--left h6 {\n  font-size: 14px; }\n\n.pagination {\n  margin-top: 30px; }\n\n.charts-container {\n  margin-top: -18px; }\n\n.source-select__container {\n  margin-top: 18px;\n  padding-left: 0px; }\n\n.Select-control {\n  border-radius: 0px !important; }\n\n.Select--multi .Select-value {\n  background-color: white !important;\n  color: #0275D8 !important; }\n\n.header-section__intro {\n  font-family: 'Open Sans', sans-serif; }\n", ""]);
 
 // exports
 
@@ -73939,7 +73953,7 @@ exports = module.exports = __webpack_require__(54)();
 
 
 // module
-exports.push([module.i, ".date-range-picker__wrapper {\n  margin-top: 18px;\n  font-family: 'Saira', sans-serif; }\n\n.DateInput {\n  font-size: 14px;\n  line-height: 10px;\n  width: 106px; }\n", ""]);
+exports.push([module.i, ".date-range-picker__wrapper {\n  margin-top: 18px;\n  font-family: 'Saira', sans-serif;\n  padding-left: 0px; }\n\n.DateInput {\n  font-size: 14px;\n  line-height: 10px;\n  width: 106px; }\n", ""]);
 
 // exports
 
