@@ -15,7 +15,7 @@ export function fetchArticles() {
         'id');
       dispatch({ type: types.ARTICLES_FETCHED, articlesById });
       dispatch(sourcesActions.getSources(articlesById));
-      dispatch(paginationActions.updatePageCount(articles.length));
+      dispatch(paginationActions.updatePageCount());
     } catch (error) {
       console.error(error);
     }

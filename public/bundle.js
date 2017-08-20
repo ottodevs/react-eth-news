@@ -38762,7 +38762,7 @@ function fetchArticles() {
 
               dispatch({ type: types.ARTICLES_FETCHED, articlesById: articlesById });
               dispatch(sourcesActions.getSources(articlesById));
-              dispatch(paginationActions.updatePageCount(articles.length));
+              dispatch(paginationActions.updatePageCount());
               _context.next = 14;
               break;
 
