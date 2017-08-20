@@ -2,6 +2,7 @@ const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
+const scraper = require('./scrape');
 const session = require('express-session')
 const passport = require('passport')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
@@ -29,6 +30,7 @@ passport.deserializeUser((id, done) =>
     .catch(done))
 
 const createApp = () => {
+
   // logging middleware
   app.use(morgan('dev'))
 
