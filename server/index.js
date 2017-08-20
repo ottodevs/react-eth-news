@@ -29,7 +29,7 @@ passport.deserializeUser((id, done) =>
     .catch(done))
 
 const createApp = () => {
-
+  const scraper = require('./scrape');
   // logging middleware
   app.use(morgan('dev'))
 
