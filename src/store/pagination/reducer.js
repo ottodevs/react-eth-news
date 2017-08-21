@@ -2,7 +2,7 @@ import * as types from './actionTypes';
 
 const initialState = {
   offset: 0,
-  limit: 6,
+  limit: 8,
   pageCount: 0
 }
 

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
 import {logout} from '../store'
+import Navbar from './Navbar.js'
 
 /**
  * COMPONENT
@@ -20,8 +21,14 @@ class Main extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div>
+      <Navbar />
+      <div style={{
+              borderTop: '1px solid #f3f3f3',
+              paddingTop: '50px'}}>
+
         {this.props.children}
+      </div>
       </div>
     )
 

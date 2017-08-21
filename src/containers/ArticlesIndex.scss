@@ -1,56 +1,68 @@
 .header-section {
-  margin: 50px auto;
+    margin: 50px auto;
+    padding-left: 60px;
+    padding-right: 60px;
+}
+
+.header-section header {
+    margin-bottom: 80px;
+    text-align: center;
+}
+
+.header-section header h4 {
+    font-family: 'Open Sans', sans-serif;
 }
 
 .header-section,
 .pagination {
-  font-family: 'Saira', sans-serif;
+    font-family: 'Saira', sans-serif;
 }
 
 .article-item {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .article-item--right {
-  text-align: right;
-  font-size: 14px;
+    text-align: right;
+    font-size: 14px;
 }
 
 .article-item--left a {
-  color: #292b2c;
+    color: #292b2c;
 }
 
 .article-item--left a h5 {
-  font-weight: 600;
-  font-size: 18px;
+    font-weight: 600;
+    font-size: 15px;
 }
 
-.article-item--left h6 {
-  font-size: 14px;
+.article-item--left h6,
+.article-item--right h6 {
+    font-size: 14px;
 }
 
 .pagination {
-  margin-top: 30px;
+    margin-top: 30px;
 }
 
 .charts-container {
-  margin-top: -18px;
+    margin-top: -18px;
 }
 
 .source-select__container {
-  margin-top: 18px;
-  padding-left: 0px;
+    margin-top: 18px;
+    padding-left: 0px;
 }
 
 .Select-control {
-  border-radius: 0px !important;
+    border-radius: 0px !important;
 }
 
 .Select--multi .Select-value {
-  background-color: white !important;
-  color: #0275D8 !important;
+    background-color: white !important;
+    color: #0275D8 !important;
 }
 
 .header-section__intro {
-  font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }

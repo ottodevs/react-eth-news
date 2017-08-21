@@ -11,7 +11,7 @@ import { getCurrentPage, getPageCount } from '../store/pagination/reducer';
 import { updateCurrentSources } from '../store/sources/actions';
 import { getSourcesForDisplay, getCurrentSources } from '../store/sources/reducer';
 import {ListView, ListRow} from '../components';
-import {DateRangePickerWrapper, SourceTypeFilterWrapper, ChartsWrapper} from '../containers';
+import {DateRangePickerWrapper, SourceTypeFilterWrapper, ArticleIndexChartsWrapper} from '../containers';
 import ReactPaginate from 'react-paginate';
 import Select from 'react-select';
 
@@ -31,16 +31,10 @@ class ArticlesIndex extends Component {
       <div className="ArticlesIndex">
         <section className="header-section container">
           <header className="row justify-content-center">
-            <h2 className="col-md-12">
-              <span>Ethereum</span><br/>
-              <span>going mainstream?</span>
-            </h2>
+            <h4 className="col-md-12">
+              <span>Ethereum mainstream media exposure over time</span>
+            </h4>
           </header>
-          <div className="row justify-content-center">
-            <div className="col-md-12 header-section__intro">
-              <p>This site was built to track whether Ethereum is on the cusp of going mainstream by examining the result from Google Trends and number of articles mentioned Ethereum in the mainstream media/content platform. The information is not meant to be, and should not be construed as investment advice.</p>
-            </div>
-          </div>
           <SourceTypeFilterWrapper/>
           <div className="row justify-content-center">
             <div className="col-md-12">
@@ -64,7 +58,7 @@ class ArticlesIndex extends Component {
         </section>
         <section className="container">
           <div className="row">
-            <ChartsWrapper/>
+            <ArticleIndexChartsWrapper/>
             <div  className="col-md-6">
               <ListView
                 rowsIdArray={this.props.articlesIdArray}
