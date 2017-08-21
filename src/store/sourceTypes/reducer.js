@@ -3,7 +3,7 @@ import * as types from './actionTypes';
 import Immutable from 'seamless-immutable';
 
 const initialState = Immutable({
-  currentSourceType: 'all',
+  currentSourceType: 'msm',
   sourceTypes: [{
     id: 'all',
     name: 'all',

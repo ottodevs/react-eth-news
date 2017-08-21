@@ -1,5 +1,15 @@
 .source-type__badge {
   padding: 5px 12px;
-  margin-right: 3px;
+  margin-right: 5px;
+  margin-bottom: 3px;
   cursor: pointer;
+  -webkit-box-shadow: 3px 3px 0 0 rgba(19, 19, 19, .15);
+  box-shadow: 3px 3px 0 0 rgba(19, 19, 19, .15);
+}
+
+.source-type__badge.selected {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  position: relative;
+  top: 2px;
 }

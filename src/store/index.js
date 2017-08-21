@@ -7,7 +7,7 @@ import sourceTypes from './sourceTypes/reducer';
 import sources from './sources/reducer';
 import dates from './dates/reducer';
 import googleTrends from './googleTrends/reducer';
-import ethPrices from './ethPrices/reducer';
+import prices from './prices/reducer';
 import pagination from './pagination/reducer';
 
 const reducer = combineReducers({
@@ -17,7 +17,7 @@ const reducer = combineReducers({
   sources,
   dates,
   googleTrends,
-  ethPrices,
+  prices,
   pagination
 })
 const middleware = applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))

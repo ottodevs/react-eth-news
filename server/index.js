@@ -7,7 +7,7 @@ const passport = require('passport')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const db = require('./db')
 const sessionStore = new SequelizeStore({db})
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 8000
 const app = express()
 module.exports = app
 
@@ -29,6 +29,7 @@ passport.deserializeUser((id, done) =>
     .catch(done))
 
 const createApp = () => {
+  const scraper = require('./scrape');
   // logging middleware
   app.use(morgan('dev'))
 

@@ -2,11 +2,11 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import autoBind from 'react-autobind'
 import {Router} from 'react-router'
-import {Route, Switch} from 'react-router-dom'
+import {Route, Switch, Redirect} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
-import {Main, Login, Signup, UserHome} from './components'
-import {ArticlesIndex} from './containers'
+import {Main, Login, Signup, UserHome, About} from './components'
+import {ArticlesIndex, TrendIndex} from './containers'
 import {me} from './store'
 
 
@@ -27,8 +27,14 @@ class Routes extends Component {
     return (
       <Router history={history} onUpdate={this.logPageView}>
         <Main>
-          <Route path='/' component={ArticlesIndex} />
+          <Switch>
+            <Route path='/all' component={TrendIndex} />
+            <Route path='/eth' component={ArticlesIndex} />
+            <Route path='/about' component={About} />
+            <Route render={() => <Redirect to="/all"/>}/>
+          </Switch>
         </Main>
+
       </Router>
     )
   }

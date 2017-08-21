@@ -26,7 +26,7 @@ class DateRangePickerWrapper extends Component {
 
     return (
 
-        <div className="date-range-picker__wrapper col-md-auto">
+        <div className="date-range-picker__wrapper col-md-auto col-sm-12">
           <DateRangePicker
             onDatesChange={this.onDatesChange}
             onFocusChange={this.onFocusChange}

@@ -5,7 +5,6 @@ import * as types from './actionTypes';
 import * as sourcesSelectors from '../sources/reducer';
 import * as sourceTypesSelectors from '../sourceTypes/reducer';
 import * as datesSelectors from '../dates/reducer';
-import * as ethPricesSelectors from '../ethPrices/reducer';
 import * as paginationSelectors from '../pagination/reducer';
 const moment = extendMoment(Moment);
 

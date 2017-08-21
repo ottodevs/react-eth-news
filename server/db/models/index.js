@@ -1,5 +1,6 @@
 const User = require('./user')
 const Article = require('./article')
+const GoogleTrend = require('./googleTrend')
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -16,5 +17,6 @@ const Article = require('./article')
  */
 module.exports = {
   User,
-  Article
+  Article,
+  GoogleTrend
 }
