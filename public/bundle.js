@@ -71191,7 +71191,7 @@ var About = function (_Component) {
               _react2.default.createElement(
                 'p',
                 null,
-                '1. examine the correlation between google trend and price for various cryptocurrencies.'
+                '1. examine the correlation between google trend and price for various cryptocurrencies. Currently support Bitcoin, Ether, Ripple, NEM, and Litecoin. I\'m planning on to add more.'
               ),
               _react2.default.createElement(
                 'p',
@@ -71609,7 +71609,7 @@ var Navbar = function (_Component) {
               _react2.default.createElement(
                 'a',
                 { className: 'nav-link', href: '/eth' },
-                'Ethererum going mainstream'
+                'Ethererum going mainstream?'
               )
             ),
             _react2.default.createElement(
@@ -73012,7 +73012,12 @@ var TrendIndex = function (_Component) {
                 currencyPairValue: 'ltcUsd',
                 googleTrendsLabel: 'Litecoin google trends',
                 dataProvider: this.props.ltcDataProvider
-              })
+              }),
+              _react2.default.createElement(
+                'p',
+                { style: { fontWeight: '600', fontSize: '12px', margin: '30px 0 0 50px' } },
+                'More To Come'
+              )
             )
           )
         )

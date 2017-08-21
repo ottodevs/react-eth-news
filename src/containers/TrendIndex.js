@@ -75,6 +75,7 @@ class TrendIndex extends Component {
                 googleTrendsLabel={'Litecoin google trends'}
                 dataProvider={this.props.ltcDataProvider}
               />
+              <p style={{fontWeight: '600', fontSize: '12px', margin: '30px 0 0 50px'}}>More To Come</p>
             </div>
           </div>
         </section>
