@@ -261,24 +261,39 @@ router.get('/compare', (req, res, next) => {
   const queryEndDate = new Date(Date.now())
   const sysStartDate = new Date(moment('Jul 03, 2015', 'MMM DD, YYYY'))
   const range = moment.range(sysStartDate, queryEndDate)
-  googleTrendsOverTimePromise({
-    keyword: ['ethereum', 'bitcoin', 'ripple', 'litecoin', 'NEM coin'],
-    startTime: queryStartDate,
-    endTime: queryEndDate
-  }).then(response => {
-    const googleTrends = JSON.parse(response).default.timelineData.map(datum => {
-      return {
-        date: moment(datum.formattedAxisTime, 'MMM DD, YYYY').format('YYYY-MM-DD'),
-        eth: datum.value[0],
-        btc: datum.value[1],
-        xrp: datum.value[2],
-        ltc: datum.value[3],
-        xem: datum.value[4]
+  return GoogleTrend.findById('all')
+    .then(all => {
+      const needUpdate = all ?
+        parseInt(moment().subtract(7, 'days').format('YYYYMMDD')) >=
+        parseInt(moment.unix(all.timestamp).format('YYYYMMDD')) : null;
+      if (needUpdate) {
+        googleTrendsOverTimePromise({
+          keyword: ['ethereum', 'bitcoin', 'ripple', 'litecoin', 'NEM coin'],
+          startTime: queryStartDate,
+          endTime: queryEndDate
+        }).then(response => {
+          const googleTrends = JSON.parse(response).default.timelineData.map(datum => {
+            return {
+              date: moment(datum.formattedAxisTime, 'MMM DD, YYYY').format('YYYY-MM-DD'),
+              eth: datum.value[0],
+              btc: datum.value[1],
+              xrp: datum.value[2],
+              ltc: datum.value[3],
+              xem: datum.value[4]
+            }
+          }).filter(trend => {
+            return range.contains(moment(trend.date, 'YYYY-MM-DD'), { exclusive: false })
+          });
+          res.send(googleTrends)
+          return all.update({
+            trend: googleTrends,
+            timestamp: moment().format('X')
+          })
+        })
+
+      } else {
+        res.send(all.trend)
+        return all
       }
-    }).filter(trend => {
-      return range.contains(moment(trend.date, 'YYYY-MM-DD'), { exclusive: false })
-    });
-    res.send(googleTrends)
-    return response
-  })
+    })
 })

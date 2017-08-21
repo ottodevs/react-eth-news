@@ -54,33 +54,6 @@ export default class TrendsChart  extends Component {
       }
     }
 
-    // if (this.props.dataProvider && !this.props.dataProvider.length) {
-    //   chartStyle = {
-    //     opacity: '0',
-    //     height: '0px'
-    //   };
-    //   loaderStyle = {
-    //     opacity: '1',
-    //     height: '320px'
-    //   }
-    // } else {
-    //   chartStyle = {
-    //     opacity: '1',
-    //     height: '320px'
-    //   };
-    //   loaderStyle = {
-    //     opacity: '0',
-    //     height: '0px'
-    //   }
-
-    // }
-
-    // if (this.props.dataProvider && this.props.dataProvider.length) {
-    //   graphs = _.keys(_.omit(this.props.dataProvider[0], ['date']))
-    //     .map(createGraph);
-    // }
-
-
     const config = {
       "type": "serial",
       "theme": "light",
