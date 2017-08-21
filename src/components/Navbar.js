@@ -16,7 +16,7 @@ class Navbar extends Component {
         </button>
         <a className="navbar-brand" href="/all">
           <img src={'/moon.png'} width="50" height="50" alt="Cryptotrends" />
-          <h3>Cryptotrends</h3>
+          <h3>CryptoCurrent</h3>
         </a>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="nav navbar-nav ml-auto">

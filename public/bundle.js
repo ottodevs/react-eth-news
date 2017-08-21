@@ -71580,7 +71580,7 @@ var Navbar = function (_Component) {
           _react2.default.createElement(
             'h3',
             null,
-            'Cryptotrends'
+            'CryptoCurrent'
           )
         ),
         _react2.default.createElement(
