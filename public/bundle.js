@@ -38905,11 +38905,6 @@ var LTC_GOOGLE_TRENDS_FETCHED = exports.LTC_GOOGLE_TRENDS_FETCHED = 'googleTrend
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchEthGoogleTrendsOverTime = fetchEthGoogleTrendsOverTime;
-exports.fetchBtcGoogleTrendsOverTime = fetchBtcGoogleTrendsOverTime;
-exports.fetchXrpGoogleTrendsOverTime = fetchXrpGoogleTrendsOverTime;
-exports.fetchXemGoogleTrendsOverTime = fetchXemGoogleTrendsOverTime;
-exports.fetchLtcGoogleTrendsOverTime = fetchLtcGoogleTrendsOverTime;
 
 var _actionTypes = __webpack_require__(238);
 
@@ -38917,215 +38912,62 @@ var types = _interopRequireWildcard(_actionTypes);
 
 var _googleTrends = __webpack_require__(546);
 
-var googleTrendsService = _interopRequireWildcard(_googleTrends);
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-function fetchEthGoogleTrendsOverTime() {
+function fetchGoogleTrendsOverTime(currency) {
   var _this = this;
 
   return function () {
-    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(dispatch) {
-      var ethGoogleTrendsOverTime;
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _context.prev = 0;
-              _context.next = 3;
-              return googleTrendsService.getEthGoogleTrendOverTime();
+    return function () {
+      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(dispatch) {
+        var googleTrendsOverTime;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return (0, _googleTrends.getGoogleTrendOverTime)(currency);
 
-            case 3:
-              ethGoogleTrendsOverTime = _context.sent;
+              case 3:
+                googleTrendsOverTime = _context.sent;
 
-              dispatch({ type: types.ETH_GOOGLE_TRENDS_FETCHED, googleTrendsOverTime: ethGoogleTrendsOverTime });
-              _context.next = 10;
-              break;
+                dispatch({ type: types[currency.toUpperCase() + '_GOOGLE_TRENDS_FETCHED'], googleTrendsOverTime: googleTrendsOverTime });
+                _context.next = 10;
+                break;
 
-            case 7:
-              _context.prev = 7;
-              _context.t0 = _context['catch'](0);
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context['catch'](0);
 
-              console.log(_context.t0);
+                console.log(_context.t0);
 
-            case 10:
-            case 'end':
-              return _context.stop();
+              case 10:
+              case 'end':
+                return _context.stop();
+            }
           }
-        }
-      }, _callee, _this, [[0, 7]]);
-    }));
+        }, _callee, _this, [[0, 7]]);
+      }));
 
-    return function (_x) {
-      return _ref.apply(this, arguments);
-    };
-  }();
+      return function (_x) {
+        return _ref.apply(this, arguments);
+      };
+    }();
+  };
 }
 
-function fetchBtcGoogleTrendsOverTime() {
-  var _this2 = this;
+var googleTrendsActions = {
+  fetchEthGoogleTrendsOverTime: fetchGoogleTrendsOverTime('eth'),
+  fetchBtcGoogleTrendsOverTime: fetchGoogleTrendsOverTime('btc'),
+  fetchXrpGoogleTrendsOverTime: fetchGoogleTrendsOverTime('xrp'),
+  fetchXemGoogleTrendsOverTime: fetchGoogleTrendsOverTime('xem'),
+  fetchLtcGoogleTrendsOverTime: fetchGoogleTrendsOverTime('ltc')
+};
 
-  return function () {
-    var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(dispatch) {
-      var btcGoogleTrendsOverTime;
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.prev = 0;
-              _context2.next = 3;
-              return googleTrendsService.getBtcGoogleTrendOverTime();
-
-            case 3:
-              btcGoogleTrendsOverTime = _context2.sent;
-
-              dispatch({ type: types.BTC_GOOGLE_TRENDS_FETCHED, googleTrendsOverTime: btcGoogleTrendsOverTime });
-              _context2.next = 10;
-              break;
-
-            case 7:
-              _context2.prev = 7;
-              _context2.t0 = _context2['catch'](0);
-
-              console.log(_context2.t0);
-
-            case 10:
-            case 'end':
-              return _context2.stop();
-          }
-        }
-      }, _callee2, _this2, [[0, 7]]);
-    }));
-
-    return function (_x2) {
-      return _ref2.apply(this, arguments);
-    };
-  }();
-}
-
-function fetchXrpGoogleTrendsOverTime() {
-  var _this3 = this;
-
-  return function () {
-    var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(dispatch) {
-      var xrpGoogleTrendsOverTime;
-      return regeneratorRuntime.wrap(function _callee3$(_context3) {
-        while (1) {
-          switch (_context3.prev = _context3.next) {
-            case 0:
-              _context3.prev = 0;
-              _context3.next = 3;
-              return googleTrendsService.getXrpGoogleTrendOverTime();
-
-            case 3:
-              xrpGoogleTrendsOverTime = _context3.sent;
-
-              dispatch({ type: types.XRP_GOOGLE_TRENDS_FETCHED, googleTrendsOverTime: xrpGoogleTrendsOverTime });
-              _context3.next = 10;
-              break;
-
-            case 7:
-              _context3.prev = 7;
-              _context3.t0 = _context3['catch'](0);
-
-              console.log(_context3.t0);
-
-            case 10:
-            case 'end':
-              return _context3.stop();
-          }
-        }
-      }, _callee3, _this3, [[0, 7]]);
-    }));
-
-    return function (_x3) {
-      return _ref3.apply(this, arguments);
-    };
-  }();
-}
-
-function fetchXemGoogleTrendsOverTime() {
-  var _this4 = this;
-
-  return function () {
-    var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(dispatch) {
-      var xemGoogleTrendsOverTime;
-      return regeneratorRuntime.wrap(function _callee4$(_context4) {
-        while (1) {
-          switch (_context4.prev = _context4.next) {
-            case 0:
-              _context4.prev = 0;
-              _context4.next = 3;
-              return googleTrendsService.getXemGoogleTrendOverTime();
-
-            case 3:
-              xemGoogleTrendsOverTime = _context4.sent;
-
-              dispatch({ type: types.XEM_GOOGLE_TRENDS_FETCHED, googleTrendsOverTime: xemGoogleTrendsOverTime });
-              _context4.next = 10;
-              break;
-
-            case 7:
-              _context4.prev = 7;
-              _context4.t0 = _context4['catch'](0);
-
-              console.log(_context4.t0);
-
-            case 10:
-            case 'end':
-              return _context4.stop();
-          }
-        }
-      }, _callee4, _this4, [[0, 7]]);
-    }));
-
-    return function (_x4) {
-      return _ref4.apply(this, arguments);
-    };
-  }();
-}
-function fetchLtcGoogleTrendsOverTime() {
-  var _this5 = this;
-
-  return function () {
-    var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(dispatch) {
-      var ltcGoogleTrendsOverTime;
-      return regeneratorRuntime.wrap(function _callee5$(_context5) {
-        while (1) {
-          switch (_context5.prev = _context5.next) {
-            case 0:
-              _context5.prev = 0;
-              _context5.next = 3;
-              return googleTrendsService.getLtcGoogleTrendOverTime();
-
-            case 3:
-              ltcGoogleTrendsOverTime = _context5.sent;
-
-              dispatch({ type: types.LTC_GOOGLE_TRENDS_FETCHED, googleTrendsOverTime: ltcGoogleTrendsOverTime });
-              _context5.next = 10;
-              break;
-
-            case 7:
-              _context5.prev = 7;
-              _context5.t0 = _context5['catch'](0);
-
-              console.log(_context5.t0);
-
-            case 10:
-            case 'end':
-              return _context5.stop();
-          }
-        }
-      }, _callee5, _this5, [[0, 7]]);
-    }));
-
-    return function (_x5) {
-      return _ref5.apply(this, arguments);
-    };
-  }();
-}
+exports.default = googleTrendsActions;
 
 /***/ }),
 /* 240 */
@@ -39166,11 +39008,6 @@ var LTC_USD_FETCHED = exports.LTC_USD_FETCHED = 'prices.LTC_USD_FETCHED';
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchEthUsdOverTime = fetchEthUsdOverTime;
-exports.fetchBtcUsdOverTime = fetchBtcUsdOverTime;
-exports.fetchXrpUsdOverTime = fetchXrpUsdOverTime;
-exports.fetchXemUsdOverTime = fetchXemUsdOverTime;
-exports.fetchLtcUsdOverTime = fetchLtcUsdOverTime;
 
 var _actionTypes = __webpack_require__(241);
 
@@ -39178,216 +39015,62 @@ var types = _interopRequireWildcard(_actionTypes);
 
 var _prices = __webpack_require__(547);
 
-var pricesServices = _interopRequireWildcard(_prices);
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-function fetchEthUsdOverTime() {
+function fetchCurrencyPairPricesOverTime(currencyA, currencyB) {
   var _this = this;
 
   return function () {
-    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(dispatch) {
-      var ethUsdOverTime;
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _context.prev = 0;
-              _context.next = 3;
-              return pricesServices.getEthUsdOverTime();
+    return function () {
+      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(dispatch) {
+        var pricesOverTime;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return (0, _prices.getPairPricesOverTime)(currencyA, currencyB);
 
-            case 3:
-              ethUsdOverTime = _context.sent;
+              case 3:
+                pricesOverTime = _context.sent;
 
-              dispatch({ type: types.ETH_USD_FETCHED, pricesOverTime: ethUsdOverTime });
-              _context.next = 10;
-              break;
+                dispatch({ type: types[currencyA.toUpperCase() + '_' + currencyB.toUpperCase() + '_FETCHED'], pricesOverTime: pricesOverTime });
+                _context.next = 10;
+                break;
 
-            case 7:
-              _context.prev = 7;
-              _context.t0 = _context['catch'](0);
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context['catch'](0);
 
-              console.log(_context.t0);
+                console.log(_context.t0);
 
-            case 10:
-            case 'end':
-              return _context.stop();
+              case 10:
+              case 'end':
+                return _context.stop();
+            }
           }
-        }
-      }, _callee, _this, [[0, 7]]);
-    }));
+        }, _callee, _this, [[0, 7]]);
+      }));
 
-    return function (_x) {
-      return _ref.apply(this, arguments);
-    };
-  }();
+      return function (_x) {
+        return _ref.apply(this, arguments);
+      };
+    }();
+  };
 }
 
-function fetchBtcUsdOverTime() {
-  var _this2 = this;
+var pricesActions = {
+  fetchEthUsdOverTime: fetchCurrencyPairPricesOverTime('eth', 'usd'),
+  fetchBtcUsdOverTime: fetchCurrencyPairPricesOverTime('btc', 'usd'),
+  fetchXrpUsdOverTime: fetchCurrencyPairPricesOverTime('xrp', 'usd'),
+  fetchXemUsdOverTime: fetchCurrencyPairPricesOverTime('xem', 'usd'),
+  fetchLtcUsdOverTime: fetchCurrencyPairPricesOverTime('ltc', 'usd')
+};
 
-  return function () {
-    var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(dispatch) {
-      var btcUsdOverTime;
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.prev = 0;
-              _context2.next = 3;
-              return pricesServices.getBtcUsdOverTime();
-
-            case 3:
-              btcUsdOverTime = _context2.sent;
-
-              dispatch({ type: types.BTC_USD_FETCHED, pricesOverTime: btcUsdOverTime });
-              _context2.next = 10;
-              break;
-
-            case 7:
-              _context2.prev = 7;
-              _context2.t0 = _context2['catch'](0);
-
-              console.log(_context2.t0);
-
-            case 10:
-            case 'end':
-              return _context2.stop();
-          }
-        }
-      }, _callee2, _this2, [[0, 7]]);
-    }));
-
-    return function (_x2) {
-      return _ref2.apply(this, arguments);
-    };
-  }();
-}
-
-function fetchXrpUsdOverTime() {
-  var _this3 = this;
-
-  return function () {
-    var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(dispatch) {
-      var xrpUsdOverTime;
-      return regeneratorRuntime.wrap(function _callee3$(_context3) {
-        while (1) {
-          switch (_context3.prev = _context3.next) {
-            case 0:
-              _context3.prev = 0;
-              _context3.next = 3;
-              return pricesServices.getXrpUsdOverTime();
-
-            case 3:
-              xrpUsdOverTime = _context3.sent;
-
-              dispatch({ type: types.XRP_USD_FETCHED, pricesOverTime: xrpUsdOverTime });
-              _context3.next = 10;
-              break;
-
-            case 7:
-              _context3.prev = 7;
-              _context3.t0 = _context3['catch'](0);
-
-              console.log(_context3.t0);
-
-            case 10:
-            case 'end':
-              return _context3.stop();
-          }
-        }
-      }, _callee3, _this3, [[0, 7]]);
-    }));
-
-    return function (_x3) {
-      return _ref3.apply(this, arguments);
-    };
-  }();
-}
-
-function fetchXemUsdOverTime() {
-  var _this4 = this;
-
-  return function () {
-    var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(dispatch) {
-      var xemUsdOverTime;
-      return regeneratorRuntime.wrap(function _callee4$(_context4) {
-        while (1) {
-          switch (_context4.prev = _context4.next) {
-            case 0:
-              _context4.prev = 0;
-              _context4.next = 3;
-              return pricesServices.getXemUsdOverTime();
-
-            case 3:
-              xemUsdOverTime = _context4.sent;
-
-              dispatch({ type: types.XEM_USD_FETCHED, pricesOverTime: xemUsdOverTime });
-              _context4.next = 10;
-              break;
-
-            case 7:
-              _context4.prev = 7;
-              _context4.t0 = _context4['catch'](0);
-
-              console.log(_context4.t0);
-
-            case 10:
-            case 'end':
-              return _context4.stop();
-          }
-        }
-      }, _callee4, _this4, [[0, 7]]);
-    }));
-
-    return function (_x4) {
-      return _ref4.apply(this, arguments);
-    };
-  }();
-}
-
-function fetchLtcUsdOverTime() {
-  var _this5 = this;
-
-  return function () {
-    var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(dispatch) {
-      var ltcUsdOverTime;
-      return regeneratorRuntime.wrap(function _callee5$(_context5) {
-        while (1) {
-          switch (_context5.prev = _context5.next) {
-            case 0:
-              _context5.prev = 0;
-              _context5.next = 3;
-              return pricesServices.getLtcUsdOverTime();
-
-            case 3:
-              ltcUsdOverTime = _context5.sent;
-
-              dispatch({ type: types.LTC_USD_FETCHED, pricesOverTime: ltcUsdOverTime });
-              _context5.next = 10;
-              break;
-
-            case 7:
-              _context5.prev = 7;
-              _context5.t0 = _context5['catch'](0);
-
-              console.log(_context5.t0);
-
-            case 10:
-            case 'end':
-              return _context5.stop();
-          }
-        }
-      }, _callee5, _this5, [[0, 7]]);
-    }));
-
-    return function (_x5) {
-      return _ref5.apply(this, arguments);
-    };
-  }();
-}
+exports.default = pricesActions;
 
 /***/ }),
 /* 243 */
@@ -72083,23 +71766,23 @@ var _lodash2 = _interopRequireDefault(_lodash);
 
 var _actions = __webpack_require__(239);
 
-var googleTrendsActions = _interopRequireWildcard(_actions);
+var _actions2 = _interopRequireDefault(_actions);
 
 var _reducer = __webpack_require__(152);
 
 var googleTrendsSelectors = _interopRequireWildcard(_reducer);
 
-var _actions2 = __webpack_require__(242);
+var _actions3 = __webpack_require__(242);
 
-var pricesActions = _interopRequireWildcard(_actions2);
+var _actions4 = _interopRequireDefault(_actions3);
 
 var _reducer2 = __webpack_require__(155);
 
 var pricesSelectors = _interopRequireWildcard(_reducer2);
 
-var _actions3 = __webpack_require__(151);
+var _actions5 = __webpack_require__(151);
 
-var datesActions = _interopRequireWildcard(_actions3);
+var datesActions = _interopRequireWildcard(_actions5);
 
 var _reducer3 = __webpack_require__(113);
 
@@ -72142,8 +71825,8 @@ var ArticleIndexChartsWrapper = function (_Component) {
   _createClass(ArticleIndexChartsWrapper, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.props.dispatch(googleTrendsActions.fetchEthGoogleTrendsOverTime());
-      this.props.dispatch(pricesActions.fetchEthUsdOverTime());
+      this.props.dispatch(_actions2.default.fetchEthGoogleTrendsOverTime());
+      this.props.dispatch(_actions4.default.fetchEthUsdOverTime());
     }
   }, {
     key: 'componentDidUpdate',
@@ -72891,15 +72574,15 @@ var _reactRedux = __webpack_require__(59);
 
 var _actions = __webpack_require__(239);
 
-var googleTrendsActions = _interopRequireWildcard(_actions);
+var _actions2 = _interopRequireDefault(_actions);
 
 var _reducer = __webpack_require__(152);
 
 var googleTrendsSelectors = _interopRequireWildcard(_reducer);
 
-var _actions2 = __webpack_require__(242);
+var _actions3 = __webpack_require__(242);
 
-var pricesActions = _interopRequireWildcard(_actions2);
+var _actions4 = _interopRequireDefault(_actions3);
 
 var _reducer2 = __webpack_require__(155);
 
@@ -72934,16 +72617,16 @@ var TrendIndex = function (_Component) {
   _createClass(TrendIndex, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.props.dispatch(googleTrendsActions.fetchEthGoogleTrendsOverTime());
-      this.props.dispatch(googleTrendsActions.fetchBtcGoogleTrendsOverTime());
-      this.props.dispatch(googleTrendsActions.fetchXrpGoogleTrendsOverTime());
-      this.props.dispatch(googleTrendsActions.fetchXemGoogleTrendsOverTime());
-      this.props.dispatch(googleTrendsActions.fetchLtcGoogleTrendsOverTime());
-      this.props.dispatch(pricesActions.fetchEthUsdOverTime());
-      this.props.dispatch(pricesActions.fetchBtcUsdOverTime());
-      this.props.dispatch(pricesActions.fetchXrpUsdOverTime());
-      this.props.dispatch(pricesActions.fetchXemUsdOverTime());
-      this.props.dispatch(pricesActions.fetchLtcUsdOverTime());
+      this.props.dispatch(_actions2.default.fetchEthGoogleTrendsOverTime());
+      this.props.dispatch(_actions2.default.fetchBtcGoogleTrendsOverTime());
+      this.props.dispatch(_actions2.default.fetchXrpGoogleTrendsOverTime());
+      this.props.dispatch(_actions2.default.fetchXemGoogleTrendsOverTime());
+      this.props.dispatch(_actions2.default.fetchLtcGoogleTrendsOverTime());
+      this.props.dispatch(_actions4.default.fetchEthUsdOverTime());
+      this.props.dispatch(_actions4.default.fetchBtcUsdOverTime());
+      this.props.dispatch(_actions4.default.fetchXrpUsdOverTime());
+      this.props.dispatch(_actions4.default.fetchXemUsdOverTime());
+      this.props.dispatch(_actions4.default.fetchLtcUsdOverTime());
     }
   }, {
     key: 'render',
@@ -73211,11 +72894,7 @@ function getAllArticles(startDate, endDate) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getEthGoogleTrendOverTime = getEthGoogleTrendOverTime;
-exports.getBtcGoogleTrendOverTime = getBtcGoogleTrendOverTime;
-exports.getXrpGoogleTrendOverTime = getXrpGoogleTrendOverTime;
-exports.getXemGoogleTrendOverTime = getXemGoogleTrendOverTime;
-exports.getLtcGoogleTrendOverTime = getLtcGoogleTrendOverTime;
+exports.getGoogleTrendOverTime = getGoogleTrendOverTime;
 
 var _axios = __webpack_require__(111);
 
@@ -73223,32 +72902,8 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function getEthGoogleTrendOverTime() {
-  return _axios2.default.get('/api/google-trends/eth').then(function (res) {
-    return res.data;
-  });
-}
-
-function getBtcGoogleTrendOverTime() {
-  return _axios2.default.get('/api/google-trends/btc').then(function (res) {
-    return res.data;
-  });
-}
-
-function getXrpGoogleTrendOverTime() {
-  return _axios2.default.get('/api/google-trends/xrp').then(function (res) {
-    return res.data;
-  });
-}
-
-function getXemGoogleTrendOverTime() {
-  return _axios2.default.get('/api/google-trends/xem').then(function (res) {
-    return res.data;
-  });
-}
-
-function getLtcGoogleTrendOverTime() {
-  return _axios2.default.get('/api/google-trends/ltc').then(function (res) {
+function getGoogleTrendOverTime(currency) {
+  return _axios2.default.get('/api/google-trends/' + currency).then(function (res) {
     return res.data;
   });
 }
@@ -73263,11 +72918,7 @@ function getLtcGoogleTrendOverTime() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getEthUsdOverTime = getEthUsdOverTime;
-exports.getBtcUsdOverTime = getBtcUsdOverTime;
-exports.getXrpUsdOverTime = getXrpUsdOverTime;
-exports.getXemUsdOverTime = getXemUsdOverTime;
-exports.getLtcUsdOverTime = getLtcUsdOverTime;
+exports.getPairPricesOverTime = getPairPricesOverTime;
 
 var _axios = __webpack_require__(111);
 
@@ -73275,32 +72926,8 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function getEthUsdOverTime() {
-  return _axios2.default.get('/api/prices/ethusd').then(function (res) {
-    return res.data;
-  });
-}
-
-function getBtcUsdOverTime() {
-  return _axios2.default.get('/api/prices/btcusd').then(function (res) {
-    return res.data;
-  });
-}
-
-function getXrpUsdOverTime() {
-  return _axios2.default.get('/api/prices/xrpusd').then(function (res) {
-    return res.data;
-  });
-}
-
-function getXemUsdOverTime() {
-  return _axios2.default.get('/api/prices/xemusd').then(function (res) {
-    return res.data;
-  });
-}
-
-function getLtcUsdOverTime() {
-  return _axios2.default.get('/api/prices/ltcusd').then(function (res) {
+function getPairPricesOverTime(currencyA, currencyB) {
+  return _axios2.default.get('/api/prices/' + currencyA + currencyB).then(function (res) {
     return res.data;
   });
 }

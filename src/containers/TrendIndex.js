@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
-import * as googleTrendsActions from '../store/googleTrends/actions';
+import googleTrendsActions from '../store/googleTrends/actions';
 import * as googleTrendsSelectors from '../store/googleTrends/reducer';
-import * as pricesActions from '../store/prices/actions';
+import pricesActions from '../store/prices/actions';
 import * as pricesSelectors from '../store/prices/reducer';
 import PriceTrendChart from '../components/PriceTrendChart.js'
 
