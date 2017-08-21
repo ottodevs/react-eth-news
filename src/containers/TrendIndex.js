@@ -5,7 +5,7 @@ import googleTrendsActions from '../store/googleTrends/actions';
 import * as googleTrendsSelectors from '../store/googleTrends/reducer';
 import pricesActions from '../store/prices/actions';
 import * as pricesSelectors from '../store/prices/reducer';
-import PriceTrendChart from '../components/PriceTrendChart.js'
+import {PriceTrendChart, TrendsChart} from '../components'
 
 class TrendIndex extends Component {
   constructor(props) {
@@ -14,6 +14,7 @@ class TrendIndex extends Component {
   }
 
   componentDidMount() {
+    this.props.dispatch(googleTrendsActions.fetchAllGoogleTrendsOverTime())
     this.props.dispatch(googleTrendsActions.fetchEthGoogleTrendsOverTime())
     this.props.dispatch(googleTrendsActions.fetchBtcGoogleTrendsOverTime())
     this.props.dispatch(googleTrendsActions.fetchXrpGoogleTrendsOverTime())
@@ -40,6 +41,9 @@ class TrendIndex extends Component {
         <section className="container">
           <div className="row">
             <div className="col-md-12 trend-index__charts-container">
+              <TrendsChart
+                dataProvider={this.props.allDataProvider}
+              />
               <PriceTrendChart
                 label={'Ethererum'}
                 currencyPairLabel={'ETH/USD'}
@@ -113,12 +117,14 @@ function mapStateToProps(state) {
       state, pricesSelectors.getXemUsdOverTime, googleTrendsSelectors.getXemGoogleTrendsOverTime);
   const ltcDataProvider = getDataProvider(
       state, pricesSelectors.getLtcUsdOverTime, googleTrendsSelectors.getLtcGoogleTrendsOverTime);
+  const allDataProvider = googleTrendsSelectors.getAllGoogleTrendsOverTime(state);
   return {
     ethDataProvider: ethDataProvider,
     btcDataProvider: btcDataProvider,
     xrpDataProvider: xrpDataProvider,
     xemDataProvider: xemDataProvider,
-    ltcDataProvider: ltcDataProvider
+    ltcDataProvider: ltcDataProvider,
+    allDataProvider: allDataProvider
   }
 }
 

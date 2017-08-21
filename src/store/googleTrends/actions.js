@@ -20,7 +20,8 @@ const googleTrendsActions = {
   fetchBtcGoogleTrendsOverTime: fetchGoogleTrendsOverTime('btc'),
   fetchXrpGoogleTrendsOverTime: fetchGoogleTrendsOverTime('xrp'),
   fetchXemGoogleTrendsOverTime: fetchGoogleTrendsOverTime('xem'),
-  fetchLtcGoogleTrendsOverTime: fetchGoogleTrendsOverTime('ltc')
+  fetchLtcGoogleTrendsOverTime: fetchGoogleTrendsOverTime('ltc'),
+  fetchAllGoogleTrendsOverTime: fetchGoogleTrendsOverTime('compare')
 }
 
 export default googleTrendsActions;
