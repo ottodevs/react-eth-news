@@ -2,3 +2,23 @@ body {
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;
 }
+
+.site-footer {
+  display: flex;
+  align-items: center;
+  background: #f3f3f3;
+}
+
+.page-wrap {
+  min-height: 100%;
+  /* equal to footer height */
+  margin-bottom: -60px;
+}
+.page-wrap:after {
+  content: "";
+  display: block;
+}
+.site-footer, .page-wrap:after {
+  height: 60px;
+
+}

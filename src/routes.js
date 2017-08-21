@@ -5,7 +5,7 @@ import {Router} from 'react-router'
 import {Route, Switch, Redirect} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
-import {Main, Login, Signup, UserHome} from './components'
+import {Main, Login, Signup, UserHome, About} from './components'
 import {ArticlesIndex, TrendIndex} from './containers'
 import {me} from './store'
 
@@ -30,6 +30,7 @@ class Routes extends Component {
           <Switch>
             <Route path='/all' component={TrendIndex} />
             <Route path='/eth' component={ArticlesIndex} />
+            <Route path='/about' component={About} />
             <Route render={() => <Redirect to="/all"/>}/>
           </Switch>
         </Main>

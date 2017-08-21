@@ -39,7 +39,7 @@ class TrendIndex extends Component {
         </section>
         <section className="container">
           <div className="row">
-            <div className="col-md-12 charts-container">
+            <div className="col-md-12 trend-index__charts-container">
               <PriceTrendChart
                 label={'Ethererum'}
                 currencyPairLabel={'ETH/USD'}

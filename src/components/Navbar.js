@@ -27,7 +27,7 @@ class Navbar extends Component {
               <a className="nav-link" href="/eth">Ethererum going mainstream</a>
             </li>
             <li className="nav-item pull-xs-right">
-              <a className="nav-link" href="#">About</a>
+              <a className="nav-link" href="/about">About</a>
             </li>
           </ul>
         </div>
