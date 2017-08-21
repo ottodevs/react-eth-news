@@ -7,7 +7,8 @@ const rootReducer = combineReducers({
   btcGoogleTrendsOverTime: createGoogleTrendWithCurrency('BTC'),
   xrpGoogleTrendsOverTime: createGoogleTrendWithCurrency('XRP'),
   xemGoogleTrendsOverTime: createGoogleTrendWithCurrency('XEM'),
-  ltcGoogleTrendsOverTime: createGoogleTrendWithCurrency('LTC')
+  ltcGoogleTrendsOverTime: createGoogleTrendWithCurrency('LTC'),
+  allGoogleTrendsOverTime: createGoogleTrendWithCurrency('COMPARE')
 })
 
 export default rootReducer;
@@ -30,6 +31,10 @@ export function getXemGoogleTrendsOverTime(state) {
 
 export function getLtcGoogleTrendsOverTime(state) {
   return state.googleTrends.ltcGoogleTrendsOverTime;
+}
+
+export function getAllGoogleTrendsOverTime(state) {
+  return state.googleTrends.allGoogleTrendsOverTime;
 }
 
 function createGoogleTrendWithCurrency(currency = '') {

@@ -29,7 +29,7 @@ class About extends Component {
               <p><a target="_" href="https://www.coindesk.com/using-google-trends-detect-bitcoin-price-bubbles/">Using Google Trends to Detect Bitcoin Price Bubbles - CoinDesk</a></p>
               <p>So I built this site to: </p>
               <p>
-                1. examine the correlation between google trend and price for various cryptocurrencies.
+                1. examine the correlation between google trend and price for various cryptocurrencies. Currently support Bitcoin, Ether, Ripple, NEM, and Litecoin. I'm planning on to add more.
               </p>
               <p>
                 2. track whether Ethereum is on the cusp of going mainstream by looking the result from Google Trends and number of articles mentioning Ethereum in the mainstream media/content platform.
