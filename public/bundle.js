@@ -71412,8 +71412,8 @@ var PriceTrendChart = function (_Component) {
       var config = {
         "type": "serial",
         "theme": "light",
-        "marginRight": 60,
-        "marginLeft": 60,
+        "marginRight": 70,
+        "marginLeft": 70,
         "autoMarginOffset": 20,
         "dataDateFormat": "YYYY-MM-DD",
         "legend": {
@@ -71423,16 +71423,18 @@ var PriceTrendChart = function (_Component) {
           "id": "v1",
           "axisAlpha": 1,
           "position": "right",
-          "ignoreAxisWidth": true
+          "ignoreAxisWidth": true,
+          "title": 'Google Trend Index'
         }, {
           "id": "v2",
           "axisAlpha": 1,
           "position": "left",
-          "ignoreAxisWidth": true
+          "ignoreAxisWidth": true,
+          "title": 'Price (USD)'
         }],
         "valueScrollbar": {
           "oppositeAxis": false,
-          "offset": 50,
+          "offset": 80,
           "scrollbarHeight": 10
         },
         "graphs": [{
@@ -71501,7 +71503,7 @@ var PriceTrendChart = function (_Component) {
         null,
         _react2.default.createElement(
           'p',
-          { style: { fontWeight: '600', fontSize: '12px', margin: '30px 0 0 50px' } },
+          { style: { fontWeight: '600', fontSize: '16px', margin: '30px 0 0 50px' } },
           this.props.label
         ),
         _react2.default.createElement(
@@ -71710,8 +71712,8 @@ var TrendsChart = function (_Component) {
       var config = {
         "type": "serial",
         "theme": "light",
-        "marginRight": 60,
-        "marginLeft": 60,
+        "marginRight": 70,
+        "marginLeft": 70,
         "autoMarginOffset": 20,
         "dataDateFormat": "YYYY-MM-DD",
         "legend": {
@@ -71721,11 +71723,12 @@ var TrendsChart = function (_Component) {
           "id": "v1",
           "axisAlpha": 1,
           "position": "right",
-          "ignoreAxisWidth": true
+          "ignoreAxisWidth": true,
+          "title": "Google Trend Index"
         }],
         "valueScrollbar": {
           "oppositeAxis": false,
-          "offset": 50,
+          "offset": 80,
           "scrollbarHeight": 10
         },
         "graphs": graphs,
@@ -71768,7 +71771,7 @@ var TrendsChart = function (_Component) {
         null,
         _react2.default.createElement(
           'p',
-          { style: { fontWeight: '600', fontSize: '12px', margin: '30px 0 0 50px' } },
+          { style: { fontWeight: '600', fontSize: '16px', margin: '30px 0 0 50px' } },
           'Compare Trends'
         ),
         _react2.default.createElement(
@@ -72071,8 +72074,8 @@ var ArticleIndexChartsWrapper = function (_Component) {
       var serialConfig = {
         "type": "serial",
         "theme": "light",
-        "marginRight": 40,
-        "marginLeft": 40,
+        "marginRight": 60,
+        "marginLeft": 60,
         "autoMarginOffset": 20,
         "dataDateFormat": "YYYY-MM-DD",
         "legend": {
@@ -72087,7 +72090,8 @@ var ArticleIndexChartsWrapper = function (_Component) {
           "id": "v2",
           "axisAlpha": 1,
           "position": "left",
-          "ignoreAxisWidth": true
+          "ignoreAxisWidth": true,
+          "title": "Price (USD)"
         }],
         "valueScrollbar": {
           "oppositeAxis": false,
@@ -72193,11 +72197,18 @@ var ArticleIndexChartsWrapper = function (_Component) {
       var barConfig = {
         "type": "serial",
         "theme": "light",
-        "marginRight": 90,
-        "marginLeft": 40,
+        "marginRight": 120,
+        "marginLeft": 70,
         "legend": {
           "useGraphSettings": true
         },
+        "valueAxes": [{
+          "id": "v1",
+          "axisAlpha": 1,
+          "position": "left",
+          "ignoreAxisWidth": true,
+          "title": "Article Count"
+        }],
         "dataProvider": this.props.articlesByDate,
         "dataDateFormat": "YYYY-MM",
         "graphs": [{

@@ -33,8 +33,8 @@ export default class PriceTrendChart extends Component {
     const config = {
       "type": "serial",
       "theme": "light",
-      "marginRight": 60,
-      "marginLeft": 60,
+      "marginRight": 70,
+      "marginLeft": 70,
       "autoMarginOffset": 20,
       "dataDateFormat": "YYYY-MM-DD",
       "legend": {
@@ -44,16 +44,18 @@ export default class PriceTrendChart extends Component {
         "id":"v1",
         "axisAlpha": 1,
         "position": "right",
-        "ignoreAxisWidth": true
+        "ignoreAxisWidth": true,
+        "title": 'Google Trend Index'
       }, {
         "id":"v2",
         "axisAlpha": 1,
         "position": "left",
-        "ignoreAxisWidth": true
+        "ignoreAxisWidth": true,
+        "title": 'Price (USD)'
       }],
       "valueScrollbar":{
         "oppositeAxis":false,
-        "offset":50,
+        "offset":80,
         "scrollbarHeight":10
       },
       "graphs": [{
@@ -119,7 +121,7 @@ export default class PriceTrendChart extends Component {
 
     return (
       <div>
-        <p style={{fontWeight: '600', fontSize: '12px', margin: '30px 0 0 50px'}}>{this.props.label}</p>
+        <p style={{fontWeight: '600', fontSize: '16px', margin: '30px 0 0 50px'}}>{this.props.label}</p>
         <div className="google-trends__chart-container" style={chartStyle}>
           <AmCharts.React ref="chart" {...config} />
         </div>

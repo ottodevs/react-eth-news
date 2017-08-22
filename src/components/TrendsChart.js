@@ -57,8 +57,8 @@ export default class TrendsChart  extends Component {
     const config = {
       "type": "serial",
       "theme": "light",
-      "marginRight": 60,
-      "marginLeft": 60,
+      "marginRight": 70,
+      "marginLeft": 70,
       "autoMarginOffset": 20,
       "dataDateFormat": "YYYY-MM-DD",
       "legend": {
@@ -68,11 +68,12 @@ export default class TrendsChart  extends Component {
         "id":"v1",
         "axisAlpha": 1,
         "position": "right",
-        "ignoreAxisWidth": true
+        "ignoreAxisWidth": true,
+        "title": "Google Trend Index"
       }],
       "valueScrollbar":{
         "oppositeAxis":false,
-        "offset":50,
+        "offset":80,
         "scrollbarHeight":10
       },
       "graphs": graphs,
@@ -112,7 +113,7 @@ export default class TrendsChart  extends Component {
 
     return (
       <div>
-        <p style={{fontWeight: '600', fontSize: '12px', margin: '30px 0 0 50px'}}>Compare Trends</p>
+        <p style={{fontWeight: '600', fontSize: '16px', margin: '30px 0 0 50px'}}>Compare Trends</p>
         <div className="google-trends__chart-container" style={chartStyle}>
           <AmCharts.React ref="chart" {...config} />
         </div>

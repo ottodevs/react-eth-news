@@ -59,8 +59,8 @@ class ArticleIndexChartsWrapper extends Component {
     const serialConfig = {
       "type": "serial",
       "theme": "light",
-      "marginRight": 40,
-      "marginLeft": 40,
+      "marginRight": 60,
+      "marginLeft": 60,
       "autoMarginOffset": 20,
       "dataDateFormat": "YYYY-MM-DD",
       "legend": {
@@ -75,7 +75,8 @@ class ArticleIndexChartsWrapper extends Component {
         "id":"v2",
         "axisAlpha": 1,
         "position": "left",
-        "ignoreAxisWidth": true
+        "ignoreAxisWidth": true,
+        "title": "Price (USD)"
       }],
       "valueScrollbar":{
         "oppositeAxis":false,
@@ -181,11 +182,18 @@ class ArticleIndexChartsWrapper extends Component {
     const barConfig = {
      "type": "serial",
      "theme": "light",
-     "marginRight": 90,
-      "marginLeft": 40,
+     "marginRight": 120,
+      "marginLeft": 70,
      "legend": {
        "useGraphSettings": true,
      },
+     "valueAxes": [{
+        "id":"v1",
+        "axisAlpha": 1,
+        "position": "left",
+        "ignoreAxisWidth": true,
+        "title": "Article Count"
+      }],
      "dataProvider": this.props.articlesByDate,
      "dataDateFormat": "YYYY-MM",
      "graphs": [{
