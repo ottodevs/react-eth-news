@@ -63,12 +63,55 @@ const getDataInNthInterval = function(data, interval) {
   return dataInNthInterval
 }
 
+const generateDailyTrendMiddleware = function(currency, searchTerm) {
+  return (req, res, next) => {
+    const currentMoment = moment()
+    const startMoment = moment().subtract(84, 'days')
+    const currentDate = new Date(currentMoment.format('MMM DD, YYYY'))
+    const startDate = new Date(startMoment.format('MMM DD, YYYY'))
+    range = moment.range(startDate, currentDate)
+    return GoogleTrend.findOne({ where: { id: currency + '1D', interval: '1D' } })
+      .then(currency => {
+        const needUpdate = currency ?
+          parseInt(moment().subtract(1, 'days').format('YYYYMMDD')) >=
+          parseInt(moment.unix(currency.timestamp).format('YYYYMMDD')) : null;
+        if (needUpdate) {
+          googleTrendsOverTimePromise({
+            keyword: searchTerm,
+            startTime: startDate,
+            endTime: currentDate
+          }).then(response => {
+            const timeseries = JSON.parse(response).default.timelineData.map(datum => {
+              return {
+                date: moment(datum.formattedAxisTime, 'MMM DD, YYYY').format('YYYY-MM-DD'),
+                googleTrends: datum.value[0]
+              }
+            })
+            res.send(timeseries)
+
+            return currency.update({
+              trend: timeseries,
+              timestamp: moment().format('X')
+            })
+          })
+        } else {
+          res.send(currency.trend)
+          return currency
+        }
+      })
+
+
+
+
+  }
+}
+
 const generateTwoYearTrendMiddleware = function(currency, searchTerm) {
   return (req, res, next) => {
     const queryStartDate = new Date(moment().subtract(2, 'years'))
     const queryEndDate = new Date(Date.now())
     const range = moment.range(queryStartDate, queryEndDate)
-    return GoogleTrend.findOne({ where: { id: currency, interval: '2Y' } })
+    return GoogleTrend.findOne({ where: { id: currency + '2Y', interval: '2Y' } })
       .then(currency => {
         const needUpdate = currency ?
           parseInt(moment().subtract(1, 'days').format('YYYYMMDD')) >=
@@ -103,26 +146,11 @@ const generateTwoYearTrendMiddleware = function(currency, searchTerm) {
   }
 }
 
-router.get('/eth/daily', (req, res, next) => {
-  const currentMoment = moment()
-  const startMoment = moment().subtract(84, 'days')
-  const currentDate = new Date(currentMoment.format('MMM DD, YYYY'))
-  const startDate = new Date(startMoment.format('MMM DD, YYYY'))
-  range = moment.range(startDate, currentDate)
-  googleTrendsOverTimePromise({
-    keyword: 'ethereum',
-    startTime: startDate,
-    endTime: currentDate
-  }).then(response => {
-    const timeseries = JSON.parse(response).default.timelineData.map(datum => {
-      return {
-        date: moment(datum.formattedAxisTime, 'MMM DD, YYYY').format('YYYY-MM-DD'),
-        googleTrends: datum.value[0]
-      }
-    })
-    res.send(timeseries)
-  })
-})
+router.get('/eth/daily', generateDailyTrendMiddleware('eth', 'ethereum'))
+router.get('/btc/daily', generateDailyTrendMiddleware('btc', 'bitcoin'))
+router.get('/xrp/daily', generateDailyTrendMiddleware('xrp', 'ripple'))
+router.get('/xem/daily', generateDailyTrendMiddleware('xem', 'NEM XEM'))
+router.get('/ltc/daily', generateDailyTrendMiddleware('ltc', 'litecoin'))
 
 router.get('/eth/years', generateTwoYearTrendMiddleware('eth', 'ethereum'))
 router.get('/btc/years', generateTwoYearTrendMiddleware('btc', 'bitcoin'))
