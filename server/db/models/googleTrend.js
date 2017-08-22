@@ -12,6 +12,10 @@ const GoogleTrend = db.define('googleTrend', {
     timestamp: {
         type: Sequelize.INTEGER
     }
+    ,
+    interval: {
+        type: Sequelize.TEXT
+    }
 })
 
 module.exports = GoogleTrend;
