@@ -72614,10 +72614,12 @@ function mapStateToProps(state) {
   var dataProvider = [];
   var articlesByDate = [];
   var dates = datesSelectors.getCurrentDateRange(state);
+
   if (googleTrendsOverTime && ethUsdOverTime) {
     var googleTrendsIndex = _lodash2.default.keyBy(googleTrendsOverTime, 'date');
     var priceIndex = _lodash2.default.keyBy(ethUsdOverTime, 'date');
     dataProvider = (0, _lodash2.default)(priceIndex).pick(_lodash2.default.keys(googleTrendsIndex)).merge(_lodash2.default.pick(googleTrendsIndex, _lodash2.default.keys(priceIndex))).values().value();
+    articlesByDate = articlesSelectors.getArticlesGroupByDate(state);
   }
   return {
     googleTrendsOverTime: googleTrendsOverTime,

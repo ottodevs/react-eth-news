@@ -250,6 +250,7 @@ function mapStateToProps(state) {
   var dataProvider = [];
   var articlesByDate = []
   var dates = datesSelectors.getCurrentDateRange(state);
+
   if (googleTrendsOverTime && ethUsdOverTime) {
     const googleTrendsIndex = _.keyBy(googleTrendsOverTime, 'date');
     const priceIndex = _.keyBy(ethUsdOverTime, 'date');
@@ -258,6 +259,7 @@ function mapStateToProps(state) {
       .merge(_.pick(googleTrendsIndex, _.keys(priceIndex)))
       .values()
       .value()
+    articlesByDate = articlesSelectors.getArticlesGroupByDate(state);
   }
   return {
     googleTrendsOverTime,
