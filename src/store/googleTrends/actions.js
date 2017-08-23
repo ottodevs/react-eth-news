@@ -41,6 +41,7 @@ const googleTrendsActions = {
   fetchXrpGoogleTrendsDaily: fetchGoogleTrendsDaily('xrp'),
   fetchXemGoogleTrendsDaily: fetchGoogleTrendsDaily('xem'),
   fetchLtcGoogleTrendsDaily: fetchGoogleTrendsDaily('ltc'),
+  fetchBchGoogleTrendsDaily: fetchGoogleTrendsDaily('bch'),
 
   fetchAllGoogleTrendsOverTime: fetchGoogleTrendsOverTime('compare')
 }

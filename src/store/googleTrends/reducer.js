@@ -14,6 +14,7 @@ const rootReducer = combineReducers({
   xrpGoogleTrendsDaily: createGoogleTrendWithCurrency('XRP', '3M'),
   xemGoogleTrendsDaily: createGoogleTrendWithCurrency('XEM', '3M'),
   ltcGoogleTrendsDaily: createGoogleTrendWithCurrency('LTC', '3M'),
+  bchGoogleTrendsDaily: createGoogleTrendWithCurrency('BCH', '3M'),
 
   allGoogleTrendsOverTime: createGoogleTrendWithCurrency('COMPARE', '2Y')
 })
@@ -43,6 +44,11 @@ export function getXemGoogleTrendsOverTime(state) {
 export function getLtcGoogleTrendsOverTime(state) {
   if (state.trendIndexCharts.ltc === '2Y') return state.googleTrends.ltcGoogleTrendsOverTime;
   else return state.googleTrends.ltcGoogleTrendsDaily
+}
+
+export function getBchGoogleTrendsOverTime(state) {
+  if (state.trendIndexCharts.bch === '2Y') return state.googleTrends.bchGoogleTrendsDaily;
+  else return state.googleTrends.bchGoogleTrendsDaily
 }
 
 export function getAllGoogleTrendsOverTime(state) {

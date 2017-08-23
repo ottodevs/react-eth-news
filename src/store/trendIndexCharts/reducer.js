@@ -6,7 +6,8 @@ const initialState = {
   btc: '2Y',
   xrp: '2Y',
   xem: '2Y',
-  ltc: '2Y'
+  ltc: '2Y',
+  bch: '3M'
 }
 
 export default function reduce(state = initialState, action = {}) {

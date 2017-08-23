@@ -8,3 +8,4 @@ export const BTC_USD_3M_FETCHED = 'prices.BTC_USD_3M_FETCHED';
 export const XRP_USD_3M_FETCHED = 'prices.XRP_USD_3M_FETCHED';
 export const XEM_USD_3M_FETCHED = 'prices.XEM_USD_3M_FETCHED';
 export const LTC_USD_3M_FETCHED = 'prices.LTC_USD_3M_FETCHED';
+export const BCH_USD_3M_FETCHED = 'prices.BCH_USD_3M_FETCHED';

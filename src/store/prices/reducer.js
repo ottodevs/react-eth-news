@@ -15,6 +15,7 @@ const rootReducer = combineReducers({
   xrpUsdDaily: createPricesWithPairingAndInterval('XRP_USD', '3M'),
   xemUsdDaily: createPricesWithPairingAndInterval('XEM_USD', '3M'),
   ltcUsdDaily: createPricesWithPairingAndInterval('LTC_USD', '3M'),
+  bchUsdDaily: createPricesWithPairingAndInterval('BCH_USD', '3M'),
 });
 
 export default rootReducer;
@@ -67,6 +68,16 @@ export function getLtcUsdOverTime(state) {
   } else {
     if (!state.prices.ltcUsdDaily) return
     return state.prices.ltcUsdDaily
+  }
+}
+
+export function getBchUsdOverTime(state) {
+  if (getChartInterval(state, 'bch') === '2Y') {
+    if (!state.prices.bchUsdDaily) return
+    return state.prices.bchUsdDaily
+  } else {
+    if (!state.prices.bchUsdDaily) return
+    return state.prices.bchUsdDaily
   }
 }
 

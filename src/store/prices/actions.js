@@ -37,11 +37,13 @@ const pricesActions = {
   fetchXrpUsdOverTime: fetchCurrencyPairPricesOverTime('xrp', 'usd'),
   fetchXemUsdOverTime: fetchCurrencyPairPricesOverTime('xem', 'usd'),
   fetchLtcUsdOverTime: fetchCurrencyPairPricesOverTime('ltc', 'usd'),
+
   fetchEthUsdDaily: fetchCurrencyPairPricesDaily('eth', 'usd'),
   fetchBtcUsdDaily: fetchCurrencyPairPricesDaily('btc', 'usd'),
   fetchXrpUsdDaily: fetchCurrencyPairPricesDaily('xrp', 'usd'),
   fetchXemUsdDaily: fetchCurrencyPairPricesDaily('xem', 'usd'),
   fetchLtcUsdDaily: fetchCurrencyPairPricesDaily('ltc', 'usd'),
+  fetchBchUsdDaily: fetchCurrencyPairPricesDaily('bch', 'usd'),
 }
 
 export default pricesActions
