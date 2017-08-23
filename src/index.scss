@@ -3,6 +3,36 @@ body {
   font-weight: 300;
 }
 
+
+
+/* Custom, iPhone Retina */
+
+@media only screen and (min-width: 320px) {
+  #app {
+    zoom: 0.6;
+  }
+}
+
+
+/* Extra Small Devices, Phones */
+
+@media only screen and (min-width: 480px) {
+  #app {
+    zoom: 0.8;
+  }
+}
+
+
+/* Small Devices, Tablets */
+
+@media only screen and (min-width: 768px) {
+  #app {
+    zoom: 1;
+  }
+}
+
+
+
 .site-footer {
   display: flex;
   align-items: center;
@@ -14,11 +44,13 @@ body {
   /* equal to footer height */
   margin-bottom: -60px;
 }
+
 .page-wrap:after {
   content: "";
   display: block;
 }
-.site-footer, .page-wrap:after {
-  height: 60px;
 
+.site-footer,
+.page-wrap:after {
+  height: 60px;
 }

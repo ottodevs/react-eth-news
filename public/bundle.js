@@ -78332,7 +78332,7 @@ exports = module.exports = __webpack_require__(43)();
 
 
 // module
-exports.push([module.i, "body {\n  font-family: 'Open Sans', sans-serif;\n  font-weight: 300; }\n\n.site-footer {\n  display: flex;\n  align-items: center;\n  background: #f3f3f3; }\n\n.page-wrap {\n  min-height: 100%;\n  /* equal to footer height */\n  margin-bottom: -60px; }\n\n.page-wrap:after {\n  content: \"\";\n  display: block; }\n\n.site-footer, .page-wrap:after {\n  height: 60px; }\n", ""]);
+exports.push([module.i, "body {\n  font-family: 'Open Sans', sans-serif;\n  font-weight: 300; }\n\n/* Custom, iPhone Retina */\n@media only screen and (min-width: 320px) {\n  #app {\n    zoom: 0.6; } }\n\n/* Extra Small Devices, Phones */\n@media only screen and (min-width: 480px) {\n  #app {\n    zoom: 0.8; } }\n\n/* Small Devices, Tablets */\n@media only screen and (min-width: 768px) {\n  #app {\n    zoom: 1; } }\n\n.site-footer {\n  display: flex;\n  align-items: center;\n  background: #f3f3f3; }\n\n.page-wrap {\n  min-height: 100%;\n  /* equal to footer height */\n  margin-bottom: -60px; }\n\n.page-wrap:after {\n  content: \"\";\n  display: block; }\n\n.site-footer,\n.page-wrap:after {\n  height: 60px; }\n", ""]);
 
 // exports
 
