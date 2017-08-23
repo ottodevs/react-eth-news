@@ -14,20 +14,24 @@ export default class PriceTrendChart extends Component {
     if (!this.props.dataProvider.length) {
       chartStyle = {
         opacity: '0',
-        height: '0px'
+        height: '0px',
+        marginBottom: '30px'
       };
       loaderStyle = {
         opacity: '1',
-        height: '320px'
+        height: '320px',
+        marginBottom: '30px'
       }
     } else {
       chartStyle = {
         opacity: '1',
-        height: '320px'
+        height: '320px',
+        marginBottom: '30px'
       };
       loaderStyle = {
         opacity: '0',
-        height: '0px'
+        height: '0px',
+        marginBottom: '30px'
       }
     }
 
@@ -133,14 +137,13 @@ export default class PriceTrendChart extends Component {
 
     return (
       <div>
-
-      <div className="google-trends__chart-header">
-        <span>{this.props.label}</span>
-        <div className="btn-group price-trend-chart__time-btn" role="group" aria-label="Basic example">
-          <button type="button" className="btn btn-secondary" onClick={()=> this.props.handleTimeIntervalChange(this.props.ticker, '3M')} >last three months</button>
-          <button type="button" className="btn btn-secondary" onClick={()=> this.props.handleTimeIntervalChange(this.props.ticker, '2Y')} >last two years</button>
+        <div className="google-trends__chart-header">
+          <span>{this.props.label}</span>
+          <div className="btn-group price-trend-chart__time-btn" role="group" aria-label="Basic example">
+            <button type="button" className="btn btn-secondary" onClick={()=> this.props.handleTimeIntervalChange(this.props.ticker, '3M')} >last three months</button>
+            <button type="button" className="btn btn-secondary" onClick={()=> this.props.handleTimeIntervalChange(this.props.ticker, '2Y')} >last two years</button>
+          </div>
         </div>
-      </div>
         <div className="google-trends__chart-container" style={chartStyle}>
           <AmCharts.React ref="chart" {...config} />
         </div>

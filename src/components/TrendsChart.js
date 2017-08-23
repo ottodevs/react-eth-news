@@ -32,11 +32,13 @@ export default class TrendsChart  extends Component {
     var chartStyle, loaderStyle, graphs = [];
     const hidden = {
       opacity: '0',
-      height: '0px'
+      height: '0px',
+      marginBottom: '30px'
     };
     const shown = {
       opacity: '1',
-      height: '320px'
+      height: '320px',
+      marginBottom: '30px'
     }
 
     if (!this.props.dataProvider) {

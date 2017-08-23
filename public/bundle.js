@@ -71366,20 +71366,24 @@ var PriceTrendChart = function (_Component) {
       if (!this.props.dataProvider.length) {
         chartStyle = {
           opacity: '0',
-          height: '0px'
+          height: '0px',
+          marginBottom: '30px'
         };
         loaderStyle = {
           opacity: '1',
-          height: '320px'
+          height: '320px',
+          marginBottom: '30px'
         };
       } else {
         chartStyle = {
           opacity: '1',
-          height: '320px'
+          height: '320px',
+          marginBottom: '30px'
         };
         loaderStyle = {
           opacity: '0',
-          height: '0px'
+          height: '0px',
+          marginBottom: '30px'
         };
       }
 
@@ -124540,11 +124544,13 @@ var TrendsChart = function (_Component) {
           graphs = [];
       var hidden = {
         opacity: '0',
-        height: '0px'
+        height: '0px',
+        marginBottom: '30px'
       };
       var shown = {
         opacity: '1',
-        height: '320px'
+        height: '320px',
+        marginBottom: '30px'
       };
 
       if (!this.props.dataProvider) {
