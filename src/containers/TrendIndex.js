@@ -109,11 +109,14 @@ function getDataProvider(state, priceSelector, googleTrendSelector) {
   var priceOverTime = priceSelector(state);
   var dataProvider = [];
   if (googleTrendsOverTime && priceOverTime) {
-    var ethDataLength = googleTrendsOverTime.length <= priceOverTime.length ?
-      googleTrendsOverTime.length : priceOverTime.length;
-    googleTrendsOverTime = googleTrendsOverTime.slice(0, ethDataLength);
-    priceOverTime = priceOverTime.slice(0, ethDataLength);
-    dataProvider = _.merge(googleTrendsOverTime, priceOverTime);
+    const googleTrendsIndex = _.keyBy(googleTrendsOverTime, 'date');
+    const priceIndex = _.keyBy(priceOverTime, 'date');
+
+    dataProvider = _(priceIndex)
+      .pick(_.keys(googleTrendsIndex))
+      .merge(_.pick(googleTrendsIndex, _.keys(priceIndex)))
+      .values()
+      .value()
   }
   return dataProvider;
 }

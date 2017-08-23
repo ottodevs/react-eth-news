@@ -6,7 +6,7 @@ const session = require('express-session')
 const passport = require('passport')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const db = require('./db')
-const sessionStore = new SequelizeStore({db})
+const sessionStore = new SequelizeStore({ db })
 const PORT = process.env.PORT || 8000
 const app = express()
 module.exports = app
@@ -23,10 +23,15 @@ module.exports = app
 
 // passport registration
 passport.serializeUser((user, done) => done(null, user.id))
-passport.deserializeUser((id, done) =>
-  db.models.user.findById(id)
-    .then(user => done(null, user))
-    .catch(done))
+passport.deserializeUser((id, done) => {
+  return db.models.user.findById(id)
+    .then(user => {
+      done(null, user)
+      return user
+    })
+    .catch(done)
+})
+
 
 const createApp = () => {
   const scraper = require('./scrape');
