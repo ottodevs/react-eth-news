@@ -28553,6 +28553,10 @@ var _reducer13 = __webpack_require__(154);
 
 var _reducer14 = _interopRequireDefault(_reducer13);
 
+var _reducer15 = __webpack_require__(1007);
+
+var _reducer16 = _interopRequireDefault(_reducer15);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var reducer = (0, _redux.combineReducers)({
@@ -28563,7 +28567,8 @@ var reducer = (0, _redux.combineReducers)({
   dates: _reducer8.default,
   googleTrends: _reducer10.default,
   prices: _reducer12.default,
-  pagination: _reducer14.default
+  pagination: _reducer14.default,
+  trendIndexCharts: _reducer16.default
 });
 var middleware = (0, _redux.applyMiddleware)(_reduxThunk2.default, (0, _reduxLogger2.default)({ collapsed: true }));
 var store = (0, _redux.createStore)(reducer, middleware);
@@ -32280,33 +32285,40 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var rootReducer = (0, _redux.combineReducers)({
-  ethGoogleTrendsOverTime: createGoogleTrendWithCurrency('ETH'),
-  btcGoogleTrendsOverTime: createGoogleTrendWithCurrency('BTC'),
-  xrpGoogleTrendsOverTime: createGoogleTrendWithCurrency('XRP'),
-  xemGoogleTrendsOverTime: createGoogleTrendWithCurrency('XEM'),
-  ltcGoogleTrendsOverTime: createGoogleTrendWithCurrency('LTC'),
-  allGoogleTrendsOverTime: createGoogleTrendWithCurrency('COMPARE')
+  ethGoogleTrendsOverTime: createGoogleTrendWithCurrency('ETH', '2Y'),
+  btcGoogleTrendsOverTime: createGoogleTrendWithCurrency('BTC', '2Y'),
+  xrpGoogleTrendsOverTime: createGoogleTrendWithCurrency('XRP', '2Y'),
+  xemGoogleTrendsOverTime: createGoogleTrendWithCurrency('XEM', '2Y'),
+  ltcGoogleTrendsOverTime: createGoogleTrendWithCurrency('LTC', '2Y'),
+
+  ethGoogleTrendsDaily: createGoogleTrendWithCurrency('ETH', '3M'),
+  btcGoogleTrendsDaily: createGoogleTrendWithCurrency('BTC', '3M'),
+  xrpGoogleTrendsDaily: createGoogleTrendWithCurrency('XRP', '3M'),
+  xemGoogleTrendsDaily: createGoogleTrendWithCurrency('XEM', '3M'),
+  ltcGoogleTrendsDaily: createGoogleTrendWithCurrency('LTC', '3M'),
+
+  allGoogleTrendsOverTime: createGoogleTrendWithCurrency('COMPARE', '2Y')
 });
 
 exports.default = rootReducer;
 function getEthGoogleTrendsOverTime(state) {
-  return state.googleTrends.ethGoogleTrendsOverTime;
+  if (state.trendIndexCharts.eth === '2Y') return state.googleTrends.ethGoogleTrendsOverTime;else return state.googleTrends.ethGoogleTrendsDaily;
 }
 
 function getBtcGoogleTrendsOverTime(state) {
-  return state.googleTrends.btcGoogleTrendsOverTime;
+  if (state.trendIndexCharts.btc === '2Y') return state.googleTrends.btcGoogleTrendsOverTime;else return state.googleTrends.btcGoogleTrendsDaily;
 }
 
 function getXrpGoogleTrendsOverTime(state) {
-  return state.googleTrends.xrpGoogleTrendsOverTime;
+  if (state.trendIndexCharts.xrp === '2Y') return state.googleTrends.xrpGoogleTrendsOverTime;else return state.googleTrends.xrpGoogleTrendsDaily;
 }
 
 function getXemGoogleTrendsOverTime(state) {
-  return state.googleTrends.xemGoogleTrendsOverTime;
+  if (state.trendIndexCharts.xem === '2Y') return state.googleTrends.xemGoogleTrendsOverTime;else return state.googleTrends.xemGoogleTrendsDaily;
 }
 
 function getLtcGoogleTrendsOverTime(state) {
-  return state.googleTrends.ltcGoogleTrendsOverTime;
+  if (state.trendIndexCharts.ltc === '2Y') return state.googleTrends.ltcGoogleTrendsOverTime;else return state.googleTrends.ltcGoogleTrendsDaily;
 }
 
 function getAllGoogleTrendsOverTime(state) {
@@ -32315,15 +32327,16 @@ function getAllGoogleTrendsOverTime(state) {
 
 function createGoogleTrendWithCurrency() {
   var currency = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  var interval = arguments[1];
 
   return function googleTrends() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var action = arguments[1];
 
     switch (action.type) {
-      case 'googleTrends.' + currency + '_GOOGLE_TRENDS_FETCHED':
+      case 'googleTrends.' + currency + '_GOOGLE_TRENDS_' + interval + '_FETCHED':
         return action.googleTrendsOverTime;
-      case 'googleTrends.' + currency + '_GOOGLE_TRENDS_FETCHED':
+      case 'googleTrends.' + currency + '_GOOGLE_TRENDS_' + interval + '_FETCHED':
         return action.googleTrendsOverTime;
       default:
         return state;
@@ -32434,7 +32447,7 @@ function getPageCount(state) {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.getEthUsdOverTime = getEthUsdOverTime;
 exports.getBtcUsdOverTime = getBtcUsdOverTime;
@@ -32456,60 +32469,93 @@ var _moment2 = _interopRequireDefault(_moment);
 
 var _redux = __webpack_require__(143);
 
+var _reducer = __webpack_require__(1007);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var rootReducer = (0, _redux.combineReducers)({
-    ethUsdOverTime: createPricesWithPairing('ETH_USD'),
-    btcUsdOverTime: createPricesWithPairing('BTC_USD'),
-    xrpUsdOverTime: createPricesWithPairing('XRP_USD'),
-    xemUsdOverTime: createPricesWithPairing('XEM_USD'),
-    ltcUsdOverTime: createPricesWithPairing('LTC_USD')
+  ethUsdOverTime: createPricesWithPairingAndInterval('ETH_USD', '2Y'),
+  btcUsdOverTime: createPricesWithPairingAndInterval('BTC_USD', '2Y'),
+  xrpUsdOverTime: createPricesWithPairingAndInterval('XRP_USD', '2Y'),
+  xemUsdOverTime: createPricesWithPairingAndInterval('XEM_USD', '2Y'),
+  ltcUsdOverTime: createPricesWithPairingAndInterval('LTC_USD', '2Y'),
+  ethUsdDaily: createPricesWithPairingAndInterval('ETH_USD', '3M'),
+  btcUsdDaily: createPricesWithPairingAndInterval('BTC_USD', '3M'),
+  xrpUsdDaily: createPricesWithPairingAndInterval('XRP_USD', '3M'),
+  xemUsdDaily: createPricesWithPairingAndInterval('XEM_USD', '3M'),
+  ltcUsdDaily: createPricesWithPairingAndInterval('LTC_USD', '3M')
 });
 
 exports.default = rootReducer;
 function getEthUsdOverTime(state) {
+  if ((0, _reducer.getChartInterval)(state, 'eth') === '2Y') {
     if (!state.prices.ethUsdOverTime) return;
     return state.prices.ethUsdOverTime;
+  } else {
+    if (!state.prices.ethUsdDaily) return;
+    return state.prices.ethUsdDaily;
+  }
 }
 
 function getBtcUsdOverTime(state) {
+  if ((0, _reducer.getChartInterval)(state, 'btc') === '2Y') {
     if (!state.prices.btcUsdOverTime) return;
     return state.prices.btcUsdOverTime;
+  } else {
+    if (!state.prices.btcUsdDaily) return;
+    return state.prices.btcUsdDaily;
+  }
 }
 
 function getXrpUsdOverTime(state) {
+  if ((0, _reducer.getChartInterval)(state, 'xrp') === '2Y') {
     if (!state.prices.xrpUsdOverTime) return;
     return state.prices.xrpUsdOverTime;
+  } else {
+    if (!state.prices.xrpUsdDaily) return;
+    return state.prices.xrpUsdDaily;
+  }
 }
 
 function getXemUsdOverTime(state) {
+  if ((0, _reducer.getChartInterval)(state, 'xem') === '2Y') {
     if (!state.prices.xemUsdOverTime) return;
     return state.prices.xemUsdOverTime;
+  } else {
+    if (!state.prices.xemUsdDaily) return;
+    return state.prices.xemUsdDaily;
+  }
 }
 
 function getLtcUsdOverTime(state) {
+  if ((0, _reducer.getChartInterval)(state, 'ltc') === '2Y') {
     if (!state.prices.ltcUsdOverTime) return;
     return state.prices.ltcUsdOverTime;
+  } else {
+    if (!state.prices.ltcUsdDaily) return;
+    return state.prices.ltcUsdDaily;
+  }
 }
 
-function createPricesWithPairing() {
-    var currencyPairing = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+function createPricesWithPairingAndInterval() {
+  var currencyPairing = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  var interval = arguments[1];
 
-    return function prices() {
-        var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-        var action = arguments[1];
+  return function prices() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
 
-        switch (action.type) {
-            case 'prices.' + currencyPairing + '_FETCHED':
-                return action.pricesOverTime;
-            case 'prices.' + currencyPairing + '_FETCHED':
-                return action.pricesOverTime;
-            default:
-                return state;
-        }
-    };
+    switch (action.type) {
+      case 'prices.' + currencyPairing + '_' + interval + '_FETCHED':
+        return action.pricesOverTime;
+      case 'prices.' + currencyPairing + '_' + interval + '_FETCHED':
+        return action.pricesOverTime;
+      default:
+        return state;
+    }
+  };
 }
 
 /***/ }),
@@ -38909,12 +38955,18 @@ var FOCUSED_INPUT_CHANGED = exports.FOCUSED_INPUT_CHANGED = 'dates.FOCUSED_INPUT
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var ETH_GOOGLE_TRENDS_FETCHED = exports.ETH_GOOGLE_TRENDS_FETCHED = 'googleTrends.ETH_GOOGLE_TRENDS_FETCHED';
-var BTC_GOOGLE_TRENDS_FETCHED = exports.BTC_GOOGLE_TRENDS_FETCHED = 'googleTrends.BTC_GOOGLE_TRENDS_FETCHED';
-var XRP_GOOGLE_TRENDS_FETCHED = exports.XRP_GOOGLE_TRENDS_FETCHED = 'googleTrends.XRP_GOOGLE_TRENDS_FETCHED';
-var XEM_GOOGLE_TRENDS_FETCHED = exports.XEM_GOOGLE_TRENDS_FETCHED = 'googleTrends.XEM_GOOGLE_TRENDS_FETCHED';
-var LTC_GOOGLE_TRENDS_FETCHED = exports.LTC_GOOGLE_TRENDS_FETCHED = 'googleTrends.LTC_GOOGLE_TRENDS_FETCHED';
-var COMPARE_GOOGLE_TRENDS_FETCHED = exports.COMPARE_GOOGLE_TRENDS_FETCHED = 'googleTrends.COMPARE_GOOGLE_TRENDS_FETCHED';
+var ETH_GOOGLE_TRENDS_2Y_FETCHED = exports.ETH_GOOGLE_TRENDS_2Y_FETCHED = 'googleTrends.ETH_GOOGLE_TRENDS_2Y_FETCHED';
+var BTC_GOOGLE_TRENDS_2Y_FETCHED = exports.BTC_GOOGLE_TRENDS_2Y_FETCHED = 'googleTrends.BTC_GOOGLE_TRENDS_2Y_FETCHED';
+var XRP_GOOGLE_TRENDS_2Y_FETCHED = exports.XRP_GOOGLE_TRENDS_2Y_FETCHED = 'googleTrends.XRP_GOOGLE_TRENDS_2Y_FETCHED';
+var XEM_GOOGLE_TRENDS_2Y_FETCHED = exports.XEM_GOOGLE_TRENDS_2Y_FETCHED = 'googleTrends.XEM_GOOGLE_TRENDS_2Y_FETCHED';
+var LTC_GOOGLE_TRENDS_2Y_FETCHED = exports.LTC_GOOGLE_TRENDS_2Y_FETCHED = 'googleTrends.LTC_GOOGLE_TRENDS_2Y_FETCHED';
+var COMPARE_GOOGLE_TRENDS_2Y_FETCHED = exports.COMPARE_GOOGLE_TRENDS_2Y_FETCHED = 'googleTrends.COMPARE_GOOGLE_TRENDS_2Y_FETCHED';
+var ETH_GOOGLE_TRENDS_3M_FETCHED = exports.ETH_GOOGLE_TRENDS_3M_FETCHED = 'googleTrends.ETH_GOOGLE_TRENDS_3M_FETCHED';
+var BTC_GOOGLE_TRENDS_3M_FETCHED = exports.BTC_GOOGLE_TRENDS_3M_FETCHED = 'googleTrends.BTC_GOOGLE_TRENDS_3M_FETCHED';
+var XRP_GOOGLE_TRENDS_3M_FETCHED = exports.XRP_GOOGLE_TRENDS_3M_FETCHED = 'googleTrends.XRP_GOOGLE_TRENDS_3M_FETCHED';
+var XEM_GOOGLE_TRENDS_3M_FETCHED = exports.XEM_GOOGLE_TRENDS_3M_FETCHED = 'googleTrends.XEM_GOOGLE_TRENDS_3M_FETCHED';
+var LTC_GOOGLE_TRENDS_3M_FETCHED = exports.LTC_GOOGLE_TRENDS_3M_FETCHED = 'googleTrends.LTC_GOOGLE_TRENDS_3M_FETCHED';
+var COMPARE_GOOGLE_TRENDS_3M_FETCHED = exports.COMPARE_GOOGLE_TRENDS_3M_FETCHED = 'googleTrends.COMPARE_GOOGLE_TRENDS_3M_FETCHED';
 
 /***/ }),
 /* 239 */
@@ -38942,7 +38994,7 @@ function fetchGoogleTrendsOverTime(currency) {
 
   return function () {
     return function () {
-      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(dispatch) {
+      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(dispatch, getState) {
         var googleTrendsOverTime;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
@@ -38955,7 +39007,7 @@ function fetchGoogleTrendsOverTime(currency) {
               case 3:
                 googleTrendsOverTime = _context.sent;
 
-                dispatch({ type: types[currency.toUpperCase() + '_GOOGLE_TRENDS_FETCHED'], googleTrendsOverTime: googleTrendsOverTime });
+                dispatch({ type: types[currency.toUpperCase() + '_GOOGLE_TRENDS_2Y_FETCHED'], googleTrendsOverTime: googleTrendsOverTime });
                 _context.next = 10;
                 break;
 
@@ -38973,8 +39025,51 @@ function fetchGoogleTrendsOverTime(currency) {
         }, _callee, _this, [[0, 7]]);
       }));
 
-      return function (_x) {
+      return function (_x, _x2) {
         return _ref.apply(this, arguments);
+      };
+    }();
+  };
+}
+
+function fetchGoogleTrendsDaily(currency) {
+  var _this2 = this;
+
+  return function () {
+    return function () {
+      var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(dispatch, getState) {
+        var googleTrendsOverTime;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                _context2.next = 3;
+                return (0, _googleTrends.getDailyGoogleTrend)(currency);
+
+              case 3:
+                googleTrendsOverTime = _context2.sent;
+
+                dispatch({ type: types[currency.toUpperCase() + '_GOOGLE_TRENDS_3M_FETCHED'], googleTrendsOverTime: googleTrendsOverTime });
+                _context2.next = 10;
+                break;
+
+              case 7:
+                _context2.prev = 7;
+                _context2.t0 = _context2['catch'](0);
+
+                console.log(_context2.t0);
+
+              case 10:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, _this2, [[0, 7]]);
+      }));
+
+      return function (_x3, _x4) {
+        return _ref2.apply(this, arguments);
       };
     }();
   };
@@ -38986,6 +39081,13 @@ var googleTrendsActions = {
   fetchXrpGoogleTrendsOverTime: fetchGoogleTrendsOverTime('xrp'),
   fetchXemGoogleTrendsOverTime: fetchGoogleTrendsOverTime('xem'),
   fetchLtcGoogleTrendsOverTime: fetchGoogleTrendsOverTime('ltc'),
+
+  fetchEthGoogleTrendsDaily: fetchGoogleTrendsDaily('eth'),
+  fetchBtcGoogleTrendsDaily: fetchGoogleTrendsDaily('btc'),
+  fetchXrpGoogleTrendsDaily: fetchGoogleTrendsDaily('xrp'),
+  fetchXemGoogleTrendsDaily: fetchGoogleTrendsDaily('xem'),
+  fetchLtcGoogleTrendsDaily: fetchGoogleTrendsDaily('ltc'),
+
   fetchAllGoogleTrendsOverTime: fetchGoogleTrendsOverTime('compare')
 };
 
@@ -39014,11 +39116,16 @@ var PAGE_COUNT_CHANGED = exports.PAGE_COUNT_CHANGED = 'pagination.PAGE_COUNT_CHA
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var ETH_USD_FETCHED = exports.ETH_USD_FETCHED = 'prices.ETH_USD_FETCHED';
-var BTC_USD_FETCHED = exports.BTC_USD_FETCHED = 'prices.BTC_USD_FETCHED';
-var XRP_USD_FETCHED = exports.XRP_USD_FETCHED = 'prices.XRP_USD_FETCHED';
-var XEM_USD_FETCHED = exports.XEM_USD_FETCHED = 'prices.XEM_USD_FETCHED';
-var LTC_USD_FETCHED = exports.LTC_USD_FETCHED = 'prices.LTC_USD_FETCHED';
+var ETH_USD_2Y_FETCHED = exports.ETH_USD_2Y_FETCHED = 'prices.ETH_USD_2Y_FETCHED';
+var BTC_USD_2Y_FETCHED = exports.BTC_USD_2Y_FETCHED = 'prices.BTC_USD_2Y_FETCHED';
+var XRP_USD_2Y_FETCHED = exports.XRP_USD_2Y_FETCHED = 'prices.XRP_USD_2Y_FETCHED';
+var XEM_USD_2Y_FETCHED = exports.XEM_USD_2Y_FETCHED = 'prices.XEM_USD_2Y_FETCHED';
+var LTC_USD_2Y_FETCHED = exports.LTC_USD_2Y_FETCHED = 'prices.LTC_USD_2Y_FETCHED';
+var ETH_USD_3M_FETCHED = exports.ETH_USD_3M_FETCHED = 'prices.ETH_USD_3M_FETCHED';
+var BTC_USD_3M_FETCHED = exports.BTC_USD_3M_FETCHED = 'prices.BTC_USD_3M_FETCHED';
+var XRP_USD_3M_FETCHED = exports.XRP_USD_3M_FETCHED = 'prices.XRP_USD_3M_FETCHED';
+var XEM_USD_3M_FETCHED = exports.XEM_USD_3M_FETCHED = 'prices.XEM_USD_3M_FETCHED';
+var LTC_USD_3M_FETCHED = exports.LTC_USD_3M_FETCHED = 'prices.LTC_USD_3M_FETCHED';
 
 /***/ }),
 /* 242 */
@@ -39046,7 +39153,7 @@ function fetchCurrencyPairPricesOverTime(currencyA, currencyB) {
 
   return function () {
     return function () {
-      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(dispatch) {
+      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(dispatch, getState) {
         var pricesOverTime;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
@@ -39059,7 +39166,7 @@ function fetchCurrencyPairPricesOverTime(currencyA, currencyB) {
               case 3:
                 pricesOverTime = _context.sent;
 
-                dispatch({ type: types[currencyA.toUpperCase() + '_' + currencyB.toUpperCase() + '_FETCHED'], pricesOverTime: pricesOverTime });
+                dispatch({ type: types[currencyA.toUpperCase() + '_' + currencyB.toUpperCase() + '_2Y_FETCHED'], pricesOverTime: pricesOverTime });
                 _context.next = 10;
                 break;
 
@@ -39077,8 +39184,51 @@ function fetchCurrencyPairPricesOverTime(currencyA, currencyB) {
         }, _callee, _this, [[0, 7]]);
       }));
 
-      return function (_x) {
+      return function (_x, _x2) {
         return _ref.apply(this, arguments);
+      };
+    }();
+  };
+}
+
+function fetchCurrencyPairPricesDaily(currencyA, currencyB) {
+  var _this2 = this;
+
+  return function () {
+    return function () {
+      var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(dispatch, getState) {
+        var pricesOverTime;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                _context2.next = 3;
+                return (0, _prices.getDailyPairPrices)(currencyA, currencyB);
+
+              case 3:
+                pricesOverTime = _context2.sent;
+
+                dispatch({ type: types[currencyA.toUpperCase() + '_' + currencyB.toUpperCase() + '_3M_FETCHED'], pricesOverTime: pricesOverTime });
+                _context2.next = 10;
+                break;
+
+              case 7:
+                _context2.prev = 7;
+                _context2.t0 = _context2['catch'](0);
+
+                console.log(_context2.t0);
+
+              case 10:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, _this2, [[0, 7]]);
+      }));
+
+      return function (_x3, _x4) {
+        return _ref2.apply(this, arguments);
       };
     }();
   };
@@ -39089,7 +39239,12 @@ var pricesActions = {
   fetchBtcUsdOverTime: fetchCurrencyPairPricesOverTime('btc', 'usd'),
   fetchXrpUsdOverTime: fetchCurrencyPairPricesOverTime('xrp', 'usd'),
   fetchXemUsdOverTime: fetchCurrencyPairPricesOverTime('xem', 'usd'),
-  fetchLtcUsdOverTime: fetchCurrencyPairPricesOverTime('ltc', 'usd')
+  fetchLtcUsdOverTime: fetchCurrencyPairPricesOverTime('ltc', 'usd'),
+  fetchEthUsdDaily: fetchCurrencyPairPricesDaily('eth', 'usd'),
+  fetchBtcUsdDaily: fetchCurrencyPairPricesDaily('btc', 'usd'),
+  fetchXrpUsdDaily: fetchCurrencyPairPricesDaily('xrp', 'usd'),
+  fetchXemUsdDaily: fetchCurrencyPairPricesDaily('xem', 'usd'),
+  fetchLtcUsdDaily: fetchCurrencyPairPricesDaily('ltc', 'usd')
 };
 
 exports.default = pricesActions;
@@ -71169,6 +71324,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+__webpack_require__(1005);
+
 var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
@@ -71178,6 +71335,8 @@ var _reactAutobind = __webpack_require__(44);
 var _reactAutobind2 = _interopRequireDefault(_reactAutobind);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -71200,6 +71359,9 @@ var PriceTrendChart = function (_Component) {
   _createClass(PriceTrendChart, [{
     key: 'render',
     value: function render() {
+      var _this2 = this,
+          _config;
+
       var chartStyle, loaderStyle;
       if (!this.props.dataProvider.length) {
         chartStyle = {
@@ -71221,7 +71383,7 @@ var PriceTrendChart = function (_Component) {
         };
       }
 
-      var config = {
+      var config = (_config = {
         "type": "serial",
         "theme": "light",
         "marginRight": 70,
@@ -71276,6 +71438,9 @@ var PriceTrendChart = function (_Component) {
           "valueField": this.props.currencyPairValue,
           "balloonText": "<span style='font-size:12px;'>[[value]]</span>"
         }],
+        "chartScrollbar": {
+          "autoHide": true
+        },
         "chartCursor": {
           "pan": true,
           "cursorAlpha": 1,
@@ -71283,40 +71448,64 @@ var PriceTrendChart = function (_Component) {
           "limitToGraph": "g1",
           "valueLineAlpha": 0.2,
           "valueZoomable": true
-        },
-        "chartScrollbar": {
-          "offset": 30,
-          "backgroundAlpha": 0,
-          "selectedBackgroundAlpha": 0.1,
-          "selectedBackgroundColor": "#888888",
-          "graphFillAlpha": 0,
-          "graphLineAlpha": 0.5,
-          "selectedGraphFillAlpha": 0,
-          "selectedGraphLineAlpha": 1,
-          "autoGridCount": true,
-          "color": "#AAAAAA",
-          "graph": "g1",
-          "scrollbarHeight": 40
-        },
-        "categoryField": "date",
-        "categoryAxis": {
-          "dashLength": 1,
-          "minorGridEnabled": true,
-          "parseDates": true
-        },
-        "export": {
-          "enabled": true
-        },
-        "dataProvider": this.props.dataProvider
-      };
+        }
+      }, _defineProperty(_config, 'chartScrollbar', {
+        "offset": 30,
+        "backgroundAlpha": 0,
+        "selectedBackgroundAlpha": 0.1,
+        "selectedBackgroundColor": "#888888",
+        "graphFillAlpha": 0,
+        "graphLineAlpha": 0.5,
+        "selectedGraphFillAlpha": 0,
+        "selectedGraphLineAlpha": 1,
+        "autoGridCount": true,
+        "color": "#AAAAAA",
+        "graph": "g1",
+        "scrollbarHeight": 40
+      }), _defineProperty(_config, "categoryField", "date"), _defineProperty(_config, "categoryAxis", {
+        "dashLength": 1,
+        "minorGridEnabled": true,
+        "parseDates": true
+      }), _defineProperty(_config, "export", {
+        "enabled": true
+      }), _defineProperty(_config, "listeners", [{
+        "event": "rendered",
+        "method": function method(e) {
+          if (_this2.props.dataProvider.length && _this2.refs.chart) {
+            _this2.refs.chart.state.chart.zoomOut();
+          }
+        }
+      }]), _defineProperty(_config, "dataProvider", this.props.dataProvider), _config);
 
       return _react2.default.createElement(
         'div',
         null,
         _react2.default.createElement(
-          'p',
-          { style: { fontWeight: '600', fontSize: '16px', margin: '30px 0 0 50px' } },
-          this.props.label
+          'div',
+          { className: 'google-trends__chart-header' },
+          _react2.default.createElement(
+            'span',
+            null,
+            this.props.label
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'btn-group price-trend-chart__time-btn', role: 'group', 'aria-label': 'Basic example' },
+            _react2.default.createElement(
+              'button',
+              { type: 'button', className: 'btn btn-secondary', onClick: function onClick() {
+                  return _this2.props.handleTimeIntervalChange(_this2.props.ticker, '3M');
+                } },
+              'last three months'
+            ),
+            _react2.default.createElement(
+              'button',
+              { type: 'button', className: 'btn btn-secondary', onClick: function onClick() {
+                  return _this2.props.handleTimeIntervalChange(_this2.props.ticker, '2Y');
+                } },
+              'last two years'
+            )
+          )
         ),
         _react2.default.createElement(
           'div',
@@ -72433,6 +72622,10 @@ var _actions3 = __webpack_require__(242);
 
 var _actions4 = _interopRequireDefault(_actions3);
 
+var _actions5 = __webpack_require__(1008);
+
+var trendIndexChartsActions = _interopRequireWildcard(_actions5);
+
 var _reducer2 = __webpack_require__(155);
 
 var pricesSelectors = _interopRequireWildcard(_reducer2);
@@ -72477,9 +72670,13 @@ var TrendIndex = function (_Component) {
       this.props.dispatch(_actions4.default.fetchLtcUsdOverTime());
     }
   }, {
+    key: 'handleTimeIntervalChange',
+    value: function handleTimeIntervalChange(currency, interval) {
+      this.props.dispatch(trendIndexChartsActions.updateChartInterval(currency, interval));
+    }
+  }, {
     key: 'render',
     value: function render() {
-
       return _react2.default.createElement(
         'div',
         { className: 'TrendIndex' },
@@ -72514,42 +72711,52 @@ var TrendIndex = function (_Component) {
               }),
               _react2.default.createElement(_components.PriceTrendChart, {
                 label: 'Ethererum',
+                ticker: 'eth',
                 currencyPairLabel: 'ETH/USD',
                 currencyPairValue: 'ethUsd',
                 googleTrendsLabel: 'Ethererum google trends',
+                handleTimeIntervalChange: this.handleTimeIntervalChange,
                 dataProvider: this.props.ethDataProvider
               }),
               _react2.default.createElement(_components.PriceTrendChart, {
                 label: 'Bitcoin',
+                ticker: 'btc',
                 currencyPairLabel: 'BTC/USD',
                 currencyPairValue: 'btcUsd',
                 googleTrendsLabel: 'Bitcoin google trends',
+                handleTimeIntervalChange: this.handleTimeIntervalChange,
                 dataProvider: this.props.btcDataProvider
               }),
               _react2.default.createElement(_components.PriceTrendChart, {
                 label: 'Ripple',
+                ticker: 'xrp',
                 currencyPairLabel: 'XRP/USD',
                 currencyPairValue: 'xrpUsd',
                 googleTrendsLabel: 'Ripple google trends',
+                handleTimeIntervalChange: this.handleTimeIntervalChange,
                 dataProvider: this.props.xrpDataProvider
               }),
               _react2.default.createElement(_components.PriceTrendChart, {
                 label: 'NEM',
+                ticker: 'xem',
                 currencyPairLabel: 'XEM/USD',
                 currencyPairValue: 'xemUsd',
                 googleTrendsLabel: 'NEM google trends',
+                handleTimeIntervalChange: this.handleTimeIntervalChange,
                 dataProvider: this.props.xemDataProvider
               }),
               _react2.default.createElement(_components.PriceTrendChart, {
                 label: 'Litecoin',
+                ticker: 'ltc',
                 currencyPairLabel: 'LTC/USD',
                 currencyPairValue: 'ltcUsd',
                 googleTrendsLabel: 'Litecoin google trends',
+                handleTimeIntervalChange: this.handleTimeIntervalChange,
                 dataProvider: this.props.ltcDataProvider
               }),
               _react2.default.createElement(
                 'p',
-                { style: { fontWeight: '600', fontSize: '12px', margin: '30px 0 0 50px' } },
+                { style: { fontWeight: '600', fontSize: '16px', margin: '30px 0 0 50px' } },
                 'More To Come'
               )
             )
@@ -72748,6 +72955,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getGoogleTrendOverTime = getGoogleTrendOverTime;
+exports.getDailyGoogleTrend = getDailyGoogleTrend;
 
 var _axios = __webpack_require__(111);
 
@@ -72757,6 +72965,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function getGoogleTrendOverTime(currency) {
   return _axios2.default.get('/api/google-trends/' + currency + '/years').then(function (res) {
+    return res.data;
+  });
+}
+
+function getDailyGoogleTrend(currency) {
+  return _axios2.default.get('/api/google-trends/' + currency + '/daily').then(function (res) {
     return res.data;
   });
 }
@@ -72772,6 +72986,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getPairPricesOverTime = getPairPricesOverTime;
+exports.getDailyPairPrices = getDailyPairPrices;
 
 var _axios = __webpack_require__(111);
 
@@ -72781,6 +72996,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function getPairPricesOverTime(currencyA, currencyB) {
   return _axios2.default.get('/api/prices/' + currencyA + currencyB + '/years').then(function (res) {
+    return res.data;
+  });
+}
+
+function getDailyPairPrices(currencyA, currencyB) {
+  return _axios2.default.get('/api/prices/' + currencyA + currencyB + '/daily').then(function (res) {
     return res.data;
   });
 }
@@ -124423,6 +124644,181 @@ var TrendsChart = function (_Component) {
 }(_react.Component);
 
 exports.default = TrendsChart;
+
+/***/ }),
+/* 1004 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(43)();
+// imports
+
+
+// module
+exports.push([module.i, ".google-trends__chart-header span {\n  font-weight: 600;\n  font-size: 16px;\n  margin-left: 50px;\n  margin-bottom: 0px;\n  margin-right: 10px; }\n\n.price-trend-chart__time-btn button {\n  font-size: 12px; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 1005 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(1004);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(45)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./PriceTrendChart.scss", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./PriceTrendChart.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 1006 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var CHART_INTERVAL_UPDATED = exports.CHART_INTERVAL_UPDATED = 'trendIndexCharts.CHART_INTERVAL_UPDATED';
+
+/***/ }),
+/* 1007 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.default = reduce;
+exports.getChartInterval = getChartInterval;
+
+var _lodash = __webpack_require__(53);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _actionTypes = __webpack_require__(1006);
+
+var types = _interopRequireWildcard(_actionTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var initialState = {
+  eth: '2Y',
+  btc: '2Y',
+  xrp: '2Y',
+  xem: '2Y',
+  ltc: '2Y'
+};
+
+function reduce() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  var newState = _extends({}, state);
+  switch (action.type) {
+    case types.CHART_INTERVAL_UPDATED:
+      newState[action.currency] = action.interval;
+      return newState;
+    default:
+      return state;
+  }
+}
+
+function getChartInterval(state, currency) {
+  return state.trendIndexCharts[currency];
+}
+
+/***/ }),
+/* 1008 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.updateChartInterval = updateChartInterval;
+
+var _lodash = __webpack_require__(53);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _actionTypes = __webpack_require__(1006);
+
+var types = _interopRequireWildcard(_actionTypes);
+
+var _actions = __webpack_require__(239);
+
+var _actions2 = _interopRequireDefault(_actions);
+
+var _actions3 = __webpack_require__(242);
+
+var _actions4 = _interopRequireDefault(_actions3);
+
+var _utils = __webpack_require__(1009);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function updateChartInterval(currency, interval) {
+  return function (dispatch, getState) {
+    dispatch({
+      type: 'trendIndexCharts.CHART_INTERVAL_UPDATED',
+      currency: currency,
+      interval: interval
+    });
+    if (interval === '3M') {
+      var priceFn = 'fetch' + (0, _utils.capitalizeFirstLetter)(currency) + 'UsdDaily';
+      var trendFn = 'fetch' + (0, _utils.capitalizeFirstLetter)(currency) + 'GoogleTrendsDaily';
+      dispatch(_actions4.default[priceFn]());
+      dispatch(_actions2.default[trendFn]());
+    } else {
+      var _priceFn = 'fetch' + (0, _utils.capitalizeFirstLetter)(currency) + 'UsdOverTime';
+      var _trendFn = 'fetch' + (0, _utils.capitalizeFirstLetter)(currency) + 'GoogleTrendsOverTime';
+      dispatch(_actions4.default[_priceFn]());
+      dispatch(_actions2.default[_trendFn]());
+    }
+  };
+}
+
+/***/ }),
+/* 1009 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var capitalizeFirstLetter = exports.capitalizeFirstLetter = function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
 
 /***/ })
 /******/ ]);

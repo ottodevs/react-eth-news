@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import googleTrendsActions from '../store/googleTrends/actions';
 import * as googleTrendsSelectors from '../store/googleTrends/reducer';
 import pricesActions from '../store/prices/actions';
+import * as trendIndexChartsActions from '../store/trendIndexCharts/actions';
 import * as pricesSelectors from '../store/prices/reducer';
 import {PriceTrendChart, TrendsChart} from '../components'
 
@@ -27,8 +28,11 @@ class TrendIndex extends Component {
     this.props.dispatch(pricesActions.fetchLtcUsdOverTime())
   }
 
-  render() {
+  handleTimeIntervalChange(currency, interval) {
+    this.props.dispatch(trendIndexChartsActions.updateChartInterval(currency, interval))
+  }
 
+  render() {
     return (
       <div className="TrendIndex">
         <section className="header-section container">
@@ -46,47 +50,55 @@ class TrendIndex extends Component {
               />
               <PriceTrendChart
                 label={'Ethererum'}
+                ticker={'eth'}
                 currencyPairLabel={'ETH/USD'}
                 currencyPairValue={'ethUsd'}
                 googleTrendsLabel={'Ethererum google trends'}
+                handleTimeIntervalChange={this.handleTimeIntervalChange}
                 dataProvider={this.props.ethDataProvider}
               />
               <PriceTrendChart
                 label={'Bitcoin'}
+                ticker={'btc'}
                 currencyPairLabel={'BTC/USD'}
                 currencyPairValue={'btcUsd'}
                 googleTrendsLabel={'Bitcoin google trends'}
+                handleTimeIntervalChange={this.handleTimeIntervalChange}
                 dataProvider={this.props.btcDataProvider}
               />
               <PriceTrendChart
                 label={'Ripple'}
+                ticker={'xrp'}
                 currencyPairLabel={'XRP/USD'}
                 currencyPairValue={'xrpUsd'}
                 googleTrendsLabel={'Ripple google trends'}
+                handleTimeIntervalChange={this.handleTimeIntervalChange}
                 dataProvider={this.props.xrpDataProvider}
               />
               <PriceTrendChart
                 label={'NEM'}
+                ticker={'xem'}
                 currencyPairLabel={'XEM/USD'}
                 currencyPairValue={'xemUsd'}
                 googleTrendsLabel={'NEM google trends'}
+                handleTimeIntervalChange={this.handleTimeIntervalChange}
                 dataProvider={this.props.xemDataProvider}
               />
               <PriceTrendChart
                 label={'Litecoin'}
+                ticker={'ltc'}
                 currencyPairLabel={'LTC/USD'}
                 currencyPairValue={'ltcUsd'}
                 googleTrendsLabel={'Litecoin google trends'}
+                handleTimeIntervalChange={this.handleTimeIntervalChange}
                 dataProvider={this.props.ltcDataProvider}
               />
-              <p style={{fontWeight: '600', fontSize: '12px', margin: '30px 0 0 50px'}}>More To Come</p>
+              <p style={{fontWeight: '600', fontSize: '16px', margin: '30px 0 0 50px'}}>More To Come</p>
             </div>
           </div>
         </section>
       </div>
     )
-
-
   }
 
 

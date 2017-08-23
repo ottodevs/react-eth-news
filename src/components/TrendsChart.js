@@ -111,6 +111,7 @@ export default class TrendsChart  extends Component {
       "dataProvider": this.props.dataProvider,
     }
 
+
     return (
       <div>
         <p style={{fontWeight: '600', fontSize: '16px', margin: '30px 0 0 50px'}}>Compare Trends</p>
