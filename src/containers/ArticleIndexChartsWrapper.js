@@ -251,12 +251,13 @@ function mapStateToProps(state) {
   var articlesByDate = []
   var dates = datesSelectors.getCurrentDateRange(state);
   if (googleTrendsOverTime && ethUsdOverTime) {
-    var dataLength = googleTrendsOverTime.length <= ethUsdOverTime.length ?
-      googleTrendsOverTime.length : ethUsdOverTime.length;
-    googleTrendsOverTime = googleTrendsOverTime.slice(0, dataLength);
-    ethUsdOverTime = ethUsdOverTime.slice(0, dataLength);
-    dataProvider = _.merge(googleTrendsOverTime, ethUsdOverTime);
-    articlesByDate = articlesSelectors.getArticlesGroupByDate(state);
+    const googleTrendsIndex = _.keyBy(googleTrendsOverTime, 'date');
+    const priceIndex = _.keyBy(ethUsdOverTime, 'date');
+    dataProvider = _(priceIndex)
+      .pick(_.keys(googleTrendsIndex))
+      .merge(_.pick(googleTrendsIndex, _.keys(priceIndex)))
+      .values()
+      .value()
   }
   return {
     googleTrendsOverTime,
