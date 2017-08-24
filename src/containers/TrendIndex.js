@@ -75,24 +75,5 @@ function getDataProvider(state, priceSelector, googleTrendSelector) {
   return dataProvider;
 }
 
-function mapStateToProps(state) {
-  const ethDataProvider = getDataProvider(
-      state, pricesSelectors.getEthUsdOverTime, googleTrendsSelectors.getEthGoogleTrendsOverTime);
-  const xrpDataProvider = getDataProvider(
-      state, pricesSelectors.getXrpUsdOverTime, googleTrendsSelectors.getXrpGoogleTrendsOverTime);
-  const xemDataProvider = getDataProvider(
-      state, pricesSelectors.getXemUsdOverTime, googleTrendsSelectors.getXemGoogleTrendsOverTime);
-  const ltcDataProvider = getDataProvider(
-      state, pricesSelectors.getLtcUsdOverTime, googleTrendsSelectors.getLtcGoogleTrendsOverTime);
-  const bchDataProvider = getDataProvider(
-      state, pricesSelectors.getBchUsdOverTime, googleTrendsSelectors.getBchGoogleTrendsOverTime);
-  return {
-    ethDataProvider: ethDataProvider,
-    xrpDataProvider: xrpDataProvider,
-    xemDataProvider: xemDataProvider,
-    ltcDataProvider: ltcDataProvider,
-    bchDataProvider: bchDataProvider,
-  }
-}
 
-export default connect(mapStateToProps)(TrendIndex)
+export default TrendIndex
