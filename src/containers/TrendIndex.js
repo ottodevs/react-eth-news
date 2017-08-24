@@ -23,27 +23,6 @@ class TrendIndex extends Component {
     autoBind(this);
   }
 
-  componentDidMount() {
-
-
-
-    this.props.dispatch(googleTrendsActions.fetchXrpGoogleTrendsOverTime())
-    this.props.dispatch(googleTrendsActions.fetchXemGoogleTrendsOverTime())
-    this.props.dispatch(googleTrendsActions.fetchLtcGoogleTrendsOverTime())
-    this.props.dispatch(googleTrendsActions.fetchBchGoogleTrendsDaily())
-
-
-    this.props.dispatch(pricesActions.fetchXrpUsdOverTime())
-    this.props.dispatch(pricesActions.fetchXemUsdOverTime())
-    this.props.dispatch(pricesActions.fetchLtcUsdOverTime())
-    this.props.dispatch(pricesActions.fetchBchUsdDaily())
-  }
-
-  handleTimeIntervalChange(currency, interval) {
-    if (currency === 'bch') return
-    this.props.dispatch(trendIndexChartsActions.updateChartInterval(currency, interval))
-  }
-
   render() {
     return (
       <div className="TrendIndex">
