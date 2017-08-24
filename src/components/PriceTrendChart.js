@@ -10,6 +10,7 @@ export default class PriceTrendChart extends Component {
   }
 
   render() {
+    console.log('aiyaya')
     var chartStyle, loaderStyle;
     if (!this.props.dataProvider.length) {
       chartStyle = {

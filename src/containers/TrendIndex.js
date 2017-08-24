@@ -6,7 +6,8 @@ import * as googleTrendsSelectors from '../store/googleTrends/reducer';
 import pricesActions from '../store/prices/actions';
 import * as trendIndexChartsActions from '../store/trendIndexCharts/actions';
 import * as pricesSelectors from '../store/prices/reducer';
-import {PriceTrendChart, TrendsChart} from '../components'
+import TrendsChartWrapper from './TrendsChartWrapper'
+import {PriceTrendChart} from '../components'
 
 class TrendIndex extends Component {
   constructor(props) {
@@ -48,9 +49,7 @@ class TrendIndex extends Component {
         <section className="container">
           <div className="row">
             <div className="col-md-12 trend-index__charts-container">
-              <TrendsChart
-                dataProvider={this.props.allDataProvider}
-              />
+              <TrendsChartWrapper />
               <PriceTrendChart
                 label={'Bitcoin'}
                 ticker={'btc'}
@@ -146,7 +145,6 @@ function mapStateToProps(state) {
       state, pricesSelectors.getLtcUsdOverTime, googleTrendsSelectors.getLtcGoogleTrendsOverTime);
   const bchDataProvider = getDataProvider(
       state, pricesSelectors.getBchUsdOverTime, googleTrendsSelectors.getBchGoogleTrendsOverTime);
-  const allDataProvider = googleTrendsSelectors.getAllGoogleTrendsOverTime(state);
   return {
     ethDataProvider: ethDataProvider,
     btcDataProvider: btcDataProvider,
@@ -154,7 +152,6 @@ function mapStateToProps(state) {
     xemDataProvider: xemDataProvider,
     ltcDataProvider: ltcDataProvider,
     bchDataProvider: bchDataProvider,
-    allDataProvider: allDataProvider
   }
 }
 

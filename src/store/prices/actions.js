@@ -1,17 +1,21 @@
 import * as types from './actionTypes';
 import { getPairPricesOverTime, getDailyPairPrices } from '../../services/prices';
+import { capitalizeFirstLetter } from '../../utils';
 
 function fetchCurrencyPairPricesOverTime(currencyA, currencyB) {
   return () => {
     return async(dispatch, getState) => {
-
-      try {
-        const pricesOverTime = await getPairPricesOverTime(currencyA, currencyB);
-        dispatch({ type: types[`${currencyA.toUpperCase()}_${currencyB.toUpperCase()}_2Y_FETCHED`], pricesOverTime: pricesOverTime });
-      } catch (error) {
-        console.log(error);
+      const current = getState().prices[`${currencyA}${capitalizeFirstLetter(currencyB)}OverTime`];
+      if (current && current.length) {
+        dispatch({ type: types[`${currencyA.toUpperCase()}_${currencyB.toUpperCase()}_2Y_FETCHED`], pricesOverTime: current });
+      } else {
+        try {
+          const pricesOverTime = await getPairPricesOverTime(currencyA, currencyB);
+          dispatch({ type: types[`${currencyA.toUpperCase()}_${currencyB.toUpperCase()}_2Y_FETCHED`], pricesOverTime: pricesOverTime });
+        } catch (error) {
+          console.log(error);
+        }
       }
-
     }
   }
 }
@@ -19,13 +23,18 @@ function fetchCurrencyPairPricesOverTime(currencyA, currencyB) {
 function fetchCurrencyPairPricesDaily(currencyA, currencyB) {
   return () => {
     return async(dispatch, getState) => {
-
-      try {
-        const pricesOverTime = await getDailyPairPrices(currencyA, currencyB);
-        dispatch({ type: types[`${currencyA.toUpperCase()}_${currencyB.toUpperCase()}_3M_FETCHED`], pricesOverTime: pricesOverTime });
-      } catch (error) {
-        console.log(error);
+      const current = getState().prices[`${currencyA}${capitalizeFirstLetter(currencyB)}Daily`];
+      if (current && current.length) {
+        dispatch({ type: types[`${currencyA.toUpperCase()}_${currencyB.toUpperCase()}_3M_FETCHED`], pricesOverTime: current });
+      } else {
+        try {
+          const pricesOverTime = await getDailyPairPrices(currencyA, currencyB);
+          dispatch({ type: types[`${currencyA.toUpperCase()}_${currencyB.toUpperCase()}_3M_FETCHED`], pricesOverTime: pricesOverTime });
+        } catch (error) {
+          console.log(error);
+        }
       }
+
 
     }
   }

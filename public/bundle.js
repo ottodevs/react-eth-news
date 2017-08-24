@@ -27454,34 +27454,46 @@ function fetchGoogleTrendsOverTime(currency) {
   return function () {
     return function () {
       var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(dispatch, getState) {
-        var googleTrendsOverTime;
+        var current, googleTrendsOverTime;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.prev = 0;
-                _context.next = 3;
+                current = getState().googleTrends[currency + 'GoogleTrendsOverTime'];
+
+                if (!(current && current.length)) {
+                  _context.next = 5;
+                  break;
+                }
+
+                dispatch({ type: types[currency.toUpperCase() + '_GOOGLE_TRENDS_2Y_FETCHED'], googleTrendsOverTime: current });
+                _context.next = 15;
+                break;
+
+              case 5:
+                _context.prev = 5;
+                _context.next = 8;
                 return (0, _googleTrends.getGoogleTrendOverTime)(currency);
 
-              case 3:
+              case 8:
                 googleTrendsOverTime = _context.sent;
 
                 dispatch({ type: types[currency.toUpperCase() + '_GOOGLE_TRENDS_2Y_FETCHED'], googleTrendsOverTime: googleTrendsOverTime });
-                _context.next = 10;
+                _context.next = 15;
                 break;
 
-              case 7:
-                _context.prev = 7;
-                _context.t0 = _context['catch'](0);
+              case 12:
+                _context.prev = 12;
+                _context.t0 = _context['catch'](5);
 
                 console.log(_context.t0);
 
-              case 10:
+              case 15:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, _this, [[0, 7]]);
+        }, _callee, _this, [[5, 12]]);
       }));
 
       return function (_x, _x2) {
@@ -27497,34 +27509,46 @@ function fetchGoogleTrendsDaily(currency) {
   return function () {
     return function () {
       var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(dispatch, getState) {
-        var googleTrendsOverTime;
+        var current, googleTrendsOverTime;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.prev = 0;
-                _context2.next = 3;
+                current = getState().googleTrends[currency + 'GoogleTrendsDaily'];
+
+                if (!(current && current.length)) {
+                  _context2.next = 5;
+                  break;
+                }
+
+                dispatch({ type: types[currency.toUpperCase() + '_GOOGLE_TRENDS_3M_FETCHED'], googleTrendsOverTime: current });
+                _context2.next = 15;
+                break;
+
+              case 5:
+                _context2.prev = 5;
+                _context2.next = 8;
                 return (0, _googleTrends.getDailyGoogleTrend)(currency);
 
-              case 3:
+              case 8:
                 googleTrendsOverTime = _context2.sent;
 
                 dispatch({ type: types[currency.toUpperCase() + '_GOOGLE_TRENDS_3M_FETCHED'], googleTrendsOverTime: googleTrendsOverTime });
-                _context2.next = 10;
+                _context2.next = 15;
                 break;
 
-              case 7:
-                _context2.prev = 7;
-                _context2.t0 = _context2['catch'](0);
+              case 12:
+                _context2.prev = 12;
+                _context2.t0 = _context2['catch'](5);
 
                 console.log(_context2.t0);
 
-              case 10:
+              case 15:
               case 'end':
                 return _context2.stop();
             }
           }
-        }, _callee2, _this2, [[0, 7]]);
+        }, _callee2, _this2, [[5, 12]]);
       }));
 
       return function (_x3, _x4) {
@@ -28906,6 +28930,8 @@ var types = _interopRequireWildcard(_actionTypes);
 
 var _prices = __webpack_require__(551);
 
+var _utils = __webpack_require__(555);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -28916,34 +28942,46 @@ function fetchCurrencyPairPricesOverTime(currencyA, currencyB) {
   return function () {
     return function () {
       var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(dispatch, getState) {
-        var pricesOverTime;
+        var current, pricesOverTime;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.prev = 0;
-                _context.next = 3;
+                current = getState().prices['' + currencyA + (0, _utils.capitalizeFirstLetter)(currencyB) + 'OverTime'];
+
+                if (!(current && current.length)) {
+                  _context.next = 5;
+                  break;
+                }
+
+                dispatch({ type: types[currencyA.toUpperCase() + '_' + currencyB.toUpperCase() + '_2Y_FETCHED'], pricesOverTime: current });
+                _context.next = 15;
+                break;
+
+              case 5:
+                _context.prev = 5;
+                _context.next = 8;
                 return (0, _prices.getPairPricesOverTime)(currencyA, currencyB);
 
-              case 3:
+              case 8:
                 pricesOverTime = _context.sent;
 
                 dispatch({ type: types[currencyA.toUpperCase() + '_' + currencyB.toUpperCase() + '_2Y_FETCHED'], pricesOverTime: pricesOverTime });
-                _context.next = 10;
+                _context.next = 15;
                 break;
 
-              case 7:
-                _context.prev = 7;
-                _context.t0 = _context['catch'](0);
+              case 12:
+                _context.prev = 12;
+                _context.t0 = _context['catch'](5);
 
                 console.log(_context.t0);
 
-              case 10:
+              case 15:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, _this, [[0, 7]]);
+        }, _callee, _this, [[5, 12]]);
       }));
 
       return function (_x, _x2) {
@@ -28959,34 +28997,46 @@ function fetchCurrencyPairPricesDaily(currencyA, currencyB) {
   return function () {
     return function () {
       var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(dispatch, getState) {
-        var pricesOverTime;
+        var current, pricesOverTime;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.prev = 0;
-                _context2.next = 3;
+                current = getState().prices['' + currencyA + (0, _utils.capitalizeFirstLetter)(currencyB) + 'Daily'];
+
+                if (!(current && current.length)) {
+                  _context2.next = 5;
+                  break;
+                }
+
+                dispatch({ type: types[currencyA.toUpperCase() + '_' + currencyB.toUpperCase() + '_3M_FETCHED'], pricesOverTime: current });
+                _context2.next = 15;
+                break;
+
+              case 5:
+                _context2.prev = 5;
+                _context2.next = 8;
                 return (0, _prices.getDailyPairPrices)(currencyA, currencyB);
 
-              case 3:
+              case 8:
                 pricesOverTime = _context2.sent;
 
                 dispatch({ type: types[currencyA.toUpperCase() + '_' + currencyB.toUpperCase() + '_3M_FETCHED'], pricesOverTime: pricesOverTime });
-                _context2.next = 10;
+                _context2.next = 15;
                 break;
 
-              case 7:
-                _context2.prev = 7;
-                _context2.t0 = _context2['catch'](0);
+              case 12:
+                _context2.prev = 12;
+                _context2.t0 = _context2['catch'](5);
 
                 console.log(_context2.t0);
 
-              case 10:
+              case 15:
               case 'end':
                 return _context2.stop();
             }
           }
-        }, _callee2, _this2, [[0, 7]]);
+        }, _callee2, _this2, [[5, 12]]);
       }));
 
       return function (_x3, _x4) {
@@ -39156,6 +39206,15 @@ Object.defineProperty(exports, 'TrendIndex', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_TrendIndex).default;
+  }
+});
+
+var _TrendsChartWrapper = __webpack_require__(1003);
+
+Object.defineProperty(exports, 'TrendsChartWrapper', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_TrendsChartWrapper).default;
   }
 });
 
@@ -71694,6 +71753,7 @@ var PriceTrendChart = function (_Component) {
       var _this2 = this,
           _config;
 
+      console.log('aiyaya');
       var chartStyle, loaderStyle;
       if (!this.props.dataProvider.length) {
         chartStyle = {
@@ -73159,6 +73219,10 @@ var _reducer2 = __webpack_require__(157);
 
 var pricesSelectors = _interopRequireWildcard(_reducer2);
 
+var _TrendsChartWrapper = __webpack_require__(1003);
+
+var _TrendsChartWrapper2 = _interopRequireDefault(_TrendsChartWrapper);
+
 var _components = __webpack_require__(113);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -73238,9 +73302,7 @@ var TrendIndex = function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'col-md-12 trend-index__charts-container' },
-              _react2.default.createElement(_components.TrendsChart, {
-                dataProvider: this.props.allDataProvider
-              }),
+              _react2.default.createElement(_TrendsChartWrapper2.default, null),
               _react2.default.createElement(_components.PriceTrendChart, {
                 label: 'Bitcoin',
                 ticker: 'btc',
@@ -73329,15 +73391,13 @@ function mapStateToProps(state) {
   var xemDataProvider = getDataProvider(state, pricesSelectors.getXemUsdOverTime, googleTrendsSelectors.getXemGoogleTrendsOverTime);
   var ltcDataProvider = getDataProvider(state, pricesSelectors.getLtcUsdOverTime, googleTrendsSelectors.getLtcGoogleTrendsOverTime);
   var bchDataProvider = getDataProvider(state, pricesSelectors.getBchUsdOverTime, googleTrendsSelectors.getBchGoogleTrendsOverTime);
-  var allDataProvider = googleTrendsSelectors.getAllGoogleTrendsOverTime(state);
   return {
     ethDataProvider: ethDataProvider,
     btcDataProvider: btcDataProvider,
     xrpDataProvider: xrpDataProvider,
     xemDataProvider: xemDataProvider,
     ltcDataProvider: ltcDataProvider,
-    bchDataProvider: bchDataProvider,
-    allDataProvider: allDataProvider
+    bchDataProvider: bchDataProvider
   };
 }
 
@@ -73417,7 +73477,7 @@ var Routes = function (_Component) {
 
       return _react2.default.createElement(
         _reactRouter.Router,
-        { history: _history2.default, onUpdate: this.logPageView },
+        { history: _history2.default },
         _react2.default.createElement(
           _components.Main,
           null,
@@ -124881,6 +124941,88 @@ exports.default = valueEqual;
 __webpack_require__(494);
 module.exports = __webpack_require__(493);
 
+
+/***/ }),
+/* 1003 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactAutobind = __webpack_require__(33);
+
+var _reactAutobind2 = _interopRequireDefault(_reactAutobind);
+
+var _reactRedux = __webpack_require__(59);
+
+var _actions = __webpack_require__(98);
+
+var _actions2 = _interopRequireDefault(_actions);
+
+var _reducer = __webpack_require__(116);
+
+var googleTrendsSelectors = _interopRequireWildcard(_reducer);
+
+var _components = __webpack_require__(113);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var TrendsChartWrapper = function (_Component) {
+  _inherits(TrendsChartWrapper, _Component);
+
+  function TrendsChartWrapper(props) {
+    _classCallCheck(this, TrendsChartWrapper);
+
+    var _this = _possibleConstructorReturn(this, (TrendsChartWrapper.__proto__ || Object.getPrototypeOf(TrendsChartWrapper)).call(this, props));
+
+    (0, _reactAutobind2.default)(_this);
+    return _this;
+  }
+
+  _createClass(TrendsChartWrapper, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {}
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(_components.TrendsChart, {
+          dataProvider: this.props.allDataProvider
+        })
+      );
+    }
+  }]);
+
+  return TrendsChartWrapper;
+}(_react.Component);
+
+function mapStateToProps(state) {
+  return {
+    allDataProvider: googleTrendsSelectors.getAllGoogleTrendsOverTime(state)
+  };
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(TrendsChartWrapper);
 
 /***/ })
 /******/ ]);
