@@ -12,11 +12,17 @@ class TrendsChartWrapper extends Component {
     autoBind(this);
   }
 
-  componentDidMount() {
+  shouldComponentUpdate(nextProps) {
+    if ((!this.props.allDataProvider || !this.props.allDataProvider.length) && nextProps.allDataProvider.length) return true
+    else return false
+  }
 
+  componentDidMount() {
+    this.props.dispatch(googleTrendsActions.fetchAllGoogleTrendsOverTime())
   }
 
   render() {
+    console.log('hurray')
     return (
 
         <div >

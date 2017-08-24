@@ -6,7 +6,15 @@ import * as googleTrendsSelectors from '../store/googleTrends/reducer';
 import pricesActions from '../store/prices/actions';
 import * as trendIndexChartsActions from '../store/trendIndexCharts/actions';
 import * as pricesSelectors from '../store/prices/reducer';
-import TrendsChartWrapper from './TrendsChartWrapper'
+import {
+  TrendsChartWrapper,
+  BtcPriceTrendChartWrapper,
+  EthPriceTrendChartWrapper,
+  BchPriceTrendChartWrapper,
+  XrpPriceTrendChartWrapper,
+  XemPriceTrendChartWrapper,
+  LtcPriceTrendChartWrapper
+} from './index'
 import {PriceTrendChart} from '../components'
 
 class TrendIndex extends Component {
@@ -16,15 +24,15 @@ class TrendIndex extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(googleTrendsActions.fetchAllGoogleTrendsOverTime())
-    this.props.dispatch(googleTrendsActions.fetchEthGoogleTrendsOverTime())
-    this.props.dispatch(googleTrendsActions.fetchBtcGoogleTrendsOverTime())
+
+
+
     this.props.dispatch(googleTrendsActions.fetchXrpGoogleTrendsOverTime())
     this.props.dispatch(googleTrendsActions.fetchXemGoogleTrendsOverTime())
     this.props.dispatch(googleTrendsActions.fetchLtcGoogleTrendsOverTime())
     this.props.dispatch(googleTrendsActions.fetchBchGoogleTrendsDaily())
-    this.props.dispatch(pricesActions.fetchEthUsdOverTime())
-    this.props.dispatch(pricesActions.fetchBtcUsdOverTime())
+
+
     this.props.dispatch(pricesActions.fetchXrpUsdOverTime())
     this.props.dispatch(pricesActions.fetchXemUsdOverTime())
     this.props.dispatch(pricesActions.fetchLtcUsdOverTime())
@@ -50,60 +58,16 @@ class TrendIndex extends Component {
           <div className="row">
             <div className="col-md-12 trend-index__charts-container">
               <TrendsChartWrapper />
-              <PriceTrendChart
-                label={'Bitcoin'}
-                ticker={'btc'}
-                currencyPairLabel={'BTC/USD'}
-                currencyPairValue={'btcUsd'}
-                googleTrendsLabel={'Bitcoin google trends'}
-                handleTimeIntervalChange={this.handleTimeIntervalChange}
-                dataProvider={this.props.btcDataProvider}
-              />
-              <PriceTrendChart
-                label={'Ethererum'}
-                ticker={'eth'}
-                currencyPairLabel={'ETH/USD'}
-                currencyPairValue={'ethUsd'}
-                googleTrendsLabel={'Ethererum google trends'}
-                handleTimeIntervalChange={this.handleTimeIntervalChange}
-                dataProvider={this.props.ethDataProvider}
-              />
-              <PriceTrendChart
-                label={'Bitcoin cash'}
-                ticker={'bch'}
-                currencyPairLabel={'BCH/USD'}
-                currencyPairValue={'bchUsd'}
-                googleTrendsLabel={'Bitcoin cash google trends'}
-                handleTimeIntervalChange={this.handleTimeIntervalChange}
-                dataProvider={this.props.bchDataProvider}
-              />
-              <PriceTrendChart
-                label={'Ripple'}
-                ticker={'xrp'}
-                currencyPairLabel={'XRP/USD'}
-                currencyPairValue={'xrpUsd'}
-                googleTrendsLabel={'Ripple google trends'}
-                handleTimeIntervalChange={this.handleTimeIntervalChange}
-                dataProvider={this.props.xrpDataProvider}
-              />
-              <PriceTrendChart
-                label={'NEM'}
-                ticker={'xem'}
-                currencyPairLabel={'XEM/USD'}
-                currencyPairValue={'xemUsd'}
-                googleTrendsLabel={'NEM google trends'}
-                handleTimeIntervalChange={this.handleTimeIntervalChange}
-                dataProvider={this.props.xemDataProvider}
-              />
-              <PriceTrendChart
-                label={'Litecoin'}
-                ticker={'ltc'}
-                currencyPairLabel={'LTC/USD'}
-                currencyPairValue={'ltcUsd'}
-                googleTrendsLabel={'Litecoin google trends'}
-                handleTimeIntervalChange={this.handleTimeIntervalChange}
-                dataProvider={this.props.ltcDataProvider}
-              />
+              <BtcPriceTrendChartWrapper />
+              <EthPriceTrendChartWrapper />
+              <BchPriceTrendChartWrapper />
+              <XrpPriceTrendChartWrapper />
+              <XemPriceTrendChartWrapper />
+              <LtcPriceTrendChartWrapper />
+
+
+
+
 
               <p style={{fontWeight: '600', fontSize: '16px', margin: '30px 0 0 50px'}}>More To Come</p>
             </div>
@@ -135,8 +99,6 @@ function getDataProvider(state, priceSelector, googleTrendSelector) {
 function mapStateToProps(state) {
   const ethDataProvider = getDataProvider(
       state, pricesSelectors.getEthUsdOverTime, googleTrendsSelectors.getEthGoogleTrendsOverTime);
-  const btcDataProvider = getDataProvider(
-      state, pricesSelectors.getBtcUsdOverTime, googleTrendsSelectors.getBtcGoogleTrendsOverTime);
   const xrpDataProvider = getDataProvider(
       state, pricesSelectors.getXrpUsdOverTime, googleTrendsSelectors.getXrpGoogleTrendsOverTime);
   const xemDataProvider = getDataProvider(
@@ -147,7 +109,6 @@ function mapStateToProps(state) {
       state, pricesSelectors.getBchUsdOverTime, googleTrendsSelectors.getBchGoogleTrendsOverTime);
   return {
     ethDataProvider: ethDataProvider,
-    btcDataProvider: btcDataProvider,
     xrpDataProvider: xrpDataProvider,
     xemDataProvider: xemDataProvider,
     ltcDataProvider: ltcDataProvider,
