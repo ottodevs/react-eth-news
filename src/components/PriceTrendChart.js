@@ -1,3 +1,4 @@
+import './PriceTrendChart.scss'
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 
@@ -13,28 +14,32 @@ export default class PriceTrendChart extends Component {
     if (!this.props.dataProvider.length) {
       chartStyle = {
         opacity: '0',
-        height: '0px'
+        height: '0px',
+        marginBottom: '30px'
       };
       loaderStyle = {
         opacity: '1',
-        height: '320px'
+        height: '320px',
+        marginBottom: '30px'
       }
     } else {
       chartStyle = {
         opacity: '1',
-        height: '320px'
+        height: '320px',
+        marginBottom: '30px'
       };
       loaderStyle = {
         opacity: '0',
-        height: '0px'
+        height: '0px',
+        marginBottom: '30px'
       }
     }
 
     const config = {
       "type": "serial",
       "theme": "light",
-      "marginRight": 60,
-      "marginLeft": 60,
+      "marginRight": 70,
+      "marginLeft": 70,
       "autoMarginOffset": 20,
       "dataDateFormat": "YYYY-MM-DD",
       "legend": {
@@ -44,16 +49,18 @@ export default class PriceTrendChart extends Component {
         "id":"v1",
         "axisAlpha": 1,
         "position": "right",
-        "ignoreAxisWidth": true
+        "ignoreAxisWidth": true,
+        "title": 'Google Trend Index'
       }, {
         "id":"v2",
         "axisAlpha": 1,
         "position": "left",
-        "ignoreAxisWidth": true
+        "ignoreAxisWidth": true,
+        "title": 'Price (USD)'
       }],
       "valueScrollbar":{
         "oppositeAxis":false,
-        "offset":50,
+        "offset":80,
         "scrollbarHeight":10
       },
       "graphs": [{
@@ -83,6 +90,9 @@ export default class PriceTrendChart extends Component {
         "valueField": this.props.currencyPairValue,
         "balloonText": "<span style='font-size:12px;'>[[value]]</span>"
       }],
+      "chartScrollbar": {
+        "autoHide": true
+      },
       "chartCursor": {
         "pan": true,
         "cursorAlpha": 1,
@@ -114,12 +124,26 @@ export default class PriceTrendChart extends Component {
       "export": {
         "enabled": true
       },
+     "listeners": [{
+        "event": "rendered",
+        "method": e => {
+          if (this.props.dataProvider.length && this.refs.chart) {
+            this.refs.chart.state.chart.zoomOut();
+          }
+        }
+      }],
       "dataProvider": this.props.dataProvider,
     }
 
     return (
       <div>
-        <p style={{fontWeight: '600', fontSize: '12px', margin: '30px 0 0 50px'}}>{this.props.label}</p>
+        <div className="google-trends__chart-header">
+          <span>{this.props.label}</span>
+          <div className="btn-group price-trend-chart__time-btn" role="group" aria-label="Basic example">
+            <button type="button" className="btn btn-secondary" onClick={()=> this.props.handleTimeIntervalChange(this.props.ticker, '3M')} >last three months</button>
+            <button type="button" className="btn btn-secondary" onClick={()=> this.props.handleTimeIntervalChange(this.props.ticker, '2Y')} >last two years</button>
+          </div>
+        </div>
         <div className="google-trends__chart-container" style={chartStyle}>
           <AmCharts.React ref="chart" {...config} />
         </div>
@@ -131,3 +155,4 @@ export default class PriceTrendChart extends Component {
   }
 
 }
+

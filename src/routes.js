@@ -25,7 +25,7 @@ class Routes extends Component {
     const {isLoggedIn} = this.props
 
     return (
-      <Router history={history} onUpdate={this.logPageView}>
+      <Router history={history}>
         <Main>
           <Switch>
             <Route path='/all' component={TrendIndex} />

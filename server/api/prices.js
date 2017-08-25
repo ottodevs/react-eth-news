@@ -6,102 +6,75 @@ const extendMoment = require('moment-range').extendMoment;
 const moment = extendMoment(Moment);
 module.exports = router;
 
-router.get('/ethusd', (req, res, next) => {
-  const apiEndPoint = `https://min-api.cryptocompare.com/data/histoday?fsym=ETH&tsym=USD&aggregate=3&e=CCCAGG&limit=2000`;
-  const startDate = new Date(moment('Jul 01, 2015', 'MMM DD, YYYY'));
-  const endDate = new Date(Date.now());
-  const range = moment.range(startDate, endDate)
-  rp(apiEndPoint)
-    .then(histPrices => {
-      const pricesOvertime = JSON.parse(histPrices)['Data'].map(price => {
-        return {
-          date: moment.unix(price.time).format('YYYY-MM-DD'),
-          ethUsd: price.open
-        }
-      }).filter(price => {
-        return range.contains(moment(price.date, 'YYYY-MM-DD'), { exclusive: false })
-      });
-      res.send(pricesOvertime)
-      return pricesOvertime;
-    })
-})
+const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
-router.get('/btcusd', (req, res, next) => {
-  const apiEndPoint = `https://min-api.cryptocompare.com/data/histoday?fsym=BTC&tsym=USD&aggregate=3&e=CCCAGG&limit=2000`;
-  const startDate = new Date(moment('Jul 01, 2015', 'MMM DD, YYYY'));
-  const endDate = new Date(Date.now());
-  const range = moment.range(startDate, endDate)
-  rp(apiEndPoint)
-    .then(histPrices => {
-      const pricesOvertime = JSON.parse(histPrices)['Data'].map(price => {
-        return {
-          date: moment.unix(price.time).format('YYYY-MM-DD'),
-          btcUsd: price.open
-        }
-      }).filter(price => {
-        return range.contains(moment(price.date, 'YYYY-MM-DD'), { exclusive: false })
-      });
-      res.send(pricesOvertime)
-      return pricesOvertime;
-    })
-})
+const getDataInNthInterval = function(data, interval) {
+  var dataInNthInterval = [];
+  for (i = 0; i <= data.length; i = i + interval) {
+    dataInNthInterval.push(data[i]);
+  }
+  return dataInNthInterval
+}
 
-router.get('/xrpusd', (req, res, next) => {
-  const apiEndPoint = `https://min-api.cryptocompare.com/data/histoday?fsym=XRP&tsym=USD&aggregate=3&e=CCCAGG&limit=2000`;
-  const startDate = new Date(moment('Jul 01, 2015', 'MMM DD, YYYY'));
-  const endDate = new Date(Date.now());
-  const range = moment.range(startDate, endDate)
-  rp(apiEndPoint)
-    .then(histPrices => {
-      const pricesOvertime = JSON.parse(histPrices)['Data'].map(price => {
-        return {
-          date: moment.unix(price.time).format('YYYY-MM-DD'),
-          xrpUsd: price.open
-        }
-      }).filter(price => {
-        return range.contains(moment(price.date, 'YYYY-MM-DD'), { exclusive: false })
-      });
-      res.send(pricesOvertime)
-      return pricesOvertime;
-    })
-})
+const generateDailyPriceMiddleware = function(currencyA, currencyB) {
+  return (req, res, next) => {
+    // can get up to past 84 days
+    const apiEndPoint = `https://min-api.cryptocompare.com/data/histohour?fsym=${currencyA.toUpperCase()}&tsym=${currencyB.toUpperCase()}&aggregate=3&e=CCCAGG&limit=2000`;
+    rp(apiEndPoint)
+      .then(histPrices => {
+        const pairingKey = currencyA + capitalizeFirstLetter(currencyB)
+        const pricesOvertime = JSON.parse(histPrices)['Data'].map(price => {
+          var priceData = {
+            date: moment.unix(price.time).format('YYYY-MM-DD'),
+          }
+          priceData[pairingKey] = price.open
+          return priceData
+        });
+        res.send(getDataInNthInterval(pricesOvertime, 8))
+        return pricesOvertime;
+      })
+  }
+}
 
-router.get('/xemusd', (req, res, next) => {
-  const apiEndPoint = `https://min-api.cryptocompare.com/data/histoday?fsym=XEM&tsym=USD&aggregate=3&e=CCCAGG&limit=2000`;
-  const startDate = new Date(moment('Jul 01, 2015', 'MMM DD, YYYY'));
-  const endDate = new Date(Date.now());
-  const range = moment.range(startDate, endDate)
-  rp(apiEndPoint)
-    .then(histPrices => {
-      const pricesOvertime = JSON.parse(histPrices)['Data'].map(price => {
-        return {
-          date: moment.unix(price.time).format('YYYY-MM-DD'),
-          xemUsd: price.open
-        }
-      }).filter(price => {
-        return range.contains(moment(price.date, 'YYYY-MM-DD'), { exclusive: false })
-      });
-      res.send(pricesOvertime)
-      return pricesOvertime;
-    })
-})
+const generateTwoYearPriceMiddleware = function(currencyA, currencyB) {
+  return (req, res, next) => {
+    const apiEndPoint = `https://min-api.cryptocompare.com/data/histoday?fsym=${currencyA.toUpperCase()}&tsym=${currencyB.toUpperCase()}&aggregate=3&e=CCCAGG&limit=2000`;
+    const startDate = new Date(moment().subtract(2, 'years'));
+    const endDate = new Date(Date.now());
+    const range = moment.range(startDate, endDate)
+    rp(apiEndPoint)
+      .then(histPrices => {
+        const pairingKey = currencyA + capitalizeFirstLetter(currencyB)
+        const pricesOvertime = JSON.parse(histPrices)['Data'].map(price => {
+          var priceData = {
+            date: moment.unix(price.time).format('YYYY-MM-DD'),
+          }
+          priceData[pairingKey] = price.open
+          return priceData
+        }).filter(price => {
+          return range.contains(moment(price.date, 'YYYY-MM-DD'), { exclusive: false })
+        });
+        res.send(pricesOvertime)
+        return pricesOvertime;
+      })
+  }
+}
 
-router.get('/ltcusd', (req, res, next) => {
-  const apiEndPoint = `https://min-api.cryptocompare.com/data/histoday?fsym=LTC&tsym=USD&aggregate=3&e=CCCAGG&limit=2000`;
-  const startDate = new Date(moment('Jul 01, 2015', 'MMM DD, YYYY'));
-  const endDate = new Date(Date.now());
-  const range = moment.range(startDate, endDate)
-  rp(apiEndPoint)
-    .then(histPrices => {
-      const pricesOvertime = JSON.parse(histPrices)['Data'].map(price => {
-        return {
-          date: moment.unix(price.time).format('YYYY-MM-DD'),
-          ltcUsd: price.open
-        }
-      }).filter(price => {
-        return range.contains(moment(price.date, 'YYYY-MM-DD'), { exclusive: false })
-      });
-      res.send(pricesOvertime)
-      return pricesOvertime;
-    })
-})
+router.get('/ethusd/daily', generateDailyPriceMiddleware('eth', 'usd'))
+router.get('/btcusd/daily', generateDailyPriceMiddleware('btc', 'usd'))
+router.get('/xrpusd/daily', generateDailyPriceMiddleware('xrp', 'usd'))
+router.get('/xemusd/daily', generateDailyPriceMiddleware('xem', 'usd'))
+router.get('/ltcusd/daily', generateDailyPriceMiddleware('ltc', 'usd'))
+router.get('/bchusd/daily', generateDailyPriceMiddleware('bch', 'usd'))
+router.get('/miotausd/daily', generateDailyPriceMiddleware('miota', 'usd'))
+
+
+router.get('/ethusd/years', generateTwoYearPriceMiddleware('eth', 'usd'))
+router.get('/btcusd/years', generateTwoYearPriceMiddleware('btc', 'usd'))
+router.get('/xrpusd/years', generateTwoYearPriceMiddleware('xrp', 'usd'))
+router.get('/xemusd/years', generateTwoYearPriceMiddleware('xem', 'usd'))
+router.get('/ltcusd/years', generateTwoYearPriceMiddleware('ltc', 'usd'))
+router.get('/bchusd/years', generateTwoYearPriceMiddleware('bch', 'usd'))
+router.get('/miotausd/years', generateTwoYearPriceMiddleware('miota', 'usd'))

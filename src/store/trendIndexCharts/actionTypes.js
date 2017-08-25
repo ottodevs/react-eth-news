@@ -1,0 +1,2 @@
+export const CHART_INTERVAL_UPDATED = 'trendIndexCharts.CHART_INTERVAL_UPDATED';
+

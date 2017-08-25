@@ -63,208 +63,159 @@ const getDataInNthInterval = function(data, interval) {
   return dataInNthInterval
 }
 
-router.get('/eth', (req, res, next) => {
-  const queryStartDate = new Date(moment('Jun 25, 2015', 'MMM DD, YYYY'))
-  const queryEndDate = new Date(Date.now())
-  const sysStartDate = new Date(moment('Jul 03, 2015', 'MMM DD, YYYY'))
-  const range = moment.range(sysStartDate, queryEndDate)
-  return GoogleTrend.findById('eth')
-    .then(eth => {
-      const needUpdate = eth ?
-        parseInt(moment().subtract(7, 'days').format('YYYYMMDD')) >=
-        parseInt(moment.unix(eth.timestamp).format('YYYYMMDD')) : null;
-      if (needUpdate) {
-        googleTrendsOverTimePromise({
-          keyword: 'ethereum',
-          startTime: queryStartDate,
-          endTime: queryEndDate
-        }).then(response => {
-          const googleTrends = interpolate(JSON.parse(response).default.timelineData.map(datum => {
-            return {
-              date: moment(datum.formattedAxisTime, 'MMM DD, YYYY').format('YYYY-MM-DD'),
-              googleTrends: datum.value[0]
-            }
-          }), moment(queryEndDate)).filter(trend => {
-            return range.contains(moment(trend.date, 'YYYY-MM-DD'), { exclusive: false })
-          });
-          const googleTrendsEveryThreeDays = getDataInNthInterval(googleTrends, 3)
-          res.send(googleTrendsEveryThreeDays);
-          return eth.update({
-            trend: googleTrendsEveryThreeDays,
-            timestamp: moment().format('X')
-          })
-        })
-      } else {
-        res.send(eth.trend)
-        return eth
+const fetchDailyGoogleTrends = function(searchTerm, startDate, currentDate) {
+  return googleTrendsOverTimePromise({
+    keyword: searchTerm,
+    startTime: startDate,
+    endTime: currentDate
+  }).then(response => {
+    return JSON.parse(response).default.timelineData.map(datum => {
+      return {
+        date: moment(datum.formattedAxisTime, 'MMM DD, YYYY').format('YYYY-MM-DD'),
+        googleTrends: datum.value[0]
       }
     })
+  })
+}
 
-})
-
-router.get('/btc', (req, res, next) => {
-  const queryStartDate = new Date(moment('Jun 25, 2015', 'MMM DD, YYYY'))
-  const queryEndDate = new Date(Date.now())
-  const sysStartDate = new Date(moment('Jul 03, 2015', 'MMM DD, YYYY'))
-  const range = moment.range(sysStartDate, queryEndDate)
-
-  return GoogleTrend.findById('btc')
-    .then(btc => {
-      const needUpdate = btc ?
-        parseInt(moment().subtract(7, 'days').format('YYYYMMDD')) >=
-        parseInt(moment.unix(btc.timestamp).format('YYYYMMDD')) : null;
-      if (needUpdate) {
-        googleTrendsOverTimePromise({
-          keyword: 'bitcoin',
-          startTime: queryStartDate,
-          endTime: queryEndDate
-        }).then(response => {
-          const googleTrends = interpolate(JSON.parse(response).default.timelineData.map(datum => {
-            return {
-              date: moment(datum.formattedAxisTime, 'MMM DD, YYYY').format('YYYY-MM-DD'),
-              googleTrends: datum.value[0]
-            }
-          }), moment(queryEndDate)).filter(trend => {
-            return range.contains(moment(trend.date, 'YYYY-MM-DD'), { exclusive: false })
-          });
-          const googleTrendsEveryThreeDays = getDataInNthInterval(googleTrends, 3)
-          res.send(googleTrendsEveryThreeDays);
-          return btc.update({
-            trend: googleTrendsEveryThreeDays,
-            timestamp: moment().format('X')
-          })
-        })
-      } else {
-        res.send(btc.trend)
-        return btc
+const fetchTwoYearsGoogleTrends = function(searchTerm, queryStartDate, queryEndDate, range) {
+  return googleTrendsOverTimePromise({
+    keyword: searchTerm,
+    startTime: queryStartDate,
+    endTime: queryEndDate
+  }).then(response => {
+    return interpolate(JSON.parse(response).default.timelineData.map(datum => {
+      return {
+        date: moment(datum.formattedAxisTime, 'MMM DD, YYYY').format('YYYY-MM-DD'),
+        googleTrends: datum.value[0]
       }
-    })
+    }), moment(queryEndDate)).filter(trend => {
+      return range.contains(moment(trend.date, 'YYYY-MM-DD'), { exclusive: false })
+    });
+  })
+}
 
-})
+const generateDailyTrendMiddleware = function(ticker, searchTerm) {
+  return (req, res, next) => {
+    const currentMoment = moment()
+    const startMoment = moment().subtract(84, 'days')
+    const currentDate = new Date(currentMoment.format('MMM DD, YYYY'))
+    const startDate = new Date(startMoment.format('MMM DD, YYYY'))
+    range = moment.range(startDate, currentDate)
+    return GoogleTrend.findOne({ where: { id: ticker + '1D', interval: '1D' } })
+      .then(currency => {
+        if (currency) {
+          const needUpdate = currency ?
+            parseInt(moment().subtract(1, 'days').format('YYYYMMDD')) >=
+            parseInt(moment.unix(currency.timestamp).format('YYYYMMDD')) : null;
+          if (needUpdate) {
+            fetchDailyGoogleTrends(searchTerm, startDate, currentDate)
+              .then(timeseries => {
+                res.send(timeseries)
 
-router.get('/xrp', (req, res, next) => {
-  const queryStartDate = new Date(moment('Jun 25, 2015', 'MMM DD, YYYY'))
+                return currency.update({
+                  trend: timeseries,
+                  timestamp: moment().format('X')
+                })
+              })
+          } else {
+            res.send(currency.trend)
+            return currency
+          }
+        } else {
+          fetchDailyGoogleTrends(searchTerm, startDate, currentDate)
+            .then(timeseries => {
+              res.send(timeseries);
+              return GoogleTrend.create({
+                id: ticker + '1D',
+                interval: '1D',
+                trend: timeseries,
+                timestamp: moment().format('X')
+
+              })
+            })
+        }
+
+
+
+      })
+
+
+
+
+  }
+}
+
+const generateTwoYearTrendMiddleware = function(ticker, searchTerm) {
+  return (req, res, next) => {
+    const queryStartDate = new Date(moment().subtract(2, 'years'))
+    const queryEndDate = new Date(Date.now())
+    const range = moment.range(queryStartDate, queryEndDate)
+    return GoogleTrend.findOne({ where: { id: ticker + '2Y', interval: '2Y' } })
+      .then(currency => {
+        if (currency) {
+          const needUpdate = currency ?
+            parseInt(moment().subtract(1, 'days').format('YYYYMMDD')) >=
+            parseInt(moment.unix(currency.timestamp).format('YYYYMMDD')) : null;
+          if (needUpdate) {
+            fetchTwoYearsGoogleTrends(searchTerm, queryStartDate, queryEndDate, range)
+              .then(googleTrends => {
+                res.send(googleTrends);
+                return currency.update({
+                  trend: googleTrends,
+                  timestamp: moment().format('X')
+                })
+              })
+          } else {
+            res.send(currency.trend)
+            return currency
+          }
+        } else {
+          fetchTwoYearsGoogleTrends(searchTerm, queryStartDate, queryEndDate, range)
+            .then(googleTrends => {
+              const googleTrendsEveryThreeDays = getDataInNthInterval(googleTrends, 3)
+              res.send(googleTrendsEveryThreeDays);
+              return GoogleTrend.create({
+                id: ticker + '2Y',
+                interval: '2Y',
+                interval: '2Y',
+                trend: googleTrendsEveryThreeDays,
+                timestamp: moment().format('X')
+              })
+            })
+        }
+
+
+
+
+      })
+
+  }
+}
+
+router.get('/eth/daily', generateDailyTrendMiddleware('eth', 'ethereum'))
+router.get('/btc/daily', generateDailyTrendMiddleware('btc', 'bitcoin'))
+router.get('/xrp/daily', generateDailyTrendMiddleware('xrp', 'ripple'))
+router.get('/xem/daily', generateDailyTrendMiddleware('xem', 'NEM XEM'))
+router.get('/ltc/daily', generateDailyTrendMiddleware('ltc', 'litecoin'))
+router.get('/bch/daily', generateDailyTrendMiddleware('bch', 'bitcoin cash'))
+router.get('/miota/daily', generateDailyTrendMiddleware('miota', 'IOTA'))
+
+
+router.get('/eth/years', generateTwoYearTrendMiddleware('eth', 'ethereum'))
+router.get('/btc/years', generateTwoYearTrendMiddleware('btc', 'bitcoin'))
+router.get('/xrp/years', generateTwoYearTrendMiddleware('xrp', 'ripple'))
+router.get('/xem/years', generateTwoYearTrendMiddleware('xem', 'NEM XEM'))
+router.get('/ltc/years', generateTwoYearTrendMiddleware('ltc', 'litecoin'))
+
+router.get('/compare/years', (req, res, next) => {
+  const queryStartDate = new Date(moment().subtract(2, 'years'))
   const queryEndDate = new Date(Date.now())
-  const sysStartDate = new Date(moment('Jul 03, 2015', 'MMM DD, YYYY'))
-  const range = moment.range(sysStartDate, queryEndDate)
-  return GoogleTrend.findById('xrp')
-    .then(xrp => {
-      const needUpdate = xrp ?
-        parseInt(moment().subtract(7, 'days').format('YYYYMMDD')) >=
-        parseInt(moment.unix(xrp.timestamp).format('YYYYMMDD')) : null;
-      if (needUpdate) {
-        googleTrendsOverTimePromise({
-          keyword: 'ripple',
-          startTime: queryStartDate,
-          endTime: queryEndDate
-        }).then(response => {
-          const googleTrends = interpolate(JSON.parse(response).default.timelineData.map(datum => {
-            return {
-              date: moment(datum.formattedAxisTime, 'MMM DD, YYYY').format('YYYY-MM-DD'),
-              googleTrends: datum.value[0]
-            }
-          }), moment(queryEndDate)).filter(trend => {
-            return range.contains(moment(trend.date, 'YYYY-MM-DD'), { exclusive: false })
-          });
-          const googleTrendsEveryThreeDays = getDataInNthInterval(googleTrends, 3)
-          res.send(googleTrendsEveryThreeDays);
-          return xrp.update({
-            trend: googleTrendsEveryThreeDays,
-            timestamp: moment().format('X')
-          })
-        })
-      } else {
-        res.send(xrp.trend)
-        return xrp
-      }
-    })
-})
-
-router.get('/xem', (req, res, next) => {
-  const queryStartDate = new Date(moment('Jun 25, 2015', 'MMM DD, YYYY'))
-  const queryEndDate = new Date(Date.now())
-  const sysStartDate = new Date(moment('Jul 03, 2015', 'MMM DD, YYYY'))
-  const range = moment.range(sysStartDate, queryEndDate)
-  return GoogleTrend.findById('xem')
-    .then(xem => {
-      const needUpdate = xem ?
-        parseInt(moment().subtract(7, 'days').format('YYYYMMDD')) >=
-        parseInt(moment.unix(xem.timestamp).format('YYYYMMDD')) : null;
-      if (needUpdate) {
-        googleTrendsOverTimePromise({
-          keyword: 'NEM blockchain',
-          startTime: queryStartDate,
-          endTime: queryEndDate
-        }).then(response => {
-          const googleTrends = interpolate(JSON.parse(response).default.timelineData.map(datum => {
-            return {
-              date: moment(datum.formattedAxisTime, 'MMM DD, YYYY').format('YYYY-MM-DD'),
-              googleTrends: datum.value[0]
-            }
-          }), moment(queryEndDate)).filter(trend => {
-            return range.contains(moment(trend.date, 'YYYY-MM-DD'), { exclusive: false })
-          });
-          const googleTrendsEveryThreeDays = getDataInNthInterval(googleTrends, 3)
-          res.send(googleTrendsEveryThreeDays);
-          return xem.update({
-            trend: googleTrendsEveryThreeDays,
-            timestamp: moment().format('X')
-          })
-        })
-      } else {
-        res.send(xem.trend)
-        return xem
-      }
-    })
-})
-
-router.get('/ltc', (req, res, next) => {
-  const queryStartDate = new Date(moment('Jun 25, 2015', 'MMM DD, YYYY'))
-  const queryEndDate = new Date(Date.now())
-  const sysStartDate = new Date(moment('Jul 03, 2015', 'MMM DD, YYYY'))
-  const range = moment.range(sysStartDate, queryEndDate)
-  return GoogleTrend.findById('ltc')
-    .then(ltc => {
-      const needUpdate = ltc ?
-        parseInt(moment().subtract(7, 'days').format('YYYYMMDD')) >=
-        parseInt(moment.unix(ltc.timestamp).format('YYYYMMDD')) : null;
-      if (needUpdate) {
-        googleTrendsOverTimePromise({
-          keyword: 'NEM coin',
-          startTime: queryStartDate,
-          endTime: queryEndDate
-        }).then(response => {
-          const googleTrends = interpolate(JSON.parse(response).default.timelineData.map(datum => {
-            return {
-              date: moment(datum.formattedAxisTime, 'MMM DD, YYYY').format('YYYY-MM-DD'),
-              googleTrends: datum.value[0]
-            }
-          }), moment(queryEndDate)).filter(trend => {
-            return range.contains(moment(trend.date, 'YYYY-MM-DD'), { exclusive: false })
-          });
-          const googleTrendsEveryThreeDays = getDataInNthInterval(googleTrends, 3)
-          res.send(googleTrendsEveryThreeDays);
-          return ltc.update({
-            trend: googleTrendsEveryThreeDays,
-            timestamp: moment().format('X')
-          })
-        })
-      } else {
-        res.send(ltc.trend)
-        return ltc
-      }
-    })
-})
-
-router.get('/compare', (req, res, next) => {
-  const queryStartDate = new Date(moment('Jun 25, 2015', 'MMM DD, YYYY'))
-  const queryEndDate = new Date(Date.now())
-  const sysStartDate = new Date(moment('Jul 03, 2015', 'MMM DD, YYYY'))
-  const range = moment.range(sysStartDate, queryEndDate)
-  return GoogleTrend.findById('all')
+  const range = moment.range(queryStartDate, queryEndDate)
+  return GoogleTrend.findOne({ where: { id: 'all', interval: '2Y' } })
     .then(all => {
       const needUpdate = all ?
-        parseInt(moment().subtract(7, 'days').format('YYYYMMDD')) >=
+        parseInt(moment().subtract(1, 'days').format('YYYYMMDD')) >=
         parseInt(moment.unix(all.timestamp).format('YYYYMMDD')) : null;
       if (needUpdate) {
         googleTrendsOverTimePromise({
