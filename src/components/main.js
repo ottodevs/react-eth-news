@@ -38,7 +38,7 @@ class Main extends Component {
       </div>
       <footer className="site-footer">
         <div className="container">
-          <div>Copyright © Tammy Chu 2017</div>
+          <div>Copyright © CryptoCurrent 2017</div>
         </div>
       </footer>
       </div>
