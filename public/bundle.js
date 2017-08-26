@@ -72009,24 +72009,24 @@ var PriceTrendChart = function (_Component) {
             'span',
             null,
             this.props.label
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'btn-group price-trend-chart__time-btn', role: 'group', 'aria-label': 'Basic example' },
+          _react2.default.createElement(
+            'button',
+            { type: 'button', className: 'btn btn-secondary', onClick: function onClick() {
+                return _this2.props.handleTimeIntervalChange(_this2.props.ticker.toLowerCase(), '3M');
+              } },
+            'last three months'
           ),
           _react2.default.createElement(
-            'div',
-            { className: 'btn-group price-trend-chart__time-btn', role: 'group', 'aria-label': 'Basic example' },
-            _react2.default.createElement(
-              'button',
-              { type: 'button', className: 'btn btn-secondary', onClick: function onClick() {
-                  return _this2.props.handleTimeIntervalChange(_this2.props.ticker.toLowerCase(), '3M');
-                } },
-              'last three months'
-            ),
-            _react2.default.createElement(
-              'button',
-              { type: 'button', className: 'btn btn-secondary', onClick: function onClick() {
-                  return _this2.props.handleTimeIntervalChange(_this2.props.ticker.toLowerCase(), '2Y');
-                } },
-              'last two years'
-            )
+            'button',
+            { type: 'button', className: 'btn btn-secondary', onClick: function onClick() {
+                return _this2.props.handleTimeIntervalChange(_this2.props.ticker.toLowerCase(), '2Y');
+              } },
+            'last two years'
           )
         ),
         _react2.default.createElement(
@@ -73681,7 +73681,7 @@ var TrendPriceChartWrapper = function (_Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'container', style: { marginTop: '100px' } },
+        { className: 'container', style: { marginTop: '80px', marginBottom: '280px' } },
         _react2.default.createElement(
           'div',
           { className: 'row' },
@@ -79391,7 +79391,7 @@ exports = module.exports = __webpack_require__(27)();
 
 
 // module
-exports.push([module.i, ".google-trends__chart-header span {\n  font-weight: 600;\n  font-size: 16px;\n  margin-left: 50px;\n  margin-bottom: 0px;\n  margin-right: 10px; }\n\n.price-trend-chart__time-btn button {\n  font-size: 12px; }\n", ""]);
+exports.push([module.i, ".price-trend-chart__time-btn {\n  margin-bottom: 50px;\n  margin-left: 50px;\n  margin-top: 50px;\n  margin-right: 10px; }\n\n.google-trends__chart-header span {\n  font-weight: 600;\n  font-size: 16px;\n  margin-left: 50px;\n  margin-bottom: 0px;\n  margin-right: 10px; }\n\n.price-trend-chart__time-btn button {\n  font-size: 12px; }\n", ""]);
 
 // exports
 

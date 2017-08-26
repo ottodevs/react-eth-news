@@ -40,7 +40,7 @@ class TrendPriceChartWrapper extends Component {
   render() {
 
     return (
-        <div className="container" style={{marginTop: '100px'}}>
+        <div className="container" style={{marginTop: '80px', marginBottom: '280px'}}>
           <div className="row">
             <div className="col-md-12">
             {

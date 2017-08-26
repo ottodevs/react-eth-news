@@ -20,7 +20,6 @@ const interpolate = function(data, queryEndDate) {
     var item = data[i];
     var curTime = item.date;
     var curVal = item.googleTrends;
-
     if (prevTime) {
       // exit loop until prevTime === curTime
       var step = moment(prevTime).add(1, 'd');
@@ -46,14 +45,6 @@ const interpolate = function(data, queryEndDate) {
     prevTime = curTime;
     prevValue = curVal;
   }
-
-  if (moment(prevTime).format('YYYY-MM-DD') !== queryEndDate.format('YYYY-MM-DD')) {
-    interpolatedData.push({
-      date: moment(prevTime).add(3, 'd'),
-      googleTrends: prevValue
-    });
-  }
-
 
   return interpolatedData
 }
