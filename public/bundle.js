@@ -73402,41 +73402,12 @@ var TrendIndex = function (_Component) {
                 _react2.default.createElement(
                   'div',
                   { className: 'col-md-12 trend-index__google-trend-lastest-date' },
-                  'Click on name to view details'
-                )
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'row trend-index__table-header' },
-                _react2.default.createElement(
-                  'div',
-                  { className: 'col-md-3' },
-                  'Name'
-                ),
-                _react2.default.createElement(
-                  'div',
-                  { className: 'col-md-3' },
-                  'Market Cap (USD)'
-                ),
-                _react2.default.createElement(
-                  'div',
-                  { className: 'col-md-2' },
-                  '24h Price % Change'
-                ),
-                _react2.default.createElement(
-                  'div',
-                  { className: 'col-md-2' },
-                  '7d Price % Change'
-                ),
-                _react2.default.createElement(
-                  'div',
-                  { className: 'col-md-2' },
-                  '7d Trend % Change'
+                  'Click to view details'
                 )
               ),
               _react2.default.createElement(_components.ListView, {
                 viewClassName: "row trend-index__tbody",
-                rowClassName: "container",
+                rowClassName: "col-md-6 col-lg-4",
                 rowsIdArray: this.props.tickerArray,
                 rowsById: this.props.tokensByTicker,
                 renderRow: this.renderRow
@@ -73457,43 +73428,115 @@ var TrendIndex = function (_Component) {
       return _react2.default.createElement(
         _components.ListRow,
         {
-          className: 'row trend-index__row',
+          className: 'trend-index__row',
           rowId: tokenId,
           onClick: true },
         _react2.default.createElement(
           _reactRouterDom.Link,
-          { className: 'col-md-3 name', to: '/chart/' + token.ticker },
-          token.name,
-          ' (',
-          token.ticker,
-          ')'
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'col-md-3' },
-          token.marketCapUsd
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'col-md-2 ' + (token.pricePercentChange24h <= 0 ? 'red' : 'green') },
-          token.pricePercentChange24h
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'col-md-2 ' + (token.pricePercentChange7d <= 0 ? 'red' : 'green') },
-          token.pricePercentChange7d
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'col-md-2 ' + (token.trendPercentChange7d <= 0 ? 'red' : 'green') },
-          token.trendPercentChange7d
+          { className: 'card-wrapper', to: '/chart/' + token.ticker },
+          _react2.default.createElement(
+            'div',
+            { className: 'card' },
+            _react2.default.createElement(
+              'div',
+              { className: 'card-header' },
+              token.name,
+              ' (',
+              token.ticker,
+              ')'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'card-block' },
+              _react2.default.createElement(
+                'table',
+                { style: { width: '100%' } },
+                _react2.default.createElement(
+                  'tbody',
+                  null,
+                  _react2.default.createElement(
+                    'tr',
+                    null,
+                    _react2.default.createElement(
+                      'td',
+                      null,
+                      'Market Cap (USD)'
+                    ),
+                    _react2.default.createElement(
+                      'td',
+                      null,
+                      '$',
+                      this.numberWithCommas(token.marketCapUsd)
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'tr',
+                    null,
+                    _react2.default.createElement(
+                      'td',
+                      null,
+                      'Price (USD)'
+                    ),
+                    _react2.default.createElement(
+                      'td',
+                      null,
+                      '$',
+                      token.priceUsd
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'tr',
+                    null,
+                    _react2.default.createElement(
+                      'td',
+                      null,
+                      '24h Price % Change'
+                    ),
+                    _react2.default.createElement(
+                      'td',
+                      { className: 'trend-index__percent-change ' + (token.pricePercentChange24h <= 0 ? 'red' : 'green') },
+                      token.pricePercentChange24h
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'tr',
+                    null,
+                    _react2.default.createElement(
+                      'td',
+                      null,
+                      '7d Price % Change'
+                    ),
+                    _react2.default.createElement(
+                      'td',
+                      { className: 'trend-index__percent-change ' + (token.pricePercentChange7d <= 0 ? 'red' : 'green') },
+                      token.pricePercentChange7d
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'tr',
+                    null,
+                    _react2.default.createElement(
+                      'td',
+                      null,
+                      '7d Trend % Change'
+                    ),
+                    _react2.default.createElement(
+                      'td',
+                      { className: 'trend-index__percent-change ' + (token.trendPercentChange7d <= 0 ? 'red' : 'green') },
+                      token.trendPercentChange7d
+                    )
+                  )
+                )
+              )
+            )
+          )
         )
       );
     }
   }, {
-    key: 'handleTokenClick',
-    value: function handleTokenClick(ticker) {
-      console.log(ticker);
+    key: 'numberWithCommas',
+    value: function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
   }, {
     key: 'renderLoading',
@@ -73529,6 +73572,21 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps)(TrendIndex);
 // <XrpPriceTrendChartWrapper />
 // <XemPriceTrendChartWrapper />
 // <LtcPriceTrendChartWrapper />
+// <Link className={`col-md-3 name`} to={`/chart/${token.ticker}`}>
+//             {token.name} ({token.ticker})
+//           </Link>
+//           <div className={`col-md-3`}>
+//             {token.marketCapUsd}
+//           </div>
+//           <div className={`col-md-2 ${(token.pricePercentChange24h <=0) ? 'red' : 'green'}`}>
+//             {token.pricePercentChange24h}
+//           </div>
+//           <div className={`col-md-2 ${(token.pricePercentChange7d <=0) ? 'red' : 'green'}`}>
+//             {token.pricePercentChange7d}
+//           </div>
+//           <div className={`col-md-2 ${(token.trendPercentChange7d <=0) ? 'red' : 'green'}`}>
+//             {token.trendPercentChange7d}
+//           </div>
 
 /***/ }),
 /* 552 */
@@ -79417,7 +79475,7 @@ exports = module.exports = __webpack_require__(27)();
 
 
 // module
-exports.push([module.i, ".trend-index__table-header {\n  font-weight: 600; }\n\n.trend-index__tbody {\n  font-size: 14px; }\n\n.trend-index__row {\n  padding: 8px 0; }\n\n.trend-index__google-trend-lastest-date {\n  text-align: right;\n  padding: 20px 28px; }\n\n.trend-index__row .red {\n  color: red; }\n\n.trend-index__row .green {\n  color: green; }\n\n.trend-index__row .name {\n  cursor: pointer; }\n", ""]);
+exports.push([module.i, ".trend-index__table-header {\n  font-weight: 600; }\n\n.trend-index__tbody {\n  font-size: 14px; }\n\n.trend-index__row {\n  padding: 8px 0; }\n\n.trend-index__google-trend-lastest-date {\n  text-align: right;\n  padding: 20px 28px; }\n\n.trend-index__row .red {\n  color: red; }\n\n.trend-index__row .green {\n  color: green; }\n\n.trend-index__row .name {\n  cursor: pointer; }\n\n.card-header {\n  font-family: Saira, sans-serif !important;\n  background-color: white;\n  border-bottom: none; }\n\n.card {\n  margin-bottom: 15px;\n  border: none;\n  transition: all .15s ease-out;\n  box-shadow: 0 5px 20px -5px rgba(50, 50, 93, 0.12), 0 3px 4px -2px rgba(0, 0, 0, 0.08);\n  text-decoration: none !important;\n  background-color: #fff; }\n  .card:hover {\n    padding: 5px;\n    margin: -5px;\n    box-shadow: 0 30px 75px -15px rgba(50, 50, 93, 0.3), 0 25px 40px -20px rgba(0, 0, 0, 0.1); }\n  .card * {\n    color: rgba(0, 0, 0, 0.7);\n    font-family: sans-serif; }\n\n.card-wrapper:hover {\n  text-decoration: none !important; }\n\n.trend-index__percent-change.red {\n  color: #FF8B8B; }\n\n.trend-index__percent-change.green {\n  color: #61BFAD; }\n", ""]);
 
 // exports
 

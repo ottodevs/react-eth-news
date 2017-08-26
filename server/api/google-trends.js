@@ -99,7 +99,7 @@ const fetchTwoYearsGoogleTrends = function(searchTerm, queryStartDate, queryEndD
 }
 
 const fetchFromCoinMarketCap = () =>
-  rp(`https://api.coinmarketcap.com/v1/ticker/?limit=20`)
+  rp(`https://api.coinmarketcap.com/v1/ticker/?limit=40`)
   .then(collection => _.keyBy(JSON.parse(collection), 'symbol'))
 
 const generateDailyTrendMiddleware = function(ticker, searchTerm) {
@@ -229,6 +229,7 @@ router.get('/growth/weekly', (req, res, next) => {
                     name: marketCap[currency.ticker.toUpperCase()].name,
                     ticker: currency.ticker,
                     marketCapUsd: marketCap[currency.ticker.toUpperCase()].market_cap_usd,
+                    priceUsd:marketCap[currency.ticker.toUpperCase()].price_usd,
                     pricePercentChange24h: marketCap[currency.ticker.toUpperCase()].percent_change_24h,
                     pricePercentChange7d: marketCap[currency.ticker.toUpperCase()].percent_change_7d,
                     trendPercentChange7d: Math.round(delta, -2),
@@ -265,6 +266,7 @@ router.get('/growth/weekly', (req, res, next) => {
                       name: marketCap[currency.ticker.toUpperCase()].name,
                       ticker: currency.ticker,
                       marketCapUsd: Math.round(marketCap[currency.ticker.toUpperCase()].market_cap_usd),
+                      priceUsd:marketCap[currency.ticker.toUpperCase()].price_usd,
                       pricePercentChange24h: marketCap[currency.ticker.toUpperCase()].percent_change_24h,
                       pricePercentChange7d: marketCap[currency.ticker.toUpperCase()].percent_change_7d,
                       trendPercentChange7d: Math.round(delta, -2),

@@ -43,20 +43,13 @@ class TrendIndex extends Component {
               <TrendsChartWrapper />
               <div className="row trend-index__table-header">
                 <div className="col-md-12 trend-index__google-trend-lastest-date">
-                  Click on name to view details
+                  Click to view details
                 </div>
-              </div>
-              <div className="row trend-index__table-header">
-                <div className="col-md-3">Name</div>
-                <div className="col-md-3">Market Cap (USD)</div>
-                <div className="col-md-2">24h Price % Change</div>
-                <div className="col-md-2">7d Price % Change</div>
-                <div className="col-md-2">7d Trend % Change</div>
               </div>
 
               <ListView
                 viewClassName={"row trend-index__tbody"}
-                rowClassName={"container"}
+                rowClassName={"col-md-6 col-lg-4"}
                 rowsIdArray={this.props.tickerArray}
                 rowsById={this.props.tokensByTicker}
                 renderRow={this.renderRow}
@@ -72,30 +65,54 @@ class TrendIndex extends Component {
   renderRow(tokenId, token) {
     return (
       <ListRow
-        className="row trend-index__row"
+        className="trend-index__row"
         rowId={tokenId}
         onClick>
-          <Link className={`col-md-3 name`} to={`/chart/${token.ticker}`}>
-            {token.name} ({token.ticker})
+        <Link className="card-wrapper" to={`/chart/${token.ticker}`}>
+          <div className="card">
+            <div className="card-header">
+               {token.name} ({token.ticker})
+            </div>
+            <div className="card-block">
+              <table style={{width: '100%'}}>
+                <tbody>
+                  <tr>
+                    <td>Market Cap (USD)</td>
+                    <td>${this.numberWithCommas(token.marketCapUsd)}</td>
+                  </tr>
+                  <tr>
+                    <td>Price (USD)</td>
+                    <td>${token.priceUsd}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      24h Price % Change
+                    </td>
+                    <td className={`trend-index__percent-change ${(token.pricePercentChange24h <=0) ? 'red' : 'green'}`}>{token.pricePercentChange24h}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      7d Price % Change
+                    </td>
+                    <td className={`trend-index__percent-change ${(token.pricePercentChange7d <=0) ? 'red' : 'green'}`}>{token.pricePercentChange7d}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      7d Trend % Change
+                    </td>
+                    <td className={`trend-index__percent-change ${(token.trendPercentChange7d <=0) ? 'red' : 'green'}`}>{token.trendPercentChange7d}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
           </Link>
-          <div className={`col-md-3`}>
-            {token.marketCapUsd}
-          </div>
-          <div className={`col-md-2 ${(token.pricePercentChange24h <=0) ? 'red' : 'green'}`}>
-            {token.pricePercentChange24h}
-          </div>
-          <div className={`col-md-2 ${(token.pricePercentChange7d <=0) ? 'red' : 'green'}`}>
-            {token.pricePercentChange7d}
-          </div>
-          <div className={`col-md-2 ${(token.trendPercentChange7d <=0) ? 'red' : 'green'}`}>
-            {token.trendPercentChange7d}
-          </div>
       </ListRow>
     )
   }
 
-  handleTokenClick(ticker) {
-    console.log(ticker)
+  numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
   renderLoading() {
@@ -125,3 +142,18 @@ export default connect(mapStateToProps)(TrendIndex)
 // <XrpPriceTrendChartWrapper />
 // <XemPriceTrendChartWrapper />
 // <LtcPriceTrendChartWrapper />
+// <Link className={`col-md-3 name`} to={`/chart/${token.ticker}`}>
+//             {token.name} ({token.ticker})
+//           </Link>
+//           <div className={`col-md-3`}>
+//             {token.marketCapUsd}
+//           </div>
+//           <div className={`col-md-2 ${(token.pricePercentChange24h <=0) ? 'red' : 'green'}`}>
+//             {token.pricePercentChange24h}
+//           </div>
+//           <div className={`col-md-2 ${(token.pricePercentChange7d <=0) ? 'red' : 'green'}`}>
+//             {token.pricePercentChange7d}
+//           </div>
+//           <div className={`col-md-2 ${(token.trendPercentChange7d <=0) ? 'red' : 'green'}`}>
+//             {token.trendPercentChange7d}
+//           </div>
