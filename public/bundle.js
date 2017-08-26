@@ -25984,7 +25984,7 @@ var currencies = exports.currencies = {
   'waves': { ticker: 'waves', search: 'waves coin', twoYears: false },
   'zec': { ticker: 'zec', search: 'zcash', twoYears: false },
   'lsk': { ticker: 'lsk', search: 'lsk price', twoYears: false },
-  'tenx': { ticker: 'pay', search: 'TenX', twoYears: false },
+  'pay': { ticker: 'pay', search: 'TenX', twoYears: false },
   'qtum': { ticker: 'qtum', search: 'qtum', twoYears: false },
   'omg': { ticker: 'omg', search: 'OmiseGo', twoYears: false }
 };
@@ -73671,6 +73671,7 @@ function getDataProvider(state, priceSelector, googleTrendSelector) {
 
 function mapStateToProps(state, ownProps) {
   var ticker = (0, _utils.capitalizeFirstLetter)(ownProps.match.params.ticker);
+  console.log(_reducer.googleTrendsSelectors, _reducer2.pricesSelectors);
   var dataProvider = getDataProvider(state, _reducer2.pricesSelectors['get' + ticker + 'UsdOverTime'], _reducer.googleTrendsSelectors['get' + ticker + 'GoogleTrendsOverTime']);
   var tokensByTicker = (0, _reducer3.getTokenStats)(state)[0];
   var name = _.isEmpty(tokensByTicker) ? '' : (0, _utils.capitalizeFirstLetter)(tokensByTicker[ticker.toLowerCase()].name);

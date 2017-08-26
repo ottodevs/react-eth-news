@@ -15,7 +15,7 @@ module.exports = {
   'waves': {ticker: 'waves', search: 'waves coin', twoYears: false},
   'zec': {ticker: 'zec', search: 'zcash', twoYears: false},
   'lsk': {ticker: 'lsk', search: 'lsk price', twoYears: false},
-  'tenx': {ticker: 'pay', search: 'TenX', twoYears: false},
+  'pay': {ticker: 'pay', search: 'TenX', twoYears: false},
   'qtum': {ticker: 'qtum',search: 'qtum', twoYears: false},
   'omg': {ticker: 'omg', search: 'OmiseGo', twoYears: false}
 }

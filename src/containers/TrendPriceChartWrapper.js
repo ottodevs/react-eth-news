@@ -87,6 +87,7 @@ function getDataProvider(state, priceSelector, googleTrendSelector) {
 
 function mapStateToProps(state, ownProps) {
   const ticker = capitalizeFirstLetter(ownProps.match.params.ticker)
+  console.log(googleTrendsSelectors, pricesSelectors)
   const dataProvider = getDataProvider(
       state, pricesSelectors[`get${ticker}UsdOverTime`], googleTrendsSelectors[`get${ticker}GoogleTrendsOverTime`]);
   const tokensByTicker = getTokenStats(state)[0];
