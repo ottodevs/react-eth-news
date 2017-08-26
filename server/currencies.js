@@ -1,0 +1,21 @@
+module.exports = {
+  'btc': {ticker: 'btc',search: 'bitcoin'},
+  'eth': {ticker: 'eth',search: 'ethereum'},
+  'bch': {ticker: 'bch',search: 'bitcoin cash'},
+  'xrp': {ticker: 'xrp',search: 'ripple'},
+  'xem': {ticker: 'xem',search: 'NEM XEM'},
+  'ltc': {ticker: 'ltc',search: 'litecoin'},
+  'miota': {ticker: 'miota',search: 'IOTA', twoYears: false},
+  'neo': {ticker: 'neo', search: 'antshare', twoYears: false},
+  'etc': {ticker: 'etc',search: 'ethereum classic', twoYears: false},
+  'xmr': {ticker: 'xmr', search: 'monero'},
+  'dash': {ticker: 'dash', search: 'dash price'},
+  'bcc': {ticker: 'bcc', search: 'bitconnect', twoYears: false},
+  'strat': {ticker: 'strat', search: 'stratis', twoYears: false},
+  'waves': {ticker: 'waves', search: 'waves coin', twoYears: false},
+  'zec': {ticker: 'zec', search: 'zcash', twoYears: false},
+  'lsk': {ticker: 'lsk', search: 'lsk price', twoYears: false},
+  'tenx': {ticker: 'pay', search: 'TenX', twoYears: false},
+  'qtum': {ticker: 'qtum',search: 'qtum', twoYears: false},
+  'omg': {ticker: 'omg', search: 'OmiseGo', twoYears: false}
+}

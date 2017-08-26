@@ -10,6 +10,7 @@ import googleTrends from './googleTrends/reducer';
 import prices from './prices/reducer';
 import pagination from './pagination/reducer';
 import trendIndexCharts from './trendIndexCharts/reducer';
+import tokenStats from './tokenStats/reducer';
 
 const reducer = combineReducers({
   user,
@@ -20,7 +21,8 @@ const reducer = combineReducers({
   googleTrends,
   prices,
   pagination,
-  trendIndexCharts
+  trendIndexCharts,
+  tokenStats
 })
 const middleware = applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 const store = createStore(reducer, middleware)

@@ -1,0 +1,28 @@
+.trend-index__table-header {
+  font-weight: 600;
+}
+
+.trend-index__tbody {
+  font-size: 14px;
+}
+
+.trend-index__row {
+  padding: 8px 0;
+}
+
+.trend-index__google-trend-lastest-date {
+  text-align: right;
+  padding: 20px 28px;
+}
+
+.trend-index__row .red {
+  color: red
+}
+
+.trend-index__row .green {
+  color: green
+}
+
+.trend-index__row .name {
+  cursor: pointer
+}

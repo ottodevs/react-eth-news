@@ -1,19 +1,32 @@
-import * as types from './actionTypes';
-import { getPairPricesOverTime, getDailyPairPrices } from '../../services/prices';
-import { capitalizeFirstLetter } from '../../utils';
+import types from './actionTypes'
+import { getPairPricesOverTime, getDailyPairPrices } from '../../services/prices'
+import { capitalizeFirstLetter } from '../../utils'
+import { currencies } from '../../constants'
 
 function fetchCurrencyPairPricesOverTime(currencyA, currencyB) {
   return () => {
     return async(dispatch, getState) => {
       const current = getState().prices[`${currencyA}${capitalizeFirstLetter(currencyB)}OverTime`];
       if (current && current.length) {
-        dispatch({ type: types[`${currencyA.toUpperCase()}_${currencyB.toUpperCase()}_2Y_FETCHED`], pricesOverTime: current });
+        dispatch({
+          type: types[`${currencyA.toUpperCase()}_${currencyB.toUpperCase()}_2Y_FETCHED`],
+          pricesOverTime: current
+        });
       } else {
         try {
           const pricesOverTime = await getPairPricesOverTime(currencyA, currencyB);
-          dispatch({ type: types[`${currencyA.toUpperCase()}_${currencyB.toUpperCase()}_2Y_FETCHED`], pricesOverTime: pricesOverTime });
+          dispatch({
+            type: types[`${currencyA.toUpperCase()}_${currencyB.toUpperCase()}_2Y_FETCHED`],
+            pricesOverTime: pricesOverTime
+          });
         } catch (error) {
-          console.log(error);
+          if (error.response.status) {
+            dispatch({
+              type: types[`${currencyA.toUpperCase()}_${currencyB.toUpperCase()}_2Y_FETCHED`],
+              pricesOverTime: error.response
+            });
+          }
+
         }
       }
     }
@@ -25,13 +38,25 @@ function fetchCurrencyPairPricesDaily(currencyA, currencyB) {
     return async(dispatch, getState) => {
       const current = getState().prices[`${currencyA}${capitalizeFirstLetter(currencyB)}Daily`];
       if (current && current.length) {
-        dispatch({ type: types[`${currencyA.toUpperCase()}_${currencyB.toUpperCase()}_3M_FETCHED`], pricesOverTime: current });
+        dispatch({
+          type: types[`${currencyA.toUpperCase()}_${currencyB.toUpperCase()}_3M_FETCHED`],
+          pricesOverTime: current
+        });
       } else {
         try {
           const pricesOverTime = await getDailyPairPrices(currencyA, currencyB);
-          dispatch({ type: types[`${currencyA.toUpperCase()}_${currencyB.toUpperCase()}_3M_FETCHED`], pricesOverTime: pricesOverTime });
+          dispatch({
+            type: types[`${currencyA.toUpperCase()}_${currencyB.toUpperCase()}_3M_FETCHED`],
+            pricesOverTime: pricesOverTime
+          });
         } catch (error) {
-          console.log(error);
+          if (error.response.status) {
+            dispatch({
+              type: types[`${currencyA.toUpperCase()}_${currencyB.toUpperCase()}_3M_FETCHED`],
+              pricesOverTime: error.response
+            });
+          }
+
         }
       }
 
@@ -40,19 +65,18 @@ function fetchCurrencyPairPricesDaily(currencyA, currencyB) {
   }
 }
 
-const pricesActions = {
-  fetchEthUsdOverTime: fetchCurrencyPairPricesOverTime('eth', 'usd'),
-  fetchBtcUsdOverTime: fetchCurrencyPairPricesOverTime('btc', 'usd'),
-  fetchXrpUsdOverTime: fetchCurrencyPairPricesOverTime('xrp', 'usd'),
-  fetchXemUsdOverTime: fetchCurrencyPairPricesOverTime('xem', 'usd'),
-  fetchLtcUsdOverTime: fetchCurrencyPairPricesOverTime('ltc', 'usd'),
+var pricesActions = {}
 
-  fetchEthUsdDaily: fetchCurrencyPairPricesDaily('eth', 'usd'),
-  fetchBtcUsdDaily: fetchCurrencyPairPricesDaily('btc', 'usd'),
-  fetchXrpUsdDaily: fetchCurrencyPairPricesDaily('xrp', 'usd'),
-  fetchXemUsdDaily: fetchCurrencyPairPricesDaily('xem', 'usd'),
-  fetchLtcUsdDaily: fetchCurrencyPairPricesDaily('ltc', 'usd'),
-  fetchBchUsdDaily: fetchCurrencyPairPricesDaily('bch', 'usd'),
+for (let ticker in currencies) {
+  const overtime = `fetch${capitalizeFirstLetter(ticker)}UsdOverTime`
+  const daily = `fetch${capitalizeFirstLetter(ticker)}UsdDaily`
+  if (currencies[ticker].twoYears) {
+    pricesActions[overtime] = fetchCurrencyPairPricesOverTime(ticker, 'usd')
+    pricesActions[daily] = fetchCurrencyPairPricesDaily(ticker, 'usd')
+  } else {
+    pricesActions[overtime] = fetchCurrencyPairPricesDaily(ticker, 'usd')
+    pricesActions[daily] = fetchCurrencyPairPricesDaily(ticker, 'usd')
+  }
 }
 
 export default pricesActions

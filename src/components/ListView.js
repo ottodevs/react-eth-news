@@ -13,7 +13,7 @@ export default class ListView extends Component {
   render() {
     return (
 
-          <div className="row">
+          <div className={this.props.viewClassName}>
             {_.map(this.props.rowsIdArray, this.renderRowById)}
           </div>
 
@@ -23,7 +23,7 @@ export default class ListView extends Component {
   renderRowById(rowId) {
     return (
       <div
-        className="col-md-12"
+        className={this.props.rowClassName}
         key={rowId}>
         {this.renderRowThroughProps(rowId)}
       </div>

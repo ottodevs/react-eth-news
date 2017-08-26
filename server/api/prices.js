@@ -4,6 +4,8 @@ const _ = require('lodash');
 const Moment = require('moment');
 const extendMoment = require('moment-range').extendMoment;
 const moment = extendMoment(Moment);
+const currencies = require('../currencies');
+
 module.exports = router;
 
 const capitalizeFirstLetter = (string) => {
@@ -24,17 +26,25 @@ const generateDailyPriceMiddleware = function(currencyA, currencyB) {
     const apiEndPoint = `https://min-api.cryptocompare.com/data/histohour?fsym=${currencyA.toUpperCase()}&tsym=${currencyB.toUpperCase()}&aggregate=3&e=CCCAGG&limit=2000`;
     rp(apiEndPoint)
       .then(histPrices => {
-        const pairingKey = currencyA + capitalizeFirstLetter(currencyB)
-        const pricesOvertime = JSON.parse(histPrices)['Data'].map(price => {
-          var priceData = {
-            date: moment.unix(price.time).format('YYYY-MM-DD'),
-          }
-          priceData[pairingKey] = price.open
-          return priceData
-        });
-        res.send(getDataInNthInterval(pricesOvertime, 8))
-        return pricesOvertime;
-      })
+        histPrices = JSON.parse(histPrices)
+        if (!histPrices['Data']) {
+          const error = new Error('Not Found')
+          error.status = 404
+          next(error)
+        } else {
+          const pairingKey = currencyA + capitalizeFirstLetter(currencyB)
+          const pricesOvertime = histPrices['Data'].map(price => {
+            var priceData = {
+              date: moment.unix(price.time).format('YYYY-MM-DD'),
+            }
+            priceData[pairingKey] = price.open
+            return priceData
+          });
+          res.send(getDataInNthInterval(pricesOvertime, 8))
+          return pricesOvertime;
+        }
+
+      }).catch(next);
   }
 }
 
@@ -46,35 +56,33 @@ const generateTwoYearPriceMiddleware = function(currencyA, currencyB) {
     const range = moment.range(startDate, endDate)
     rp(apiEndPoint)
       .then(histPrices => {
-        const pairingKey = currencyA + capitalizeFirstLetter(currencyB)
-        const pricesOvertime = JSON.parse(histPrices)['Data'].map(price => {
-          var priceData = {
-            date: moment.unix(price.time).format('YYYY-MM-DD'),
-          }
-          priceData[pairingKey] = price.open
-          return priceData
-        }).filter(price => {
-          return range.contains(moment(price.date, 'YYYY-MM-DD'), { exclusive: false })
-        });
-        res.send(pricesOvertime)
-        return pricesOvertime;
-      })
+        histPrices = JSON.parse(histPrices)
+        if (!histPrices['Data']) {
+          const error = new Error('Not Found')
+          error.status = 404
+          next(error)
+        } else {
+          const pairingKey = currencyA + capitalizeFirstLetter(currencyB)
+          const pricesOvertime = histPrices['Data'].map(price => {
+            var priceData = {
+              date: moment.unix(price.time).format('YYYY-MM-DD'),
+            }
+            priceData[pairingKey] = price.open
+            return priceData
+          }).filter(price => {
+            return range.contains(moment(price.date, 'YYYY-MM-DD'), { exclusive: false })
+          });
+          res.send(pricesOvertime)
+          return pricesOvertime;
+        }
+      }).catch(next);
   }
 }
 
-router.get('/ethusd/daily', generateDailyPriceMiddleware('eth', 'usd'))
-router.get('/btcusd/daily', generateDailyPriceMiddleware('btc', 'usd'))
-router.get('/xrpusd/daily', generateDailyPriceMiddleware('xrp', 'usd'))
-router.get('/xemusd/daily', generateDailyPriceMiddleware('xem', 'usd'))
-router.get('/ltcusd/daily', generateDailyPriceMiddleware('ltc', 'usd'))
-router.get('/bchusd/daily', generateDailyPriceMiddleware('bch', 'usd'))
-router.get('/miotausd/daily', generateDailyPriceMiddleware('miota', 'usd'))
+for (let currency in currencies) {
+  router.get(`/${currency}usd/daily`, generateDailyPriceMiddleware(currency, 'usd'))
+}
 
-
-router.get('/ethusd/years', generateTwoYearPriceMiddleware('eth', 'usd'))
-router.get('/btcusd/years', generateTwoYearPriceMiddleware('btc', 'usd'))
-router.get('/xrpusd/years', generateTwoYearPriceMiddleware('xrp', 'usd'))
-router.get('/xemusd/years', generateTwoYearPriceMiddleware('xem', 'usd'))
-router.get('/ltcusd/years', generateTwoYearPriceMiddleware('ltc', 'usd'))
-router.get('/bchusd/years', generateTwoYearPriceMiddleware('bch', 'usd'))
-router.get('/miotausd/years', generateTwoYearPriceMiddleware('miota', 'usd'))
+for (let currency in currencies) {
+  router.get(`/${currency}usd/years`, generateTwoYearPriceMiddleware(currency, 'usd'))
+}

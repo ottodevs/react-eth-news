@@ -140,8 +140,8 @@ export default class PriceTrendChart extends Component {
         <div className="google-trends__chart-header">
           <span>{this.props.label}</span>
           <div className="btn-group price-trend-chart__time-btn" role="group" aria-label="Basic example">
-            <button type="button" className="btn btn-secondary" onClick={()=> this.props.handleTimeIntervalChange(this.props.ticker, '3M')} >last three months</button>
-            <button type="button" className="btn btn-secondary" onClick={()=> this.props.handleTimeIntervalChange(this.props.ticker, '2Y')} >last two years</button>
+            <button type="button" className="btn btn-secondary" onClick={()=> this.props.handleTimeIntervalChange(this.props.ticker.toLowerCase(), '3M')} >last three months</button>
+            <button type="button" className="btn btn-secondary" onClick={()=> this.props.handleTimeIntervalChange(this.props.ticker.toLowerCase(), '2Y')} >last two years</button>
           </div>
         </div>
         <div className="google-trends__chart-container" style={chartStyle}>

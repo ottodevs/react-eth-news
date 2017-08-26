@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
 import {logout} from '../store'
 import Navbar from './Navbar.js'
+import { fetchTokenStats } from '../store/tokenStats/actions';
 
 /**
  * COMPONENT
@@ -17,6 +18,10 @@ class Main extends Component {
   constructor(props) {
     super(props);
     autoBind(this);
+  }
+
+  componentDidMount() {
+    this.props.dispatch(fetchTokenStats())
   }
 
   render() {

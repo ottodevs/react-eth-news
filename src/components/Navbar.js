@@ -1,6 +1,7 @@
 import './Navbar.scss'
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
+import {withRouter, Link} from 'react-router-dom'
 
 class Navbar extends Component {
   constructor(props) {
@@ -21,13 +22,13 @@ class Navbar extends Component {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="nav navbar-nav ml-auto">
             <li className="nav-item">
-              <a className="nav-link" href="/all">All <span className="sr-only">(current)</span></a>
+              <Link to='/all' className="nav-link">All</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/eth">Ethererum going mainstream?</a>
+              <Link to='/eth' className="nav-link">Ethererum going mainstream?</Link>
             </li>
             <li className="nav-item pull-xs-right">
-              <a className="nav-link" href="/about">About</a>
+              <Link to='/about' className="nav-link">About</Link>
             </li>
           </ul>
         </div>
@@ -37,4 +38,4 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar
+export default withRouter(Navbar)

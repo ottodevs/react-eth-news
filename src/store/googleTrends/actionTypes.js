@@ -1,13 +1,20 @@
-export const ETH_GOOGLE_TRENDS_2Y_FETCHED = 'googleTrends.ETH_GOOGLE_TRENDS_2Y_FETCHED';
-export const BTC_GOOGLE_TRENDS_2Y_FETCHED = 'googleTrends.BTC_GOOGLE_TRENDS_2Y_FETCHED'
-export const XRP_GOOGLE_TRENDS_2Y_FETCHED = 'googleTrends.XRP_GOOGLE_TRENDS_2Y_FETCHED'
-export const XEM_GOOGLE_TRENDS_2Y_FETCHED = 'googleTrends.XEM_GOOGLE_TRENDS_2Y_FETCHED'
-export const LTC_GOOGLE_TRENDS_2Y_FETCHED = 'googleTrends.LTC_GOOGLE_TRENDS_2Y_FETCHED'
-export const COMPARE_GOOGLE_TRENDS_2Y_FETCHED = 'googleTrends.COMPARE_GOOGLE_TRENDS_2Y_FETCHED'
-export const ETH_GOOGLE_TRENDS_3M_FETCHED = 'googleTrends.ETH_GOOGLE_TRENDS_3M_FETCHED';
-export const BTC_GOOGLE_TRENDS_3M_FETCHED = 'googleTrends.BTC_GOOGLE_TRENDS_3M_FETCHED'
-export const XRP_GOOGLE_TRENDS_3M_FETCHED = 'googleTrends.XRP_GOOGLE_TRENDS_3M_FETCHED'
-export const XEM_GOOGLE_TRENDS_3M_FETCHED = 'googleTrends.XEM_GOOGLE_TRENDS_3M_FETCHED'
-export const LTC_GOOGLE_TRENDS_3M_FETCHED = 'googleTrends.LTC_GOOGLE_TRENDS_3M_FETCHED'
-export const BCH_GOOGLE_TRENDS_3M_FETCHED = 'googleTrends.BCH_GOOGLE_TRENDS_3M_FETCHED'
-export const COMPARE_GOOGLE_TRENDS_3M_FETCHED = 'googleTrends.COMPARE_GOOGLE_TRENDS_3M_FETCHED'
+import { currencies } from '../../constants'
+
+var actionTypes = {
+  COMPARE_GOOGLE_TRENDS_2Y_FETCHED: 'googleTrends.COMPARE_GOOGLE_TRENDS_2Y_FETCHED',
+  COMPARE_GOOGLE_TRENDS_3M_FETCHED: 'googleTrends.COMPARE_GOOGLE_TRENDS_3M_FETCHED'
+}
+
+for (let ticker in currencies) {
+  if (currencies[ticker].twoYears) {
+    actionTypes[`${ticker.toUpperCase()}_GOOGLE_TRENDS_2Y_FETCHED`] =
+    `googleTrends.${ticker.toUpperCase()}_GOOGLE_TRENDS_2Y_FETCHED`
+    actionTypes[`${ticker.toUpperCase()}_GOOGLE_TRENDS_3M_FETCHED`] =
+    `googleTrends.${ticker.toUpperCase()}_GOOGLE_TRENDS_3M_FETCHED`
+  } else {
+    actionTypes[`${ticker.toUpperCase()}_GOOGLE_TRENDS_3M_FETCHED`] =
+    `googleTrends.${ticker.toUpperCase()}_GOOGLE_TRENDS_3M_FETCHED`
+  }
+}
+
+export default actionTypes;
