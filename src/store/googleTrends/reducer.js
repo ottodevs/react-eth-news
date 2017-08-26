@@ -6,15 +6,15 @@ import { currencies } from '../../constants'
 
 const createSelectorOlderToken = (currency) =>
   (state) => {
-    if (state.trendIndexCharts.eth === '2Y')
+    if (state.trendIndexCharts[currency] === '2Y')
       return state.googleTrends[`${currency}GoogleTrendsOverTime`];
     else
-      return state.googleTrends[`${currency}GoogleTrendsOverTime`]
+      return state.googleTrends[`${currency}GoogleTrendsDaily`]
   }
 
 const createSelectorYoungerToken = (currency) =>
   (state) => {
-    if (state.trendIndexCharts.eth === '2Y')
+    if (state.trendIndexCharts[currency] === '2Y')
       return state.googleTrends[`${currency}GoogleTrendsDaily`];
     else
       return state.googleTrends[`${currency}GoogleTrendsDaily`]

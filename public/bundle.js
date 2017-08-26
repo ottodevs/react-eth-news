@@ -27766,13 +27766,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var createSelectorOlderToken = function createSelectorOlderToken(currency) {
   return function (state) {
-    if (state.trendIndexCharts.eth === '2Y') return state.googleTrends[currency + 'GoogleTrendsOverTime'];else return state.googleTrends[currency + 'GoogleTrendsOverTime'];
+    if (state.trendIndexCharts[currency] === '2Y') return state.googleTrends[currency + 'GoogleTrendsOverTime'];else return state.googleTrends[currency + 'GoogleTrendsDaily'];
   };
 };
 
 var createSelectorYoungerToken = function createSelectorYoungerToken(currency) {
   return function (state) {
-    if (state.trendIndexCharts.eth === '2Y') return state.googleTrends[currency + 'GoogleTrendsDaily'];else return state.googleTrends[currency + 'GoogleTrendsDaily'];
+    if (state.trendIndexCharts[currency] === '2Y') return state.googleTrends[currency + 'GoogleTrendsDaily'];else return state.googleTrends[currency + 'GoogleTrendsDaily'];
   };
 };
 
@@ -39645,7 +39645,7 @@ var initialState = {};
 
 for (var ticker in _constants.currencies) {
   if (_constants.currencies[ticker].twoYears) {
-    initialState[ticker] = '2Y';
+    initialState[ticker] = '3M';
   } else {
     initialState[ticker] = '3M';
   }
@@ -73645,6 +73645,10 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _lodash = __webpack_require__(28);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 var _reactAutobind = __webpack_require__(25);
 
 var _reactAutobind2 = _interopRequireDefault(_reactAutobind);
@@ -73700,15 +73704,15 @@ var TrendPriceChartWrapper = function (_Component) {
   _createClass(TrendPriceChartWrapper, [{
     key: 'shouldComponentUpdate',
     value: function shouldComponentUpdate(nextProps) {
-      if ((!this.props.dataProvider || !this.props.dataProvider.length) && nextProps.dataProvider.length || nextProps.error) return true;else return false;
+      if ((!this.props.dataProvider || !this.props.dataProvider.length) && nextProps.dataProvider.length || nextProps.error || this.props.dataProvider && nextProps.dataProvider && this.props.dataProvider.length != nextProps.dataProvider.length) return true;else return false;
     }
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var trendKey = 'fetch' + (0, _utils.capitalizeFirstLetter)(this.props.match.params.ticker) + 'GoogleTrendsOverTime';
-      var priceKey = 'fetch' + (0, _utils.capitalizeFirstLetter)(this.props.match.params.ticker) + 'UsdOverTime';
-      this.props.dispatch(_actions2.default[trendKey]());
+      var trendKey = 'fetch' + (0, _utils.capitalizeFirstLetter)(this.props.match.params.ticker) + 'GoogleTrendsDaily';
+      var priceKey = 'fetch' + (0, _utils.capitalizeFirstLetter)(this.props.match.params.ticker) + 'UsdDaily';
       this.props.dispatch(_actions4.default[priceKey]());
+      this.props.dispatch(_actions2.default[trendKey]());
     }
   }, {
     key: 'handleTimeIntervalChange',
@@ -73756,14 +73760,14 @@ var TrendPriceChartWrapper = function (_Component) {
 }(_react.Component);
 
 function getDataProvider(state, priceSelector, googleTrendSelector) {
-  var googleTrendsOverTime = googleTrendSelector(state);
-  var priceOverTime = priceSelector(state);
+  var googleTrendsOverTime = _lodash2.default.cloneDeep(googleTrendSelector(state));
+  var priceOverTime = _lodash2.default.cloneDeep(priceSelector(state));
   var dataProvider = [];
   if (priceOverTime && priceOverTime.status === 404) return 404;
   if (googleTrendsOverTime && priceOverTime) {
-    var googleTrendsIndex = _.keyBy(googleTrendsOverTime, 'date');
-    var priceIndex = _.keyBy(priceOverTime, 'date');
-    dataProvider = _(priceIndex).pick(_.keys(googleTrendsIndex)).merge(_.pick(googleTrendsIndex, _.keys(priceIndex))).values().value();
+    var googleTrendsIndex = _lodash2.default.keyBy(googleTrendsOverTime, 'date');
+    var priceIndex = _lodash2.default.keyBy(priceOverTime, 'date');
+    dataProvider = (0, _lodash2.default)(priceIndex).pick(_lodash2.default.keys(googleTrendsIndex)).merge(_lodash2.default.pick(googleTrendsIndex, _lodash2.default.keys(priceIndex))).values().value();
   }
   return dataProvider;
 }
@@ -73772,7 +73776,7 @@ function mapStateToProps(state, ownProps) {
   var ticker = (0, _utils.capitalizeFirstLetter)(ownProps.match.params.ticker);
   var dataProvider = getDataProvider(state, _reducer2.pricesSelectors['get' + ticker + 'UsdOverTime'], _reducer.googleTrendsSelectors['get' + ticker + 'GoogleTrendsOverTime']);
   var tokensByTicker = (0, _reducer3.getTokenStats)(state)[0];
-  var name = _.isEmpty(tokensByTicker) ? '' : (0, _utils.capitalizeFirstLetter)(tokensByTicker[ticker.toLowerCase()].name);
+  var name = _lodash2.default.isEmpty(tokensByTicker) ? '' : (0, _utils.capitalizeFirstLetter)(tokensByTicker[ticker.toLowerCase()].name);
   if (!tokensByTicker) return {};
   return {
     dataProvider: dataProvider,

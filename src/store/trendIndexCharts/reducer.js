@@ -6,7 +6,7 @@ var initialState = {}
 
 for (let ticker in currencies) {
   if (currencies[ticker].twoYears) {
-    initialState[ticker] = '2Y'
+    initialState[ticker] = '3M'
   } else {
     initialState[ticker] = '3M'
   }

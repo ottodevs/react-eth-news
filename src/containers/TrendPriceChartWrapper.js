@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
-import autoBind from 'react-autobind';
-import { connect } from 'react-redux';
-import googleTrendsActions from '../store/googleTrends/actions';
-import {googleTrendsSelectors} from '../store/googleTrends/reducer';
-import pricesActions from '../store/prices/actions';
-import * as trendIndexChartsActions from '../store/trendIndexCharts/actions';
-import {pricesSelectors} from '../store/prices/reducer';
-import {PriceTrendChart} from '../components';
-import { withRouter } from 'react-router';
-import { capitalizeFirstLetter } from '../utils';
-import { getTokenStats } from '../store/tokenStats/reducer';
+import React, { Component } from 'react'
+import _ from 'lodash'
+import autoBind from 'react-autobind'
+import { connect } from 'react-redux'
+import googleTrendsActions from '../store/googleTrends/actions'
+import {googleTrendsSelectors} from '../store/googleTrends/reducer'
+import pricesActions from '../store/prices/actions'
+import * as trendIndexChartsActions from '../store/trendIndexCharts/actions'
+import {pricesSelectors} from '../store/prices/reducer'
+import {PriceTrendChart} from '../components'
+import { withRouter } from 'react-router'
+import { capitalizeFirstLetter } from '../utils'
+import { getTokenStats } from '../store/tokenStats/reducer'
 
 class TrendPriceChartWrapper extends Component {
   constructor(props) {
@@ -20,17 +21,21 @@ class TrendPriceChartWrapper extends Component {
   shouldComponentUpdate(nextProps) {
     if ((!this.props.dataProvider ||
          !this.props.dataProvider.length) && nextProps.dataProvider.length ||
-          nextProps.error) return true
+          nextProps.error ||
+          (this.props.dataProvider && nextProps.dataProvider
+           && (this.props.dataProvider.length != nextProps.dataProvider.length)))
+      return true
     else return false
   }
 
   componentDidMount() {
-    const trendKey = `fetch${capitalizeFirstLetter(this.props.match.params.ticker)}GoogleTrendsOverTime`;
-    const priceKey = `fetch${capitalizeFirstLetter(this.props.match.params.ticker)}UsdOverTime`
-    this.props.dispatch(
-      googleTrendsActions[trendKey]())
+    const trendKey = `fetch${capitalizeFirstLetter(this.props.match.params.ticker)}GoogleTrendsDaily`;
+    const priceKey = `fetch${capitalizeFirstLetter(this.props.match.params.ticker)}UsdDaily`
     this.props.dispatch(
       pricesActions[priceKey]())
+    this.props.dispatch(
+      googleTrendsActions[trendKey]())
+
   }
 
   handleTimeIntervalChange(currency, interval) {
@@ -69,8 +74,8 @@ class TrendPriceChartWrapper extends Component {
 }
 
 function getDataProvider(state, priceSelector, googleTrendSelector) {
-  var googleTrendsOverTime = googleTrendSelector(state);
-  var priceOverTime = priceSelector(state);
+  var googleTrendsOverTime = _.cloneDeep(googleTrendSelector(state));
+  var priceOverTime = _.cloneDeep(priceSelector(state));
   var dataProvider = [];
   if (priceOverTime && priceOverTime.status === 404) return 404
   if (googleTrendsOverTime && priceOverTime) {
