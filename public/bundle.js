@@ -71682,8 +71682,48 @@ var Main = function (_Component) {
             { className: 'container' },
             _react2.default.createElement(
               'div',
-              null,
-              'Copyright \xA9 CryptoCurrent 2017'
+              { className: 'row' },
+              _react2.default.createElement(
+                'div',
+                { className: 'col-md-6' },
+                'Copyright \xA9 CryptoCurrent 2017'
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'col-md-6' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'row' },
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'col-md-3' },
+                    _react2.default.createElement(
+                      'div',
+                      null,
+                      'Donate?'
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'col-md-9' },
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'row', style: { marginBottom: '10px' } },
+                      'Any amount will help support and improve CryptoCurrent. Thank you!'
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'row' },
+                      'BTC: 19jA3afUePfBAo95W1fMATAtfkmJd9uK7i'
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'row' },
+                      'ETH: 0xa39412f268920BF12464612431202C27750145f9'
+                    )
+                  )
+                )
+              )
             )
           )
         )
@@ -71774,8 +71814,8 @@ var Navbar = function (_Component) {
           _react2.default.createElement('span', { className: 'navbar-toggler-icon' })
         ),
         _react2.default.createElement(
-          'a',
-          { className: 'navbar-brand', href: '/all' },
+          _reactRouterDom.Link,
+          { to: '/all', className: 'navbar-brand' },
           _react2.default.createElement('img', { src: '/moon.png', width: '50', height: '50', alt: 'Cryptotrends' }),
           _react2.default.createElement(
             'h3',
@@ -79489,7 +79529,7 @@ exports = module.exports = __webpack_require__(27)();
 
 
 // module
-exports.push([module.i, "body {\n  font-family: 'Open Sans', sans-serif;\n  font-weight: 300; }\n\n/* Custom, iPhone Retina */\n@media only screen and (min-width: 320px) {\n  #app {\n    zoom: 0.6; } }\n\n/* Extra Small Devices, Phones */\n@media only screen and (min-width: 480px) {\n  #app {\n    zoom: 0.8; } }\n\n/* Small Devices, Tablets */\n@media only screen and (min-width: 768px) {\n  #app {\n    zoom: 1; } }\n\n.site-footer {\n  display: flex;\n  align-items: center;\n  background: #f3f3f3; }\n\n.page-wrap {\n  min-height: 100%;\n  /* equal to footer height */\n  margin-bottom: -60px; }\n\n.page-wrap:after {\n  content: \"\";\n  display: block; }\n\n.site-footer,\n.page-wrap:after {\n  height: 60px; }\n", ""]);
+exports.push([module.i, "body {\n  font-family: 'Open Sans', sans-serif;\n  font-weight: 300; }\n\n/* Custom, iPhone Retina */\n@media only screen and (min-width: 320px) {\n  #app {\n    zoom: 0.6; } }\n\n/* Extra Small Devices, Phones */\n@media only screen and (min-width: 480px) {\n  #app {\n    zoom: 0.8; } }\n\n/* Small Devices, Tablets */\n@media only screen and (min-width: 768px) {\n  #app {\n    zoom: 1; } }\n\n.site-footer {\n  display: flex;\n  align-items: center;\n  background: #f3f3f3;\n  font-size: 12px; }\n\n.page-wrap {\n  min-height: 100%;\n  /* equal to footer height */\n  margin-bottom: -90px; }\n\n.page-wrap:after {\n  content: \"\";\n  display: block; }\n\n.site-footer,\n.page-wrap:after {\n  height: 90px; }\n", ""]);
 
 // exports
 
