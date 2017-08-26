@@ -299,7 +299,7 @@ router.get('/compare/years', (req, res, next) => {
         parseInt(moment.unix(all.timestamp).format('YYYYMMDD')) : null;
       if (needUpdate) {
         googleTrendsOverTimePromise({
-          keyword: ['ethereum', 'bitcoin', 'bitcoin cash', 'ripple', 'litecoin', 'NEM coin'],
+          keyword: ['ethereum', 'bitcoin', 'bitcoin cash', 'ripple', 'litecoin'],
           startTime: queryStartDate,
           endTime: queryEndDate
         }).then(response => {
@@ -312,7 +312,6 @@ router.get('/compare/years', (req, res, next) => {
               bch: datum.value[2],
               xrp: datum.value[3],
               ltc: datum.value[4],
-              xem: datum.value[5]
             }
           }).filter(trend => {
             return range.contains(moment(trend.date, 'YYYY-MM-DD'), { exclusive: false })

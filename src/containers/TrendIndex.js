@@ -33,7 +33,7 @@ class TrendIndex extends Component {
         <section className="header-section container">
           <header className="row justify-content-center">
             <h4 className="col-md-12">
-              <span>Click on name to view details</span>
+              <span>Google trend and price on the same chart for cryptocurrencies</span>
             </h4>
           </header>
         </section>
@@ -43,7 +43,7 @@ class TrendIndex extends Component {
               <TrendsChartWrapper />
               <div className="row trend-index__table-header">
                 <div className="col-md-12 trend-index__google-trend-lastest-date">
-                  Latest google trend data: {latestGoogleTrendDataDate}
+                  Click on name to view details
                 </div>
               </div>
               <div className="row trend-index__table-header">
