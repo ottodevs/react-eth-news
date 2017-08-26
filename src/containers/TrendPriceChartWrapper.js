@@ -38,8 +38,8 @@ class TrendPriceChartWrapper extends Component {
   }
 
   render() {
-    return (
 
+    return (
         <div className="container" style={{marginTop: '100px'}}>
           <div className="row">
             <div className="col-md-12">
@@ -87,7 +87,6 @@ function getDataProvider(state, priceSelector, googleTrendSelector) {
 
 function mapStateToProps(state, ownProps) {
   const ticker = capitalizeFirstLetter(ownProps.match.params.ticker)
-  console.log(googleTrendsSelectors, pricesSelectors)
   const dataProvider = getDataProvider(
       state, pricesSelectors[`get${ticker}UsdOverTime`], googleTrendsSelectors[`get${ticker}GoogleTrendsOverTime`]);
   const tokensByTicker = getTokenStats(state)[0];

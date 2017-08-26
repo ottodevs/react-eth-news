@@ -73620,6 +73620,7 @@ var TrendPriceChartWrapper = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+
       return _react2.default.createElement(
         'div',
         { className: 'container', style: { marginTop: '100px' } },
@@ -73671,7 +73672,6 @@ function getDataProvider(state, priceSelector, googleTrendSelector) {
 
 function mapStateToProps(state, ownProps) {
   var ticker = (0, _utils.capitalizeFirstLetter)(ownProps.match.params.ticker);
-  console.log(_reducer.googleTrendsSelectors, _reducer2.pricesSelectors);
   var dataProvider = getDataProvider(state, _reducer2.pricesSelectors['get' + ticker + 'UsdOverTime'], _reducer.googleTrendsSelectors['get' + ticker + 'GoogleTrendsOverTime']);
   var tokensByTicker = (0, _reducer3.getTokenStats)(state)[0];
   var name = _.isEmpty(tokensByTicker) ? '' : (0, _utils.capitalizeFirstLetter)(tokensByTicker[ticker.toLowerCase()].name);

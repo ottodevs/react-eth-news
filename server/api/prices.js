@@ -27,7 +27,7 @@ const generateDailyPriceMiddleware = function(currencyA, currencyB) {
     rp(apiEndPoint)
       .then(histPrices => {
         histPrices = JSON.parse(histPrices)
-        if (!histPrices['Data']) {
+        if (!histPrices['Data'].length) {
           const error = new Error('Not Found')
           error.status = 404
           next(error)
@@ -57,7 +57,7 @@ const generateTwoYearPriceMiddleware = function(currencyA, currencyB) {
     rp(apiEndPoint)
       .then(histPrices => {
         histPrices = JSON.parse(histPrices)
-        if (!histPrices['Data']) {
+        if (!histPrices['Data'].length) {
           const error = new Error('Not Found')
           error.status = 404
           next(error)
