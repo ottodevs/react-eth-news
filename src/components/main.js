@@ -42,15 +42,15 @@ class Main extends Component {
             <div className="col-md-6">Copyright © CryptoCurrent 2017</div>
             <div className="col-md-6">
               <div className="row">
-              <div className="col-md-3">
+              <div className="col-md-3 col-sm-12">
                 <div>Donate?</div>
               </div>
-              <div className="col-md-9">
-                <div className="row" style={{marginBottom: '10px'}}>
+              <div className="col-md-9 col-sm-12">
+                <div style={{marginBottom: '10px'}}>
                   Any amount will help support and improve CryptoCurrent. Thank you!
                 </div>
-                <div className="row">BTC: 19jA3afUePfBAo95W1fMATAtfkmJd9uK7i</div>
-                <div className="row">ETH: 0xa39412f268920BF12464612431202C27750145f9</div>
+                <div>BTC: 19jA3afUePfBAo95W1fMATAtfkmJd9uK7i</div>
+                <div>ETH: 0xa39412f268920BF12464612431202C27750145f9</div>
               </div>
               </div>
             </div>

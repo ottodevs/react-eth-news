@@ -43,7 +43,7 @@ body {
 .page-wrap {
   min-height: 100%;
   /* equal to footer height */
-  margin-bottom: -90px;
+  margin-bottom: -150px;
 }
 
 .page-wrap:after {
@@ -53,5 +53,5 @@ body {
 
 .site-footer,
 .page-wrap:after {
-  height: 90px;
+  height: 150px;
 }
