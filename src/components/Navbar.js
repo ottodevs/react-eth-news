@@ -1,6 +1,7 @@
 import './Navbar.scss'
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
+import {withRouter, Link} from 'react-router-dom'
 
 class Navbar extends Component {
   constructor(props) {
@@ -14,20 +15,20 @@ class Navbar extends Component {
         <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
-        <a className="navbar-brand" href="/all">
+        <Link to='/all' className="navbar-brand">
           <img src={'/moon.png'} width="50" height="50" alt="Cryptotrends" />
           <h3>CryptoCurrent</h3>
-        </a>
+        </Link>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="nav navbar-nav ml-auto">
             <li className="nav-item">
-              <a className="nav-link" href="/all">All <span className="sr-only">(current)</span></a>
+              <Link to='/all' className="nav-link">All</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/eth">Ethererum going mainstream?</a>
+              <Link to='/eth' className="nav-link">Ethererum going mainstream?</Link>
             </li>
             <li className="nav-item pull-xs-right">
-              <a className="nav-link" href="/about">About</a>
+              <Link to='/about' className="nav-link">About</Link>
             </li>
           </ul>
         </div>
@@ -37,4 +38,4 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar
+export default withRouter(Navbar)

@@ -1,13 +1,15 @@
 import _ from 'lodash';
 import * as types from './actionTypes';
+import { currencies } from '../../constants'
 
-const initialState = {
-  eth: '2Y',
-  btc: '2Y',
-  xrp: '2Y',
-  xem: '2Y',
-  ltc: '2Y',
-  bch: '3M'
+var initialState = {}
+
+for (let ticker in currencies) {
+  if (currencies[ticker].twoYears) {
+    initialState[ticker] = '3M'
+  } else {
+    initialState[ticker] = '3M'
+  }
 }
 
 export default function reduce(state = initialState, action = {}) {

@@ -38,9 +38,6 @@ class About extends Component {
                 Author
               </p>
               <p>
-                Created By <a target="_" href="https://www.linkedin.com/in/yung-tien-chu/">Tammy Chu</a>
-              </p>
-              <p>
                 Please send any suggestions and questions to: ytienchu@gmail.com
               </p>
               <p className="about__inline-header">A couple of disclaimers: </p>

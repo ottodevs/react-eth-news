@@ -1,0 +1,64 @@
+.trend-index__table-header {
+  font-weight: 600;
+}
+
+.trend-index__tbody {
+  font-size: 14px;
+}
+
+.trend-index__row {
+  padding: 8px 0;
+}
+
+.trend-index__google-trend-lastest-date {
+  text-align: right;
+  padding: 20px 28px;
+}
+
+.trend-index__row .red {
+  color: red
+}
+
+.trend-index__row .green {
+  color: green
+}
+
+.trend-index__row .name {
+  cursor: pointer
+}
+
+.card-header {
+  font-family: Saira, sans-serif !important;
+  background-color: white;
+  border-bottom: none;
+}
+
+.card {
+  margin-bottom: 15px;
+  border: none;
+  transition: all .15s ease-out;
+  box-shadow: 0 5px 20px -5px rgba(50,50,93,.12), 0 3px 4px -2px rgba(0,0,0,.08);
+  text-decoration: none !important;
+  background-color: #fff;
+  &:hover {
+    padding: 5px;
+    margin: -5px;
+    box-shadow: 0 30px 75px -15px rgba(50,50,93,.3), 0 25px 40px -20px rgba(0,0,0,.1);
+  }
+  & * {
+    color: rgba(0,0,0,.7);
+    font-family: sans-serif;
+  }
+}
+
+.card-wrapper:hover {
+  text-decoration: none !important;
+}
+
+.trend-index__percent-change.red {
+  color: #FF8B8B;
+}
+
+.trend-index__percent-change.green {
+  color: #61BFAD;
+}

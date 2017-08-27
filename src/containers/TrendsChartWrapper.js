@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
 import googleTrendsActions from '../store/googleTrends/actions';
-import * as googleTrendsSelectors from '../store/googleTrends/reducer';
+import {getAllGoogleTrendsOverTime} from '../store/googleTrends/reducer';
 import {TrendsChart} from '../components'
 
 
@@ -22,7 +22,6 @@ class TrendsChartWrapper extends Component {
   }
 
   render() {
-    console.log('hurray')
     return (
 
         <div >
@@ -37,7 +36,7 @@ class TrendsChartWrapper extends Component {
 
 function mapStateToProps(state) {
   return {
-    allDataProvider: googleTrendsSelectors.getAllGoogleTrendsOverTime(state)
+    allDataProvider: getAllGoogleTrendsOverTime(state)
   }
 }
 

@@ -4,10 +4,11 @@ import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import * as trendIndexChartsActions from '../store/trendIndexCharts/actions'
 import googleTrendsActions from '../store/googleTrends/actions';
-import * as googleTrendsSelectors from '../store/googleTrends/reducer';
+import {googleTrendsSelectors} from '../store/googleTrends/reducer';
 import pricesActions from '../store/prices/actions';
-import * as pricesSelectors from '../store/prices/reducer';
+import {pricesSelectors} from '../store/prices/reducer';
 import * as datesActions from '../store/dates/actions';
 import * as datesSelectors from '../store/dates/reducer';
 import * as articlesSelectors from '../store/articles/reducer';
@@ -21,6 +22,7 @@ class ArticleIndexChartsWrapper extends Component {
   }
 
   componentDidMount() {
+    this.props.dispatch(trendIndexChartsActions.updateChartInterval('eth', '2Y'))
     this.props.dispatch(googleTrendsActions.fetchEthGoogleTrendsOverTime())
     this.props.dispatch(pricesActions.fetchEthUsdOverTime())
   }
@@ -245,12 +247,11 @@ class ArticleIndexChartsWrapper extends Component {
 }
 
 function mapStateToProps(state) {
-  var googleTrendsOverTime = googleTrendsSelectors.getEthGoogleTrendsOverTime(state);
-  var ethUsdOverTime = pricesSelectors.getEthUsdOverTime(state);
+  var googleTrendsOverTime = _.cloneDeep(googleTrendsSelectors.getEthGoogleTrendsOverTime(state));
+  var ethUsdOverTime = _.cloneDeep(pricesSelectors.getEthUsdOverTime(state));
   var dataProvider = [];
   var articlesByDate = []
   var dates = datesSelectors.getCurrentDateRange(state);
-
   if (googleTrendsOverTime && ethUsdOverTime) {
     const googleTrendsIndex = _.keyBy(googleTrendsOverTime, 'date');
     const priceIndex = _.keyBy(ethUsdOverTime, 'date');

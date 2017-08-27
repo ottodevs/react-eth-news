@@ -1,0 +1,1 @@
+export const TOKEN_STATS_FETCHED = 'tokenStats.TOKEN_STATS_FETCHED';

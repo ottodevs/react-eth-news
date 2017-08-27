@@ -62,8 +62,10 @@ class ArticlesIndex extends Component {
         <section className="container">
           <div className="row">
             <ArticleIndexChartsWrapper/>
-            <div  className="col-md-6">
+            <div className="col-md-6">
               <ListView
+                viewClassName={"row"}
+                rowClassName={"col-md-12"}
                 rowsIdArray={this.props.articlesIdArray}
                 rowsById={this.props.articlesById}
                 renderRow={this.renderRow}

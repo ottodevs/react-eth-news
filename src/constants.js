@@ -1,0 +1,21 @@
+export const currencies = {
+  'btc': { ticker: 'btc', search: 'bitcoin', twoYears: true },
+  'eth': { ticker: 'eth', search: 'ethereum', twoYears: true },
+  'bch': { ticker: 'bch', search: 'bitcoin cash', twoYears: true },
+  'xrp': { ticker: 'xrp', search: 'ripple', twoYears: true },
+  'xem': { ticker: 'xem', search: 'NEM XEM', twoYears: true },
+  'ltc': { ticker: 'ltc', search: 'litecoin', twoYears: true },
+  'miota': { ticker: 'miota', search: 'IOTA', twoYears: false },
+  'neo': { ticker: 'neo', search: 'antshare', twoYears: false },
+  'etc': { ticker: 'etc', search: 'ethereum classic', twoYears: false },
+  'xmr': { ticker: 'xmr', search: 'monero', twoYears: true },
+  'dash': { ticker: 'dash', search: 'dash price', twoYears: true },
+  'bcc': { ticker: 'bcc', search: 'bitconnect', twoYears: false },
+  'strat': { ticker: 'strat', search: 'stratis', twoYears: false },
+  'waves': { ticker: 'waves', search: 'waves coin', twoYears: false },
+  'zec': { ticker: 'zec', search: 'zcash', twoYears: false },
+  'lsk': { ticker: 'lsk', search: 'lsk price', twoYears: false },
+  'pay': { ticker: 'pay', search: 'TenX', twoYears: false },
+  'qtum': { ticker: 'qtum', search: 'qtum', twoYears: false },
+  'omg': { ticker: 'omg', search: 'OmiseGo', twoYears: false }
+}

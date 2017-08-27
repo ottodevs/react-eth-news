@@ -1,69 +1,65 @@
-import * as types from './actionTypes';
-import moment from 'moment';
-import {combineReducers} from 'redux';
+import types from './actionTypes'
+import moment from 'moment'
+import { combineReducers } from 'redux'
+import { capitalizeFirstLetter } from '../../utils'
+import { currencies } from '../../constants'
 
-const rootReducer = combineReducers({
-  ethGoogleTrendsOverTime: createGoogleTrendWithCurrency('ETH', '2Y'),
-  btcGoogleTrendsOverTime: createGoogleTrendWithCurrency('BTC', '2Y'),
-  xrpGoogleTrendsOverTime: createGoogleTrendWithCurrency('XRP', '2Y'),
-  xemGoogleTrendsOverTime: createGoogleTrendWithCurrency('XEM', '2Y'),
-  ltcGoogleTrendsOverTime: createGoogleTrendWithCurrency('LTC', '2Y'),
+const createSelectorOlderToken = (currency) =>
+  (state) => {
+    if (state.trendIndexCharts[currency] === '2Y')
+      return state.googleTrends[`${currency}GoogleTrendsOverTime`];
+    else
+      return state.googleTrends[`${currency}GoogleTrendsDaily`]
+  }
 
-  ethGoogleTrendsDaily: createGoogleTrendWithCurrency('ETH', '3M'),
-  btcGoogleTrendsDaily: createGoogleTrendWithCurrency('BTC', '3M'),
-  xrpGoogleTrendsDaily: createGoogleTrendWithCurrency('XRP', '3M'),
-  xemGoogleTrendsDaily: createGoogleTrendWithCurrency('XEM', '3M'),
-  ltcGoogleTrendsDaily: createGoogleTrendWithCurrency('LTC', '3M'),
-  bchGoogleTrendsDaily: createGoogleTrendWithCurrency('BCH', '3M'),
+const createSelectorYoungerToken = (currency) =>
+  (state) => {
+    if (state.trendIndexCharts[currency] === '2Y')
+      return state.googleTrends[`${currency}GoogleTrendsDaily`];
+    else
+      return state.googleTrends[`${currency}GoogleTrendsDaily`]
+  }
 
+const createGoogleTrendWithCurrency = (currency = '', interval) =>
+  (state = null, action) => {
+    switch (action.type) {
+      case `googleTrends.${currency.toUpperCase()}_GOOGLE_TRENDS_${interval}_FETCHED`:
+        return action.googleTrendsOverTime;
+      case `googleTrends.${currency.toUpperCase()}_GOOGLE_TRENDS_${interval}_FETCHED`:
+        return action.googleTrendsOverTime;
+      default:
+        return state;
+    }
+  }
+
+
+var reducers = {
   allGoogleTrendsOverTime: createGoogleTrendWithCurrency('COMPARE', '2Y')
-})
+}
+
+var selectors = {}
+
+for (let ticker in currencies) {
+  const overtime = `${ticker}GoogleTrendsOverTime`
+  const daily = `${ticker}GoogleTrendsDaily`
+  const capOvertime = `${capitalizeFirstLetter(ticker)}GoogleTrendsOverTime`
+  const capDaily = `${capitalizeFirstLetter(ticker)}GoogleTrendsDaily`
+  if (currencies[ticker].twoYears) {
+    reducers[overtime] = createGoogleTrendWithCurrency(ticker, '2Y')
+    reducers[daily] = createGoogleTrendWithCurrency(ticker, '3M')
+    selectors[`get${capOvertime}`] = createSelectorOlderToken(ticker)
+  } else {
+    reducers[daily] = createGoogleTrendWithCurrency(ticker, '3M')
+    selectors[`get${capOvertime}`] = createSelectorYoungerToken(ticker)
+  }
+}
+
+const rootReducer = combineReducers(reducers)
 
 export default rootReducer;
 
-export function getEthGoogleTrendsOverTime(state) {
-  if (state.trendIndexCharts.eth === '2Y') return state.googleTrends.ethGoogleTrendsOverTime;
-  else return state.googleTrends.ethGoogleTrendsDaily
-}
-
-export function getBtcGoogleTrendsOverTime(state) {
-  if (state.trendIndexCharts.btc === '2Y') return state.googleTrends.btcGoogleTrendsOverTime;
-  else return state.googleTrends.btcGoogleTrendsDaily
-}
-
-export function getXrpGoogleTrendsOverTime(state) {
-  if (state.trendIndexCharts.xrp === '2Y') return state.googleTrends.xrpGoogleTrendsOverTime;
-  else return state.googleTrends.xrpGoogleTrendsDaily
-}
-
-export function getXemGoogleTrendsOverTime(state) {
-  if (state.trendIndexCharts.xem === '2Y') return state.googleTrends.xemGoogleTrendsOverTime;
-  else return state.googleTrends.xemGoogleTrendsDaily
-}
-
-export function getLtcGoogleTrendsOverTime(state) {
-  if (state.trendIndexCharts.ltc === '2Y') return state.googleTrends.ltcGoogleTrendsOverTime;
-  else return state.googleTrends.ltcGoogleTrendsDaily
-}
-
-export function getBchGoogleTrendsOverTime(state) {
-  if (state.trendIndexCharts.bch === '2Y') return state.googleTrends.bchGoogleTrendsDaily;
-  else return state.googleTrends.bchGoogleTrendsDaily
-}
+export const googleTrendsSelectors = selectors;
 
 export function getAllGoogleTrendsOverTime(state) {
   return state.googleTrends.allGoogleTrendsOverTime;
-}
-
-function createGoogleTrendWithCurrency(currency = '', interval) {
-    return function googleTrends(state = null, action) {
-        switch (action.type) {
-            case `googleTrends.${currency}_GOOGLE_TRENDS_${interval}_FETCHED`:
-                return action.googleTrendsOverTime;
-            case `googleTrends.${currency}_GOOGLE_TRENDS_${interval}_FETCHED`:
-                return action.googleTrendsOverTime;
-            default:
-                return state;
-        }
-    }
 }

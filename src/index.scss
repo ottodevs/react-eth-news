@@ -37,12 +37,13 @@ body {
   display: flex;
   align-items: center;
   background: #f3f3f3;
+  font-size: 12px;
 }
 
 .page-wrap {
   min-height: 100%;
   /* equal to footer height */
-  margin-bottom: -60px;
+  margin-bottom: -150px;
 }
 
 .page-wrap:after {
@@ -52,5 +53,5 @@ body {
 
 .site-footer,
 .page-wrap:after {
-  height: 60px;
+  height: 150px;
 }
