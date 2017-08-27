@@ -3,11 +3,11 @@ import _ from 'lodash'
 import autoBind from 'react-autobind'
 import { connect } from 'react-redux'
 import googleTrendsActions from '../store/googleTrends/actions'
-import {googleTrendsSelectors} from '../store/googleTrends/reducer'
+import { googleTrendsSelectors } from '../store/googleTrends/reducer'
 import pricesActions from '../store/prices/actions'
 import * as trendIndexChartsActions from '../store/trendIndexCharts/actions'
-import {pricesSelectors} from '../store/prices/reducer'
-import {PriceTrendChart} from '../components'
+import { pricesSelectors } from '../store/prices/reducer'
+import { PriceTrendChart, Social } from '../components'
 import { withRouter } from 'react-router'
 import { capitalizeFirstLetter } from '../utils'
 import { getTokenStats } from '../store/tokenStats/reducer'
@@ -43,9 +43,9 @@ class TrendPriceChartWrapper extends Component {
   }
 
   render() {
-
     return (
-        <div className="container" style={{marginTop: '80px', marginBottom: '280px'}}>
+        <div className="trend-price__wrapper container" style={{marginTop: '80px', marginBottom: '280px'}}>
+
           <div className="row">
             <div className="col-md-12">
             {
@@ -55,6 +55,8 @@ class TrendPriceChartWrapper extends Component {
                 height: '320px',
                 marginBottom: '50px'
               }}>Sorry, we currently don't have data on {this.props.ticker}</div> :
+              <div>
+              <Social title={`Google Trends meet ${this.props.name}`} url={`https://www.cryptocurrent.co${this.props.match.url}`} />
               <PriceTrendChart
                 label={this.props.name}
                 ticker={this.props.ticker}
@@ -64,6 +66,7 @@ class TrendPriceChartWrapper extends Component {
                 handleTimeIntervalChange={this.handleTimeIntervalChange}
                 dataProvider={this.props.dataProvider}
               />
+              </div>
             }
             </div>
           </div>

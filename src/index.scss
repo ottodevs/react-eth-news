@@ -5,6 +5,7 @@ body {
 
 
 
+
 /* Custom, iPhone Retina */
 
 @media only screen and (min-width: 320px) {
@@ -14,6 +15,7 @@ body {
 }
 
 
+
 /* Extra Small Devices, Phones */
 
 @media only screen and (min-width: 480px) {
@@ -21,6 +23,7 @@ body {
     zoom: 0.8;
   }
 }
+
 
 
 /* Small Devices, Tablets */
@@ -44,6 +47,10 @@ body {
   min-height: 100%;
   /* equal to footer height */
   margin-bottom: -150px;
+  @media only screen and (max-width: 600px) {
+    padding-right: 60px;
+    padding-left: 60px;
+  }
 }
 
 .page-wrap:after {

@@ -1,13 +1,14 @@
 import './TrendIndex.scss'
-import React, { Component } from 'react';
-import autoBind from 'react-autobind';
-import { connect } from 'react-redux';
-import * as trendIndexChartsActions from '../store/trendIndexCharts/actions';
-import { getTokenStats } from '../store/tokenStats/reducer';
-import { ListView, ListRow } from '../components';
+import React, { Component } from 'react'
+import autoBind from 'react-autobind'
+import { connect } from 'react-redux'
+import * as trendIndexChartsActions from '../store/trendIndexCharts/actions'
+import { getTokenStats } from '../store/tokenStats/reducer'
+import { ListView, ListRow } from '../components'
 import { TrendsChartWrapper } from './index'
-import { PriceTrendChart } from '../components';
+import { PriceTrendChart, Social } from '../components'
 import { Link } from 'react-router-dom'
+
 
 
 class TrendIndex extends Component {
@@ -17,11 +18,13 @@ class TrendIndex extends Component {
   }
 
   render() {
+
     if (!this.props.tokensByTicker) return this.renderLoading();
     const latestGoogleTrendDataDate = this.props.tokensByTicker[this.props.tickerArray[0]] ?
       this.props.tokensByTicker[this.props.tickerArray[0]].endDate : ''
     return (
       <div className="TrendIndex">
+        <Social url={'https://www.cryptocurrent.co'} title={'Google Trends Meet Cryptocurrencies'} />
         <section className="header-section container">
           <header className="row justify-content-center">
             <h4 className="col-md-12">
