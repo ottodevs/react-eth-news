@@ -4,18 +4,10 @@ import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
 import * as trendIndexChartsActions from '../store/trendIndexCharts/actions';
 import { getTokenStats } from '../store/tokenStats/reducer';
-import {ListView, ListRow} from '../components';
-import {
-  TrendsChartWrapper,
-  BtcPriceTrendChartWrapper,
-  EthPriceTrendChartWrapper,
-  BchPriceTrendChartWrapper,
-  XrpPriceTrendChartWrapper,
-  XemPriceTrendChartWrapper,
-  LtcPriceTrendChartWrapper
-} from './index'
-import {PriceTrendChart} from '../components';
-import {Link} from 'react-router-dom'
+import { ListView, ListRow } from '../components';
+import { TrendsChartWrapper } from './index'
+import { PriceTrendChart } from '../components';
+import { Link } from 'react-router-dom'
 
 
 class TrendIndex extends Component {
