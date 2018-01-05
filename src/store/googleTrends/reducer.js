@@ -2,11 +2,12 @@ import types from './actionTypes'
 import moment from 'moment'
 import { combineReducers } from 'redux'
 import { capitalizeFirstLetter } from '../../utils'
-import { currencies } from '../../constants'
+import currenciesPromise from '../../currencies'
+
 
 const createSelectorOlderToken = (currency) =>
   (state) => {
-    if (state.trendIndexCharts[currency] === '2Y')
+    if (state.trendIndexCharts[currency.toUpperCase()] === '2Y')
       return state.googleTrends[`${currency}GoogleTrendsOverTime`];
     else
       return state.googleTrends[`${currency}GoogleTrendsDaily`]
@@ -14,7 +15,7 @@ const createSelectorOlderToken = (currency) =>
 
 const createSelectorYoungerToken = (currency) =>
   (state) => {
-    if (state.trendIndexCharts[currency] === '2Y')
+    if (state.trendIndexCharts[currency.toUpperCase()] === '2Y')
       return state.googleTrends[`${currency}GoogleTrendsDaily`];
     else
       return state.googleTrends[`${currency}GoogleTrendsDaily`]
@@ -32,34 +33,35 @@ const createGoogleTrendWithCurrency = (currency = '', interval) =>
     }
   }
 
+export default currenciesPromise
+  .then(currencies => {
+    var reducers = {
+      allGoogleTrendsOverTime: createGoogleTrendWithCurrency('COMPARE', '2Y')
+    }
 
-var reducers = {
-  allGoogleTrendsOverTime: createGoogleTrendWithCurrency('COMPARE', '2Y')
-}
+    var selectors = {}
 
-var selectors = {}
+    for (let ticker in currencies) {
+      ticker = ticker.toLowerCase()
+      const overtime = `${ticker}GoogleTrendsOverTime`
+      const daily = `${ticker}GoogleTrendsDaily`
+      reducers[overtime] = createGoogleTrendWithCurrency(ticker, '2Y')
+      reducers[daily] = createGoogleTrendWithCurrency(ticker, '3M')
 
-for (let ticker in currencies) {
-  const overtime = `${ticker}GoogleTrendsOverTime`
-  const daily = `${ticker}GoogleTrendsDaily`
-  const capOvertime = `${capitalizeFirstLetter(ticker)}GoogleTrendsOverTime`
-  const capDaily = `${capitalizeFirstLetter(ticker)}GoogleTrendsDaily`
-  if (currencies[ticker].twoYears) {
-    reducers[overtime] = createGoogleTrendWithCurrency(ticker, '2Y')
-    reducers[daily] = createGoogleTrendWithCurrency(ticker, '3M')
-    selectors[`get${capOvertime}`] = createSelectorOlderToken(ticker)
-  } else {
-    reducers[daily] = createGoogleTrendWithCurrency(ticker, '3M')
-    selectors[`get${capOvertime}`] = createSelectorYoungerToken(ticker)
-  }
-}
+    }
 
-const rootReducer = combineReducers(reducers)
+    const rootReducer = combineReducers(reducers)
 
-export default rootReducer;
+    return {
+      reducer: rootReducer,
+      selectors
 
-export const googleTrendsSelectors = selectors;
 
-export function getAllGoogleTrendsOverTime(state) {
+    }
+  })
+
+export const getAllGoogleTrendsOverTime = state => {
   return state.googleTrends.allGoogleTrendsOverTime;
 }
+
+export const getGoogleTrendSelectorFromTicker = ticker => createSelectorOlderToken(ticker)

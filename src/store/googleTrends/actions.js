@@ -1,31 +1,35 @@
-import types from './actionTypes'
+import typesPromise from './actionTypes'
 import { getGoogleTrendOverTime, getDailyGoogleTrend } from '../../services/googleTrends'
 import { capitalizeFirstLetter } from '../../utils'
-import { currencies } from '../../constants'
+import currenciesPromise from '../../currencies'
 
 function fetchGoogleTrendsOverTime(currency) {
 
   return () =>
     async(dispatch, getState) => {
       const current = getState().googleTrends[`${currency}GoogleTrendsOverTime`];
-      if (current && current.length) {
-        dispatch({
-          type: types[`${currency.toUpperCase()}_GOOGLE_TRENDS_2Y_FETCHED`],
-          googleTrendsOverTime: current
-        });
-      } else {
-        try {
-          const googleTrendsOverTime = await getGoogleTrendOverTime(currency);
+      typesPromise.then(async types => {
+        if (current && current.length) {
           dispatch({
             type: types[`${currency.toUpperCase()}_GOOGLE_TRENDS_2Y_FETCHED`],
-            googleTrendsOverTime: googleTrendsOverTime
+            googleTrendsOverTime: current
           });
-        } catch (error) {
-          console.log(error);
+        } else {
+          try {
+            const googleTrendsOverTime = await getGoogleTrendOverTime(currency);
+            dispatch({
+              type: types[`${currency.toUpperCase()}_GOOGLE_TRENDS_2Y_FETCHED`],
+              googleTrendsOverTime: googleTrendsOverTime
+            });
+          } catch (error) {
+            dispatch({
+              type: types[`${currency.toUpperCase()}_GOOGLE_TRENDS_2Y_FETCHED`],
+              googleTrendsOverTime: 404
+            });
+          }
         }
-      }
+      })
     }
-
 }
 
 function fetchGoogleTrendsDaily(currency) {
@@ -33,41 +37,29 @@ function fetchGoogleTrendsDaily(currency) {
   return () =>
     async(dispatch, getState) => {
       const current = getState().googleTrends[`${currency}GoogleTrendsDaily`]
-      if (current && current.length) {
-        dispatch({
-          type: types[`${currency.toUpperCase()}_GOOGLE_TRENDS_3M_FETCHED`],
-          googleTrendsOverTime: current
-        });
-      } else {
-        try {
-          const googleTrendsOverTime = await getDailyGoogleTrend(currency);
+      typesPromise.then(async types => {
+        if (current && current.length) {
           dispatch({
             type: types[`${currency.toUpperCase()}_GOOGLE_TRENDS_3M_FETCHED`],
-            googleTrendsOverTime: googleTrendsOverTime
+            googleTrendsOverTime: current
           });
-        } catch (error) {
-          console.log(error);
+        } else {
+          try {
+            const googleTrendsOverTime = await getDailyGoogleTrend(currency);
+            dispatch({
+              type: types[`${currency.toUpperCase()}_GOOGLE_TRENDS_3M_FETCHED`],
+              googleTrendsOverTime: googleTrendsOverTime
+            });
+          } catch (error) {
+            console.log(error);
+          }
         }
-      }
-
+      })
     }
 
 }
 
-var googleTrendsActions = {
-  fetchAllGoogleTrendsOverTime: fetchGoogleTrendsOverTime('compare')
-}
 
-for (let ticker in currencies) {
-  const overtime = `fetch${capitalizeFirstLetter(ticker)}GoogleTrendsOverTime`
-  const daily = `fetch${capitalizeFirstLetter(ticker)}GoogleTrendsDaily`
-  if (currencies[ticker].twoYears) {
-    googleTrendsActions[overtime] = fetchGoogleTrendsOverTime(ticker)
-    googleTrendsActions[daily] = fetchGoogleTrendsDaily(ticker)
-  } else {
-    googleTrendsActions[overtime] = fetchGoogleTrendsDaily(ticker)
-    googleTrendsActions[daily] = fetchGoogleTrendsDaily(ticker)
-  }
-}
+export const fetchGoogleTrendsOverTimeFromTicker = ticker => fetchGoogleTrendsOverTime(ticker, 'usd')
 
-export default googleTrendsActions;
+export const fetchGoogleTrendsDailyFromTicker = ticker => fetchGoogleTrendsDaily(ticker, 'usd')

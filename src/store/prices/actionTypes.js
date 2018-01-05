@@ -1,18 +1,21 @@
-import { currencies } from '../../constants'
+import currenciesPromise from '../../currencies'
 
-var actionTypes = {}
+export default currenciesPromise
+  .then(currencies => {
+    var actionTypes = {}
 
-for (let ticker in currencies) {
-  if (currencies[ticker].twoYears) {
-    actionTypes[`${ticker.toUpperCase()}_USD_2Y_FETCHED`] =
-    `prices.${ticker.toUpperCase()}_USD_2Y_FETCHED`
-    actionTypes[`${ticker.toUpperCase()}_USD_3M_FETCHED`] =
-    `prices.${ticker.toUpperCase()}_USD_3M_FETCHED`
-  } else {
-    actionTypes[`${ticker.toUpperCase()}_USD_3M_FETCHED`] =
-    `prices.${ticker.toUpperCase()}_USD_3M_FETCHED`
-  }
-}
+    for (let ticker in currencies) {
+      actionTypes[`${ticker.toUpperCase()}_USD_2Y_FETCHED`] =
+        `prices.${ticker.toUpperCase()}_USD_2Y_FETCHED`
+      actionTypes[`${ticker.toUpperCase()}_USD_3M_FETCHED`] =
+        `prices.${ticker.toUpperCase()}_USD_3M_FETCHED`
+      if (ticker.toLowerCase() !== 'btc') {
+        actionTypes[`${ticker.toUpperCase()}_BTC_2Y_FETCHED`] =
+          `prices.${ticker.toUpperCase()}_BTC_2Y_FETCHED`
+        actionTypes[`${ticker.toUpperCase()}_BTC_3M_FETCHED`] =
+          `prices.${ticker.toUpperCase()}_BTC_3M_FETCHED`
+      }
+    }
 
-export default actionTypes;
-
+    return actionTypes
+  });

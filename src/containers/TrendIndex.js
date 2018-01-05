@@ -27,7 +27,7 @@ class TrendIndex extends Component {
         <Social url={'https://www.cryptocurrent.co'} title={'Google Trends Meet Cryptocurrencies'} />
         <section className="header-section container">
           <header className="row justify-content-center">
-            <h4 className="col-md-12">
+            <h4 className="col-md-12" style={{textAlign: 'center', padding: '50px 0px'}}>
               <span>Google trend and price on the same chart for cryptocurrencies</span>
             </h4>
           </header>
@@ -49,7 +49,6 @@ class TrendIndex extends Component {
                 rowsById={this.props.tokensByTicker}
                 renderRow={this.renderRow}
               />
-              <p style={{fontWeight: '600', fontSize: '16px', margin: '30px 0 0 0px'}}>More To Come</p>
             </div>
           </div>
         </section>

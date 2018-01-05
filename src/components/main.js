@@ -6,6 +6,7 @@ import {withRouter, Link} from 'react-router-dom'
 import {logout} from '../store'
 import Navbar from './Navbar.js'
 import { fetchTokenStats } from '../store/tokenStats/actions';
+import { getTokenStats } from '../store/tokenStats/reducer'
 
 /**
  * COMPONENT
@@ -69,7 +70,7 @@ class Main extends Component {
  */
 const mapStateToProps = (state) => {
   return {
-    isLoggedIn: !!state.user.id
+    tokenStats: getTokenStats(state)
   }
 }
 

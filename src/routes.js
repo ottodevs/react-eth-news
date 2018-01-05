@@ -6,7 +6,7 @@ import {Route, Switch, Redirect} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
 import {Main, Login, Signup, UserHome, About} from './components'
-import {ArticlesIndex, TrendIndex, TrendPriceChartWrapper} from './containers'
+import {TrendIndex, TrendPriceChartWrapper} from './containers'
 import {me} from './store'
 
 
@@ -18,18 +18,17 @@ class Routes extends Component {
   }
 
   componentDidMount () {
-    this.props.loadInitialData()
+    // this.props.loadInitialData()
   }
 
   render () {
-    const {isLoggedIn} = this.props
+    // const {isLoggedIn} = this.props
 
     return (
       <Router history={history}>
         <Main>
           <Switch>
             <Route path='/all' component={TrendIndex} />
-            <Route path='/eth' component={ArticlesIndex} />
             <Route path='/about' component={About} />
             <Route path='/chart/:ticker' component={TrendPriceChartWrapper} />
             <Route render={() => <Redirect to="/all"/>}/>
@@ -43,7 +42,7 @@ class Routes extends Component {
 
 const mapState = (state) => {
   return {
-    isLoggedIn: !!state.user.id
+    // isLoggedIn: !!state.user.id
   }
 }
 
@@ -55,9 +54,9 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export default connect(mapState, mapDispatch)(Routes)
+export default connect(mapState)(Routes)
 
-Routes.propTypes = {
-  loadInitialData: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
-}
+// Routes.propTypes = {
+//   loadInitialData: PropTypes.func.isRequired,
+//   isLoggedIn: PropTypes.bool.isRequired
+// }

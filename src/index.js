@@ -4,16 +4,19 @@ import 'jQuery'
 import 'Tether'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import './index.scss'
+import '@amcharts/amcharts3-react';
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {Provider} from 'react-redux'
-import store from './store'
+import storePromise from './store'
 import Routes from './routes'
 
-
-ReactDOM.render(
-  <Provider store={store}>
-    <Routes />
-  </Provider>,
-  document.getElementById('app')
-)
+storePromise()
+  .then(store => {
+    ReactDOM.render(
+      <Provider store={store}>
+        <Routes />
+      </Provider>,
+      document.getElementById('app')
+    )
+  })

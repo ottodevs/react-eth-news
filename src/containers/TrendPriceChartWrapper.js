@@ -2,15 +2,21 @@ import React, { Component } from 'react'
 import _ from 'lodash'
 import autoBind from 'react-autobind'
 import { connect } from 'react-redux'
-import googleTrendsActions from '../store/googleTrends/actions'
-import { googleTrendsSelectors } from '../store/googleTrends/reducer'
-import pricesActions from '../store/prices/actions'
+import googleTrendsPromise from '../store/googleTrends/reducer'
+import { getGoogleTrendSelectorFromTicker } from '../store/googleTrends/reducer'
+import {
+  fetchUsdPriceDailyFromTicker
+} from '../store/prices/actions'
+import {
+  fetchGoogleTrendsDailyFromTicker
+} from '../store/googleTrends/actions'
 import * as trendIndexChartsActions from '../store/trendIndexCharts/actions'
-import { pricesSelectors } from '../store/prices/reducer'
-import { PriceTrendChart, Social } from '../components'
+import { getPriceSelectorFromTicker } from '../store/prices/reducer'
 import { withRouter } from 'react-router'
 import { capitalizeFirstLetter } from '../utils'
 import { getTokenStats } from '../store/tokenStats/reducer'
+import { PriceTrendChart, Social } from '../components'
+
 
 class TrendPriceChartWrapper extends Component {
   constructor(props) {
@@ -29,13 +35,10 @@ class TrendPriceChartWrapper extends Component {
   }
 
   componentDidMount() {
-    const trendKey = `fetch${capitalizeFirstLetter(this.props.match.params.ticker)}GoogleTrendsDaily`;
-    const priceKey = `fetch${capitalizeFirstLetter(this.props.match.params.ticker)}UsdDaily`
     this.props.dispatch(
-      pricesActions[priceKey]())
+      fetchGoogleTrendsDailyFromTicker(this.props.match.params.ticker)())
     this.props.dispatch(
-      googleTrendsActions[trendKey]())
-
+      fetchUsdPriceDailyFromTicker(this.props.match.params.ticker)())
   }
 
   handleTimeIntervalChange(currency, interval) {
@@ -76,6 +79,8 @@ class TrendPriceChartWrapper extends Component {
   }
 }
 
+
+
 function getDataProvider(state, priceSelector, googleTrendSelector) {
   var googleTrendsOverTime = _.cloneDeep(googleTrendSelector(state));
   var priceOverTime = _.cloneDeep(priceSelector(state));
@@ -94,19 +99,32 @@ function getDataProvider(state, priceSelector, googleTrendSelector) {
 }
 
 function mapStateToProps(state, ownProps) {
-  const ticker = capitalizeFirstLetter(ownProps.match.params.ticker)
+
+  const ticker = ownProps.match.params.ticker.toLowerCase()
+
+  const googleTrendSelector = getGoogleTrendSelectorFromTicker(ticker.toLowerCase())
+  const priceSelector = getPriceSelectorFromTicker(ticker.toLowerCase())
   const dataProvider = getDataProvider(
-      state, pricesSelectors[`get${ticker}UsdOverTime`], googleTrendsSelectors[`get${ticker}GoogleTrendsOverTime`]);
+    state, priceSelector, googleTrendSelector);
   const tokensByTicker = getTokenStats(state)[0];
-  const name = _.isEmpty(tokensByTicker) ? ''
-    : capitalizeFirstLetter(tokensByTicker[ticker.toLowerCase()].name)
-  if (!tokensByTicker) return {}
+
+  if (!tokensByTicker[ticker.toUpperCase()]) return {
+    dataProvider: [],
+    error: 404,
+    name: capitalizeFirstLetter(ticker),
+    ticker: ticker.toUpperCase()
+  }
   return {
     dataProvider: dataProvider,
     error: dataProvider === 404 ? true : false,
-    name: name,
+    name: _.isEmpty(tokensByTicker) ? '' :
+    capitalizeFirstLetter(tokensByTicker[ticker.toUpperCase()].name),
     ticker: ticker.toUpperCase()
   }
+
 }
 
+
+
 export default withRouter(connect(mapStateToProps)(TrendPriceChartWrapper))
+

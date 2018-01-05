@@ -4,11 +4,12 @@ import moment from 'moment'
 import { combineReducers } from 'redux'
 import { getChartInterval } from '../trendIndexCharts/reducer'
 import { capitalizeFirstLetter } from '../../utils'
-import { currencies } from '../../constants'
+import currenciesPromise from '../../currencies'
+
 
 const createSelectorOlderToken = (currency) =>
   (state) => {
-    if (getChartInterval(state, currency) === '2Y') {
+    if (getChartInterval(state, currency.toUpperCase()) === '2Y') {
       if (!state.prices[`${currency}UsdOverTime`]) return
       return state.prices[`${currency}UsdOverTime`]
     } else {
@@ -19,7 +20,7 @@ const createSelectorOlderToken = (currency) =>
 
 const createSelectorYoungerToken = (currency) =>
   (state) => {
-    if (getChartInterval(state, currency) === '2Y') {
+    if (getChartInterval(state, currency.toUpperCase()) === '2Y') {
       if (!state.prices[`${currency}UsdDaily`]) return
       return state.prices[`${currency}UsdDaily`]
     } else {
@@ -40,27 +41,26 @@ const createPricesWithPairingAndInterval = (currencyPairing = '', interval) =>
     }
   }
 
-var reducers = {}
+export default currenciesPromise
+  .then(currencies => {
+    var reducers = {}
 
-var selectors = {}
+    var selectors = {}
 
-for (let ticker in currencies) {
-  const overtime = `${ticker}UsdOverTime`
-  const daily = `${ticker}UsdDaily`
-  const capOvertime = `${capitalizeFirstLetter(ticker)}UsdOverTime`
-  const capDaily = `${capitalizeFirstLetter(ticker)}UsdDaily`
-  if (currencies[ticker].twoYears) {
-    reducers[overtime] = createPricesWithPairingAndInterval(`${ticker.toUpperCase()}_USD`, '2Y')
-    reducers[daily] = createPricesWithPairingAndInterval(`${ticker.toUpperCase()}_USD`, '3M')
-    selectors[`get${capOvertime}`] = createSelectorOlderToken(ticker)
-  } else {
-    reducers[daily] = createPricesWithPairingAndInterval(`${ticker.toUpperCase()}_USD`, '3M')
-    selectors[`get${capOvertime}`] = createSelectorYoungerToken(ticker)
-  }
-}
+    for (let ticker in currencies) {
+      ticker = ticker.toLowerCase()
+      const overtime = `${ticker}UsdOverTime`
+      const daily = `${ticker}UsdDaily`
+      reducers[overtime] = createPricesWithPairingAndInterval(`${ticker.toUpperCase()}_USD`, '2Y')
+      reducers[daily] = createPricesWithPairingAndInterval(`${ticker.toUpperCase()}_USD`, '3M')
 
-const rootReducer = combineReducers(reducers);
+    }
 
-export default rootReducer;
+    const rootReducer = combineReducers(reducers);
+    return {
+      reducer: rootReducer,
+      selectors
+    }
+  })
 
-export const pricesSelectors = selectors;
+export const getPriceSelectorFromTicker = ticker => createSelectorOlderToken(ticker)

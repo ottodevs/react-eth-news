@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var AmCharts = require("@amcharts/amcharts3-react");
 const LiveReloadPlugin = require('webpack-livereload-plugin')
 const isDev = process.env.NODE_ENV === 'development'
 

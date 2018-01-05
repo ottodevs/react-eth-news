@@ -15,6 +15,7 @@ export default function reduce(state = initialState, action = {}) {
 }
 
 export function getTokenStats(state) {
+  if (!state || !state.tokenStats) return
   return [
     _.keyBy(_.sortBy(
       state.tokenStats.tokensByTicker, [function(o) { return -o.marketCapUsd }]), 'ticker'),

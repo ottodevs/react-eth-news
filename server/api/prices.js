@@ -4,7 +4,7 @@ const _ = require('lodash');
 const Moment = require('moment');
 const extendMoment = require('moment-range').extendMoment;
 const moment = extendMoment(Moment);
-const currencies = require('../currencies');
+const getCurrencies = require('../scrape/top-currencies');
 
 module.exports = router;
 
@@ -32,7 +32,7 @@ const generateDailyPriceMiddleware = function(currencyA, currencyB) {
           error.status = 404
           next(error)
         } else {
-          const pairingKey = currencyA + capitalizeFirstLetter(currencyB)
+          const pairingKey = currencyA.toLowerCase() + capitalizeFirstLetter(currencyB)
           const pricesOvertime = histPrices['Data'].map(price => {
             var priceData = {
               date: moment.unix(price.time).format('YYYY-MM-DD'),
@@ -62,7 +62,7 @@ const generateTwoYearPriceMiddleware = function(currencyA, currencyB) {
           error.status = 404
           next(error)
         } else {
-          const pairingKey = currencyA + capitalizeFirstLetter(currencyB)
+          const pairingKey = currencyA.toLowerCase() + capitalizeFirstLetter(currencyB)
           const pricesOvertime = histPrices['Data'].map(price => {
             var priceData = {
               date: moment.unix(price.time).format('YYYY-MM-DD'),
@@ -78,11 +78,19 @@ const generateTwoYearPriceMiddleware = function(currencyA, currencyB) {
       }).catch(next);
   }
 }
+getCurrencies.then(currencies => {
+  for (let currency in currencies) {
+    router.get(`/${currency}usd/daily`,
+      generateDailyPriceMiddleware(currency, 'usd'))
+    if (currency.toLowerCase() !== 'btc') router.get(`/${currency}btc/daily`,
+      generateDailyPriceMiddleware(currency, 'btc'))
+  }
 
-for (let currency in currencies) {
-  router.get(`/${currency}usd/daily`, generateDailyPriceMiddleware(currency, 'usd'))
-}
 
-for (let currency in currencies) {
-  router.get(`/${currency}usd/years`, generateTwoYearPriceMiddleware(currency, 'usd'))
-}
+  for (let currency in currencies) {
+    router.get(`/${currency}usd/years`,
+      generateTwoYearPriceMiddleware(currency, 'usd'))
+    if (currency.toLowerCase() !== 'btc') router.get(`/${currency}btc/years`,
+      generateTwoYearPriceMiddleware(currency, 'btc'))
+  }
+})
