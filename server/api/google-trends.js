@@ -273,7 +273,7 @@ router.get('/growth/weekly', (req, res, next) => {
         .catch(next)
       } else {
         const needUpdate = growth ?
-          parseInt(moment().subtract(3, 'hours').format('YYYYMMDDHH')) >=
+          parseInt(moment().subtract(6, 'hours').format('YYYYMMDDHH')) >=
           parseInt(moment.unix(growth.timestamp).format('YYYYMMDDHH')) : null;
         if (needUpdate) {
           fetchAllCoinStats()
