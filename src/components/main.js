@@ -6,6 +6,7 @@ import {withRouter, Link} from 'react-router-dom'
 import {logout} from '../store'
 import Navbar from './Navbar.js'
 import { fetchTokenStats } from '../store/tokenStats/actions';
+import { getTokenStats } from '../store/tokenStats/reducer'
 
 /**
  * COMPONENT
@@ -39,7 +40,7 @@ class Main extends Component {
       <footer className="site-footer">
         <div className="container">
           <div className="row">
-            <div className="col-md-6">Copyright © CryptoCurrent 2017</div>
+            <div className="col-md-6">Copyright © CryptoCurrent 2018</div>
             <div className="col-md-6">
               <div className="row">
               <div className="col-md-3 col-sm-12">
@@ -69,7 +70,7 @@ class Main extends Component {
  */
 const mapStateToProps = (state) => {
   return {
-    isLoggedIn: !!state.user.id
+    tokenStats: getTokenStats(state)
   }
 }
 

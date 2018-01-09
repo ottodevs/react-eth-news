@@ -1,21 +1,14 @@
 import './TrendIndex.scss'
-import React, { Component } from 'react';
-import autoBind from 'react-autobind';
-import { connect } from 'react-redux';
-import * as trendIndexChartsActions from '../store/trendIndexCharts/actions';
-import { getTokenStats } from '../store/tokenStats/reducer';
-import {ListView, ListRow} from '../components';
-import {
-  TrendsChartWrapper,
-  BtcPriceTrendChartWrapper,
-  EthPriceTrendChartWrapper,
-  BchPriceTrendChartWrapper,
-  XrpPriceTrendChartWrapper,
-  XemPriceTrendChartWrapper,
-  LtcPriceTrendChartWrapper
-} from './index'
-import {PriceTrendChart} from '../components';
-import {Link} from 'react-router-dom'
+import React, { Component } from 'react'
+import autoBind from 'react-autobind'
+import { connect } from 'react-redux'
+import * as trendIndexChartsActions from '../store/trendIndexCharts/actions'
+import { getTokenStats, getTokenStatsFetchedError } from '../store/tokenStats/reducer'
+import { ListView, ListRow } from '../components'
+import { TrendsChartWrapper } from './index'
+import { PriceTrendChart, Social } from '../components'
+import { Link } from 'react-router-dom'
+
 
 
 class TrendIndex extends Component {
@@ -25,14 +18,18 @@ class TrendIndex extends Component {
   }
 
   render() {
-    if (!this.props.tokensByTicker) return this.renderLoading();
+    if (_.isEmpty(this.props.tokensByTicker) && !this.props.errorMessage) return this.renderLoading();
+    if (this.props.errorMessage) return (
+      <div style={{margin: '250px auto', textAlign: 'center'}}>{this.props.errorMessage}</div>
+    )
     const latestGoogleTrendDataDate = this.props.tokensByTicker[this.props.tickerArray[0]] ?
       this.props.tokensByTicker[this.props.tickerArray[0]].endDate : ''
     return (
       <div className="TrendIndex">
+        <Social url={'https://www.cryptocurrent.co'} title={'Google Trends Meet Cryptocurrencies'} />
         <section className="header-section container">
           <header className="row justify-content-center">
-            <h4 className="col-md-12">
+            <h4 className="col-md-12" style={{textAlign: 'center', padding: '50px 0px'}}>
               <span>Google trend and price on the same chart for cryptocurrencies</span>
             </h4>
           </header>
@@ -54,7 +51,6 @@ class TrendIndex extends Component {
                 rowsById={this.props.tokensByTicker}
                 renderRow={this.renderRow}
               />
-              <p style={{fontWeight: '600', fontSize: '16px', margin: '30px 0 0 0px'}}>More To Come</p>
             </div>
           </div>
         </section>
@@ -117,7 +113,7 @@ class TrendIndex extends Component {
 
   renderLoading() {
     return (
-      <p>Loading...</p>
+      <div style={{margin: '250px auto', textAlign: 'center'}}><p>Loading...</p></div>
     );
   }
 
@@ -126,34 +122,14 @@ class TrendIndex extends Component {
 
 function mapStateToProps(state) {
   const [tokensByTicker, tickerArray] = getTokenStats(state);
+  const errorMessage = getTokenStatsFetchedError(state)
   return {
     tokensByTicker,
     tickerArray,
+    errorMessage
   }
 }
 
 
 export default connect(mapStateToProps)(TrendIndex)
 
-
-// <BtcPriceTrendChartWrapper />
-// <EthPriceTrendChartWrapper />
-// <BchPriceTrendChartWrapper />
-// <XrpPriceTrendChartWrapper />
-// <XemPriceTrendChartWrapper />
-// <LtcPriceTrendChartWrapper />
-// <Link className={`col-md-3 name`} to={`/chart/${token.ticker}`}>
-//             {token.name} ({token.ticker})
-//           </Link>
-//           <div className={`col-md-3`}>
-//             {token.marketCapUsd}
-//           </div>
-//           <div className={`col-md-2 ${(token.pricePercentChange24h <=0) ? 'red' : 'green'}`}>
-//             {token.pricePercentChange24h}
-//           </div>
-//           <div className={`col-md-2 ${(token.pricePercentChange7d <=0) ? 'red' : 'green'}`}>
-//             {token.pricePercentChange7d}
-//           </div>
-//           <div className={`col-md-2 ${(token.trendPercentChange7d <=0) ? 'red' : 'green'}`}>
-//             {token.trendPercentChange7d}
-//           </div>

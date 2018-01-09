@@ -1,2 +1,2 @@
 export const CHART_INTERVAL_UPDATED = 'trendIndexCharts.CHART_INTERVAL_UPDATED';
-
+export const TOP_CURRENCIES_RECEIVED  = 'trendIndexCharts.TOP_CURRENCIES_RECEIVED'

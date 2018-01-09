@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
-import googleTrendsActions from '../store/googleTrends/actions';
-
-import { getAllGoogleTrendsOverTime } from '../store/googleTrends/reducer';
 
 function createGraph(currency, i) {
   return {

@@ -34,7 +34,6 @@ export default class PriceTrendChart extends Component {
         marginBottom: '30px'
       }
     }
-
     const config = {
       "type": "serial",
       "theme": "light",
@@ -137,7 +136,7 @@ export default class PriceTrendChart extends Component {
 
     return (
       <div>
-        <div className="google-trends__chart-header">
+         <div className="google-trends__chart-header">
           <span>{this.props.label}</span>
         </div>
         <div className="btn-group price-trend-chart__time-btn" role="group" aria-label="Basic example">
@@ -145,7 +144,7 @@ export default class PriceTrendChart extends Component {
             <button type="button" className="btn btn-secondary" onClick={()=> this.props.handleTimeIntervalChange(this.props.ticker.toLowerCase(), '2Y')} >last two years</button>
           </div>
         <div className="google-trends__chart-container" style={chartStyle}>
-          <AmCharts.React ref="chart" {...config} />
+          <AmCharts.React style={{height: '320px'}} ref="chart" options={config} />
         </div>
         <div className="loading-wrapper" style={loaderStyle}>
           <div className="loading" ></div>

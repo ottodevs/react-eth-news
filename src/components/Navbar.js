@@ -24,9 +24,6 @@ class Navbar extends Component {
             <li className="nav-item">
               <Link to='/all' className="nav-link">All</Link>
             </li>
-            <li className="nav-item">
-              <Link to='/eth' className="nav-link">Ethererum going mainstream?</Link>
-            </li>
             <li className="nav-item pull-xs-right">
               <Link to='/about' className="nav-link">About</Link>
             </li>

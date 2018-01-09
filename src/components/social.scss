@@ -1,0 +1,42 @@
+.social-wrapper {
+  width: 50px;
+  position: fixed;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.social-wrapper .share-wrapper {
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.trend-price__wrapper .row .col-md-12 .social-wrapper {
+  display: flex;
+  margin-left: 50px;
+  margin-bottom: 16px;
+  position: relative;
+  left: 0;
+  top: 0;
+  transform: translateY(0%);
+  width: 225px;
+}
+
+.trend-price__wrapper .row .col-md-12 .social-wrapper .share-wrapper {
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  width: 35px;
+  flex-direction: row;
+  margin-right: 15px;
+}
+
+.social-wrapper .share-wrapper .SocialMediaShareButton span {
+  font-size: 1em !important;
+}
+
+.social-wrapper .share-wrapper .SocialMediaShareCount {
+  font-size: 0.8em !important;
+  margin-top: 4px;
+}

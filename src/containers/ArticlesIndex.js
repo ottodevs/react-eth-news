@@ -13,7 +13,7 @@ import { getArticles } from '../store/articles/reducer';
 import { getCurrentPage, getPageCount } from '../store/pagination/reducer';
 import { updateCurrentSources } from '../store/sources/actions';
 import { getSourcesForDisplay, getCurrentSources } from '../store/sources/reducer';
-import {ListView, ListRow} from '../components';
+import {ListView, ListRow, Social} from '../components';
 import {DateRangePickerWrapper, SourceTypeFilterWrapper, ArticleIndexChartsWrapper} from '../containers';
 import ReactPaginate from 'react-paginate';
 import Select from 'react-select';
@@ -32,6 +32,7 @@ class ArticlesIndex extends Component {
     if (!this.props.articlesById) return this.renderLoading();
     return (
       <div className="ArticlesIndex">
+        <Social title={`Ethereum Going Mainstream?`} url={`https://www.cryptocurrent.co${this.props.match.url}`} />
         <section className="header-section container">
           <header className="row justify-content-center">
             <h4 className="col-md-12">

@@ -53,6 +53,5 @@ var dailyScrape = new CronJob({
 console.log('schdule daily scraping')
 module.exports = {
   scrapeGoogleNews: scrapeGoogleNews,
-  dailyScrape: dailyScrape,
-  timeZone: 'America/NewYork'
+  dailyScrape: dailyScrape
 }

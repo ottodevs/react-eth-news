@@ -4,7 +4,7 @@ const _ = require('lodash');
 const Moment = require('moment');
 const extendMoment = require('moment-range').extendMoment;
 const moment = extendMoment(Moment);
-const currencies = require('../currencies');
+const getCurrencies = require('../scrape/top-currencies');
 
 module.exports = router;
 
@@ -20,10 +20,11 @@ const getDataInNthInterval = function(data, interval) {
   return dataInNthInterval
 }
 
-const generateDailyPriceMiddleware = function(currencyA, currencyB) {
+const generateDailyPriceMiddleware = function(currencyA, currencyB, cryptocompareTicker) {
   return (req, res, next) => {
     // can get up to past 84 days
-    const apiEndPoint = `https://min-api.cryptocompare.com/data/histohour?fsym=${currencyA.toUpperCase()}&tsym=${currencyB.toUpperCase()}&aggregate=3&e=CCCAGG&limit=2000`;
+    var currency = cryptocompareTicker ? cryptocompareTicker : currencyA
+    const apiEndPoint = `https://min-api.cryptocompare.com/data/histohour?fsym=${currency.toUpperCase()}&tsym=${currencyB.toUpperCase()}&aggregate=3&e=CCCAGG&limit=2000`;
     rp(apiEndPoint)
       .then(histPrices => {
         histPrices = JSON.parse(histPrices)
@@ -32,7 +33,7 @@ const generateDailyPriceMiddleware = function(currencyA, currencyB) {
           error.status = 404
           next(error)
         } else {
-          const pairingKey = currencyA + capitalizeFirstLetter(currencyB)
+          const pairingKey = currencyA.toLowerCase() + capitalizeFirstLetter(currencyB)
           const pricesOvertime = histPrices['Data'].map(price => {
             var priceData = {
               date: moment.unix(price.time).format('YYYY-MM-DD'),
@@ -48,9 +49,10 @@ const generateDailyPriceMiddleware = function(currencyA, currencyB) {
   }
 }
 
-const generateTwoYearPriceMiddleware = function(currencyA, currencyB) {
+const generateTwoYearPriceMiddleware = function(currencyA, currencyB, cryptocompareTicker) {
   return (req, res, next) => {
-    const apiEndPoint = `https://min-api.cryptocompare.com/data/histoday?fsym=${currencyA.toUpperCase()}&tsym=${currencyB.toUpperCase()}&aggregate=3&e=CCCAGG&limit=2000`;
+    var currency = cryptocompareTicker ? cryptocompareTicker : currencyA
+    const apiEndPoint = `https://min-api.cryptocompare.com/data/histoday?fsym=${currency.toUpperCase()}&tsym=${currencyB.toUpperCase()}&aggregate=3&e=CCCAGG&limit=2000`;
     const startDate = new Date(moment().subtract(2, 'years'));
     const endDate = new Date(Date.now());
     const range = moment.range(startDate, endDate)
@@ -62,7 +64,7 @@ const generateTwoYearPriceMiddleware = function(currencyA, currencyB) {
           error.status = 404
           next(error)
         } else {
-          const pairingKey = currencyA + capitalizeFirstLetter(currencyB)
+          const pairingKey = currencyA.toLowerCase() + capitalizeFirstLetter(currencyB)
           const pricesOvertime = histPrices['Data'].map(price => {
             var priceData = {
               date: moment.unix(price.time).format('YYYY-MM-DD'),
@@ -79,10 +81,20 @@ const generateTwoYearPriceMiddleware = function(currencyA, currencyB) {
   }
 }
 
-for (let currency in currencies) {
-  router.get(`/${currency}usd/daily`, generateDailyPriceMiddleware(currency, 'usd'))
-}
+<<<<<<< HEAD
+getCurrencies.then(currencies => {
+  for (let currency in currencies) {
+    var tickerForPriceQuery = currency.toLowerCase() === 'miota' ? 'iota' : currency
 
-for (let currency in currencies) {
-  router.get(`/${currency}usd/years`, generateTwoYearPriceMiddleware(currency, 'usd'))
-}
+    router.get(`/${currency}usd/daily`,
+      generateDailyPriceMiddleware(tickerForPriceQuery, 'usd'))
+    if (currency.toLowerCase() !== 'btc') router.get(`/${currency}btc/daily`,
+      generateDailyPriceMiddleware(tickerForPriceQuery, 'btc'))
+
+    router.get(`/${currency}usd/years`,
+      generateTwoYearPriceMiddleware(tickerForPriceQuery, 'usd'))
+    if (currency.toLowerCase() !== 'btc') router.get(`/${currency}btc/years`,
+      generateTwoYearPriceMiddleware(tickerForPriceQuery, 'btc'))
+  }
+
+})
