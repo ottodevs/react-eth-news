@@ -81,7 +81,6 @@ const generateTwoYearPriceMiddleware = function(currencyA, currencyB, cryptocomp
   }
 }
 
-<<<<<<< HEAD
 getCurrencies.then(currencies => {
   for (let currency in currencies) {
     var tickerForPriceQuery = currency.toLowerCase() === 'miota' ? 'iota' : currency
