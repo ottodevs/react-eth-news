@@ -37,7 +37,6 @@ class TrendIndex extends Component {
         <section className="container">
           <div className="row">
             <div className="col-md-12 trend-index__charts-container">
-              <TrendsChartWrapper />
               <div className="row trend-index__table-header">
                 <div className="col-md-12 trend-index__google-trend-lastest-date">
                   Click to view details
