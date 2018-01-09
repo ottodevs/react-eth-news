@@ -41,6 +41,16 @@ const createPricesWithPairingAndInterval = (currencyPairing = '', interval) =>
     }
   }
 
+const createReducerForFetchingError = () =>
+  (state = null, action) => {
+    switch (action.type) {
+      case `prices.PRICE_FETCHED_IN_ERROR`:
+        return action.message
+      default:
+        return '';
+    }
+  }
+
 export default currenciesPromise
   .then(currencies => {
     var reducers = {}
@@ -53,8 +63,9 @@ export default currenciesPromise
       const daily = `${ticker}UsdDaily`
       reducers[overtime] = createPricesWithPairingAndInterval(`${ticker.toUpperCase()}_USD`, '2Y')
       reducers[daily] = createPricesWithPairingAndInterval(`${ticker.toUpperCase()}_USD`, '3M')
-
     }
+
+    reducers['errorMessage'] = createReducerForFetchingError()
 
     const rootReducer = combineReducers(reducers);
     return {
@@ -64,3 +75,5 @@ export default currenciesPromise
   })
 
 export const getPriceSelectorFromTicker = ticker => createSelectorOlderToken(ticker)
+
+export const getPriceFetchingError = state => state.prices.errorMessage

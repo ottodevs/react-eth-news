@@ -13,10 +13,15 @@ import trendIndexCharts from './trendIndexCharts/reducer';
 import tokenStats from './tokenStats/reducer';
 
 
-
 export default async() => {
-  var googleTrends = await googleTrendsPromise
-  var prices = await pricesPromise
+  var googleTrends, prices;
+
+  try {
+    var googleTrends = await googleTrendsPromise
+    var prices = await pricesPromise
+  } catch (err) {
+    console.log(err)
+  }
 
   const reducer = combineReducers({
     user,
@@ -24,8 +29,8 @@ export default async() => {
     sourceTypes,
     sources,
     dates,
-    googleTrends: googleTrends.reducer,
-    prices: prices.reducer,
+    googleTrends: googleTrends ? googleTrends.reducer : {},
+    prices: googleTrends ? prices.reducer : {},
     pagination,
     trendIndexCharts,
     tokenStats
@@ -36,6 +41,3 @@ export default async() => {
   return store
 }
 
-
-
-// export * from './user'

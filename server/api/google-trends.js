@@ -93,7 +93,7 @@ const fetchTwoYearsGoogleTrends = function(searchTerm, queryStartDate, queryEndD
 }
 
 const fetchFromCoinMarketCap = () =>
-  rp(`https://api.coinmarketcap.com/v1/ticker/?limit=40`)
+  rp(`https://api.coinmarketcap.com/v1/ticker/?limit=60`)
   .then(collection => _.keyBy(JSON.parse(collection), 'symbol'))
 
 const generateDailyTrendMiddleware = function(ticker, searchTerm) {
@@ -110,8 +110,9 @@ const generateDailyTrendMiddleware = function(ticker, searchTerm) {
             parseInt(moment().subtract(1, 'days').format('YYYYMMDD')) >=
             parseInt(moment.unix(currency.timestamp).format('YYYYMMDD')) : null;
           if (needUpdate) {
-            fetchDailyGoogleTrends(searchTerm, startDate, currentDate)
+            return fetchDailyGoogleTrends(searchTerm, startDate, currentDate)
               .then(timeseries => {
+                if (typeof timeseries !== 'object') throw new Error()
                 res.send(timeseries)
 
                 return currency.update({
@@ -124,9 +125,11 @@ const generateDailyTrendMiddleware = function(ticker, searchTerm) {
             return currency
           }
         } else {
-          fetchDailyGoogleTrends(searchTerm, startDate, currentDate)
+          return fetchDailyGoogleTrends(searchTerm, startDate, currentDate)
             .then(timeseries => {
+              if (typeof timeseries !== 'object') throw new Error()
               res.send(timeseries);
+
               return GoogleTrend.create({
                 id: ticker + '1D',
                 interval: '1D',
@@ -136,10 +139,11 @@ const generateDailyTrendMiddleware = function(ticker, searchTerm) {
               })
             })
         }
+      }).catch(err => {
+        console.log(err)
+        res.sendStatus(404)
+      });
 
-
-
-      }).catch(next);
 
 
 
@@ -159,7 +163,7 @@ const generateTwoYearTrendMiddleware = function(ticker, searchTerm) {
             parseInt(moment().subtract(1, 'days').format('YYYYMMDD')) >=
             parseInt(moment.unix(currency.timestamp).format('YYYYMMDD')) : null;
           if (needUpdate) {
-            fetchTwoYearsGoogleTrends(searchTerm, queryStartDate, queryEndDate, range)
+            return fetchTwoYearsGoogleTrends(searchTerm, queryStartDate, queryEndDate, range)
               .then(googleTrends => {
                 res.send(googleTrends);
                 return currency.update({
@@ -172,7 +176,7 @@ const generateTwoYearTrendMiddleware = function(ticker, searchTerm) {
             return currency
           }
         } else {
-          fetchTwoYearsGoogleTrends(searchTerm, queryStartDate, queryEndDate, range)
+          return fetchTwoYearsGoogleTrends(searchTerm, queryStartDate, queryEndDate, range)
             .then(googleTrends => {
               res.send(googleTrends);
               return GoogleTrend.create({
@@ -184,7 +188,10 @@ const generateTwoYearTrendMiddleware = function(ticker, searchTerm) {
               })
             })
         }
-      }).catch(next);
+      }).catch(err => {
+        console.log(err)
+        res.sendStatus(404)
+      });
 
   }
 }
@@ -263,10 +270,11 @@ router.get('/growth/weekly', (req, res, next) => {
               timestamp: moment().format('X')
             })
           })
+        .catch(next)
       } else {
         const needUpdate = growth ?
-          parseInt(moment().subtract(1, 'days').format('YYYYMMDD')) >=
-          parseInt(moment.unix(growth.timestamp).format('YYYYMMDD')) : null;
+          parseInt(moment().subtract(3, 'hours').format('YYYYMMDDHH')) >=
+          parseInt(moment.unix(growth.timestamp).format('YYYYMMDDHH')) : null;
         if (needUpdate) {
           fetchAllCoinStats()
             .then(data => {
@@ -276,11 +284,12 @@ router.get('/growth/weekly', (req, res, next) => {
                 timestamp: moment().format('X')
               })
             })
+          .catch(next)
         } else {
           res.send(growth.trend)
         }
       }
-    })
+    }).catch(next)
 })
 
 router.get('/compare/years', (req, res, next) => {
@@ -298,29 +307,29 @@ router.get('/compare/years', (req, res, next) => {
           topThree = _.keys(currencies).slice(0, 3)
           keyword = topThree.map(coin => coin.search)
           return googleTrendsOverTimePromise({
-            keyword: keyword,
-            startTime: queryStartDate,
-            endTime: queryEndDate
-          }).then(response => {
-            if (!response) throw new Error('no response')
-            const googleTrends = JSON.parse(response).default.timelineData.map(datum => {
-              var response = {
-                date: moment(datum.formattedAxisTime, 'MMM DD, YYYY').format('YYYY-MM-DD')
-              }
-              for (var i = 0; i < 10; i++) {
-                response[topThree[i]] = datum.value[1]
-              }
-              return response
-            }).filter(trend => {
-              return range.contains(moment(trend.date, 'YYYY-MM-DD'), { exclusive: false })
-            });
-            res.send(googleTrends)
-            return all.update({
-              trend: googleTrends,
-              timestamp: moment().format('X')
+              keyword: keyword,
+              startTime: queryStartDate,
+              endTime: queryEndDate
+            }).then(response => {
+              if (!response) throw new Error('no response')
+              const googleTrends = JSON.parse(response).default.timelineData.map(datum => {
+                var response = {
+                  date: moment(datum.formattedAxisTime, 'MMM DD, YYYY').format('YYYY-MM-DD')
+                }
+                for (var i = 0; i < 10; i++) {
+                  response[topThree[i]] = datum.value[1]
+                }
+                return response
+              }).filter(trend => {
+                return range.contains(moment(trend.date, 'YYYY-MM-DD'), { exclusive: false })
+              });
+              res.send(googleTrends)
+              return all.update({
+                trend: googleTrends,
+                timestamp: moment().format('X')
+              })
             })
-          })
-          .catch(err => console.log(err))
+            .catch(next)
         })
       } else {
         res.send(all.trend)

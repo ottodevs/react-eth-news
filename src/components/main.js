@@ -40,7 +40,7 @@ class Main extends Component {
       <footer className="site-footer">
         <div className="container">
           <div className="row">
-            <div className="col-md-6">Copyright © CryptoCurrent 2017</div>
+            <div className="col-md-6">Copyright © CryptoCurrent 2018</div>
             <div className="col-md-6">
               <div className="row">
               <div className="col-md-3 col-sm-12">

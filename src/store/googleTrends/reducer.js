@@ -33,6 +33,16 @@ const createGoogleTrendWithCurrency = (currency = '', interval) =>
     }
   }
 
+const createReducerForFetchingError = () =>
+  (state = null, action) => {
+    switch (action.type) {
+      case `googleTrends.GOOGLE_TRENDS_FETCHED_IN_ERROR`:
+        return action.message
+      default:
+        return '';
+    }
+  }
+
 export default currenciesPromise
   .then(currencies => {
     var reducers = {
@@ -50,6 +60,8 @@ export default currenciesPromise
 
     }
 
+    reducers['errorMessage'] = createReducerForFetchingError()
+
     const rootReducer = combineReducers(reducers)
 
     return {
@@ -61,7 +73,10 @@ export default currenciesPromise
   })
 
 export const getAllGoogleTrendsOverTime = state => {
+  if (!state.googleTrends) return
   return state.googleTrends.allGoogleTrendsOverTime;
 }
 
 export const getGoogleTrendSelectorFromTicker = ticker => createSelectorOlderToken(ticker)
+
+export const getGoogleTrendFetchingError = state => state.googleTrends.errorMessage

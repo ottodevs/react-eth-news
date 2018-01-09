@@ -2,7 +2,9 @@ import currenciesPromise from '../../currencies'
 
 export default currenciesPromise
   .then(currencies => {
-    var actionTypes = {}
+    var actionTypes = {
+      'PRICE_FETCHED_IN_ERROR': 'prices.PRICE_FETCHED_IN_ERROR'
+    }
 
     for (let ticker in currencies) {
       actionTypes[`${ticker.toUpperCase()}_USD_2Y_FETCHED`] =

@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import autoBind from 'react-autobind'
 import { connect } from 'react-redux'
 import * as trendIndexChartsActions from '../store/trendIndexCharts/actions'
-import { getTokenStats } from '../store/tokenStats/reducer'
+import { getTokenStats, getTokenStatsFetchedError } from '../store/tokenStats/reducer'
 import { ListView, ListRow } from '../components'
 import { TrendsChartWrapper } from './index'
 import { PriceTrendChart, Social } from '../components'
@@ -18,8 +18,10 @@ class TrendIndex extends Component {
   }
 
   render() {
-
-    if (!this.props.tokensByTicker) return this.renderLoading();
+    if (_.isEmpty(this.props.tokensByTicker) && !this.props.errorMessage) return this.renderLoading();
+    if (this.props.errorMessage) return (
+      <div style={{margin: '250px auto', textAlign: 'center'}}>{this.props.errorMessage}</div>
+    )
     const latestGoogleTrendDataDate = this.props.tokensByTicker[this.props.tickerArray[0]] ?
       this.props.tokensByTicker[this.props.tickerArray[0]].endDate : ''
     return (
@@ -111,7 +113,7 @@ class TrendIndex extends Component {
 
   renderLoading() {
     return (
-      <p>Loading...</p>
+      <div style={{margin: '250px auto', textAlign: 'center'}}><p>Loading...</p></div>
     );
   }
 
@@ -120,34 +122,14 @@ class TrendIndex extends Component {
 
 function mapStateToProps(state) {
   const [tokensByTicker, tickerArray] = getTokenStats(state);
+  const errorMessage = getTokenStatsFetchedError(state)
   return {
     tokensByTicker,
     tickerArray,
+    errorMessage
   }
 }
 
 
 export default connect(mapStateToProps)(TrendIndex)
 
-
-// <BtcPriceTrendChartWrapper />
-// <EthPriceTrendChartWrapper />
-// <BchPriceTrendChartWrapper />
-// <XrpPriceTrendChartWrapper />
-// <XemPriceTrendChartWrapper />
-// <LtcPriceTrendChartWrapper />
-// <Link className={`col-md-3 name`} to={`/chart/${token.ticker}`}>
-//             {token.name} ({token.ticker})
-//           </Link>
-//           <div className={`col-md-3`}>
-//             {token.marketCapUsd}
-//           </div>
-//           <div className={`col-md-2 ${(token.pricePercentChange24h <=0) ? 'red' : 'green'}`}>
-//             {token.pricePercentChange24h}
-//           </div>
-//           <div className={`col-md-2 ${(token.pricePercentChange7d <=0) ? 'red' : 'green'}`}>
-//             {token.pricePercentChange7d}
-//           </div>
-//           <div className={`col-md-2 ${(token.trendPercentChange7d <=0) ? 'red' : 'green'}`}>
-//             {token.trendPercentChange7d}
-//           </div>

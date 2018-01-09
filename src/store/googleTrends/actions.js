@@ -23,8 +23,8 @@ function fetchGoogleTrendsOverTime(currency) {
             });
           } catch (error) {
             dispatch({
-              type: types[`${currency.toUpperCase()}_GOOGLE_TRENDS_2Y_FETCHED`],
-              googleTrendsOverTime: 404
+              type: types.GOOGLE_TRENDS_FETCHED_IN_ERROR,
+              message: `Sorry, we're having trouble loading google trends of ${currency.toUpperCase()}. Please try again later.`
             });
           }
         }
@@ -51,7 +51,10 @@ function fetchGoogleTrendsDaily(currency) {
               googleTrendsOverTime: googleTrendsOverTime
             });
           } catch (error) {
-            console.log(error);
+            dispatch({
+              type: types.GOOGLE_TRENDS_FETCHED_IN_ERROR,
+              message: `Sorry, we're having trouble loading google trends of ${currency.toUpperCase()}. Please try again later.`
+            });
           }
         }
       })
