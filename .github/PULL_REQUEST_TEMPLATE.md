@@ -1,12 +1,11 @@
 ### Assignee Tasks
 
-- [ ] added unit tests (or none needed)
-- [ ] written relevant docs (or none needed)
-- [ ] referenced any relevant issues (or none exist)
+- [ ] add SEO optimized text to about page
+- [ ] add more google trends related articles and resources
 
 ### Guidelines
 
-Please add a description of this Pull Request's motivation, scope, outstanding issues or potential alternatives, reasoning behind the current solution, and any other relevant information for posterity.
+Add introduction to crypto world and why I make cryptocurrent to the about page. Basically have more texts for google crawler to look at.
 
 ---
 
