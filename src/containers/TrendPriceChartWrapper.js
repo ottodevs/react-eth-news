@@ -67,7 +67,7 @@ class TrendPriceChartWrapper extends Component {
               <div>
               <Social title={`Google Trends meet ${this.props.name}`} url={`https://www.cryptocurrent.co${this.props.match.url}`} />
               <PriceTrendChart
-                label={this.props.name}
+                label={`Google trends and price of ${this.props.name} on the same chart`}
                 ticker={this.props.ticker}
                 currencyPairLabel={`${this.props.ticker}/USD`}
                 currencyPairValue={`${this.props.ticker.toLowerCase()}Usd`}
