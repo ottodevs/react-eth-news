@@ -2,7 +2,7 @@ const _ = require('lodash');
 const rp = require('request-promise');
 const Promise = require('bluebird');
 const fetchTop100FromCoinMarketCap = () =>
-  rp(`https://api.coinmarketcap.com/v1/ticker/?limit=100`)
+  rp(`https://api.coinmarketcap.com/v1/ticker/?limit=50`)
   .then(collection => JSON.parse(collection)
     .map(coin => _.assignIn({
       ticker: coin.symbol,
