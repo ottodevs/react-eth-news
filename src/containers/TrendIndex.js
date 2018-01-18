@@ -28,6 +28,7 @@ class TrendIndex extends Component {
       <div className="TrendIndex">
         <Social url={'https://www.cryptocurrent.co'} title={'Google Trends Meet Cryptocurrencies'} />
         <section className="header-section container">
+          <span id="ct_cGpG4Gq"></span>
           <header className="row justify-content-center">
             <h4 className="col-md-12" style={{textAlign: 'left', padding: '50px 50px 10px 50px'}}>
               <span>Google trend and price on the same chart for cryptocurrencies</span>
@@ -38,6 +39,7 @@ class TrendIndex extends Component {
                 Worldwide interests for cryptocurrencies is not going away anytime soon.<br/>Check out the correlation of your favorite cryptocurrencies and their google trends.
               </h6>
           </header>
+
         </section>
         <section className="container">
           <div className="row">
