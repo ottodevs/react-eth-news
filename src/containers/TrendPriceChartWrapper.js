@@ -53,32 +53,33 @@ class TrendPriceChartWrapper extends Component {
 
   render() {
     return (
-        <div className="trend-price__wrapper container" style={{marginTop: '80px', marginBottom: '280px'}}>
+        <div className="trend-price__wrapper container" style={{marginBottom: '280px'}}>
 
           <div className="row">
             <div className="col-md-12">
-            {
-              this.props.error ?
-              <div style={{
-                textAlign: 'center',
-                height: '320px',
-                marginBottom: '50px'
-              }}>{ this.props.errorMessage || `Sorry, we currently don't have data on ${this.props.ticker}`}</div> :
-              <div>
-              <Social title={`Google Trends meet ${this.props.name}`} url={`https://www.cryptocurrent.co${this.props.match.url}`} />
-              <PriceTrendChart
-                label={`Google trends and price of ${this.props.name} on the same chart`}
-                ticker={this.props.ticker}
-                currencyPairLabel={`${this.props.ticker}/USD`}
-                currencyPairValue={`${this.props.ticker.toLowerCase()}Usd`}
-                googleTrendsLabel={`${this.props.name} google trends`}
-                handleTimeIntervalChange={this.handleTimeIntervalChange}
-                dataProvider={this.props.dataProvider}
-              />
+              <span id="ct_cGpG4Gq"></span>
+              {
+                this.props.error ?
+                <div style={{
+                  textAlign: 'center',
+                  height: '320px',
+                  marginBottom: '50px'
+                }}>{ this.props.errorMessage || `Sorry, we currently don't have data on ${this.props.ticker}`}</div> :
+                <div>
+                <Social title={`Google Trends meet ${this.props.name}`} url={`https://www.cryptocurrent.co${this.props.match.url}`} />
+                <PriceTrendChart
+                  label={`Google trends and price of ${this.props.name} on the same chart`}
+                  ticker={this.props.ticker}
+                  currencyPairLabel={`${this.props.ticker}/USD`}
+                  currencyPairValue={`${this.props.ticker.toLowerCase()}Usd`}
+                  googleTrendsLabel={`${this.props.name} google trends`}
+                  handleTimeIntervalChange={this.handleTimeIntervalChange}
+                  dataProvider={this.props.dataProvider}
+                />
+                </div>
+              }
               </div>
-            }
             </div>
-          </div>
         </div>
 
     );
